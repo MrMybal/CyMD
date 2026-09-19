@@ -4,6 +4,7 @@
 import { StateEffect, StateField, type EditorState, type Extension } from '@codemirror/state'
 import { EditorView, showTooltip, type Tooltip } from '@codemirror/view'
 import { icon, type IconName } from '../ui/icons'
+import { tr } from '../i18n'
 
 const setSelecting = StateEffect.define<boolean>()
 
@@ -30,8 +31,8 @@ export function selectionToolbar(run: (cmd: string) => void): Extension {
       }
       const btn = document.createElement('button')
       btn.type = 'button'
-      btn.title = b.title
-      btn.setAttribute('aria-label', b.title)
+      btn.title = tr(b.title)
+      btn.setAttribute('aria-label', tr(b.title))
       btn.append(icon(b.icon, 18))
       btn.addEventListener('mousedown', (e) => e.preventDefault()) // garde la sélection
       btn.addEventListener('click', () => run(b.cmd))

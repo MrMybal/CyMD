@@ -25,6 +25,7 @@ import { pasteAndDrop, type PasteDeps } from './paste'
 import { selectionToolbar } from './selectionToolbar'
 import { Spoiler } from './syntax'
 import type { LiveContext } from './widgets'
+import { getLanguage, tr } from '../i18n'
 
 const highlight = HighlightStyle.define([
   { tag: t.heading, fontWeight: '700', color: 'var(--c-heading)' },
@@ -92,6 +93,8 @@ export class Editor {
   readonly view: EditorView
   private liveComp = new Compartment()
   private gutterComp = new Compartment()
+  private languageComp = new Compartment()
+  private languageExtensions: Extension = []
   private live = true
   private numbers = false
   private liveOn: Extension
@@ -107,6 +110,7 @@ export class Editor {
     this.liveOn = [livePreview(opts.live), EditorView.editorAttributes.of({ class: 'cm-live' })]
     this.liveOff = EditorView.editorAttributes.of({ class: 'cm-raw' })
     this.gutterOn = [lineNumbers(), highlightActiveLineGutter()]
+    this.languageExtensions = this.translations()
     this.base = this.extensions()
     this.view = new EditorView({ parent, state: this.createState('') })
   }
@@ -120,6 +124,7 @@ export class Editor {
         ...this.base,
         this.liveComp.of(this.live ? this.liveOn : this.liveOff),
         this.gutterComp.of(this.numbers ? this.gutterOn : this.gutterOff),
+        this.languageComp.of(this.languageExtensions),
       ],
     })
   }
@@ -132,6 +137,7 @@ export class Editor {
     const gutter = this.numbers ? this.gutterOn : this.gutterOff
     if (this.liveComp.get(state) !== live) effects.push(this.liveComp.reconfigure(live))
     if (this.gutterComp.get(state) !== gutter) effects.push(this.gutterComp.reconfigure(gutter))
+    if (this.languageComp.get(state) !== this.languageExtensions) effects.push(this.languageComp.reconfigure(this.languageExtensions))
     if (effects.length) this.view.dispatch({ effects })
     if (this.live) syncLiveFocus(this.view)
     this.view.scrollDOM.scrollTop = scrollTop
@@ -155,13 +161,10 @@ export class Editor {
       syntaxHighlighting(highlight),
       search({ top: true }),
       highlightSelectionMatches(),
-      frenchPhrases,
-      placeholder('Écrivez en Markdown… Collez des images, glissez des fichiers, collez des liens.'),
       EditorView.contentAttributes.of({ spellcheck: 'true', autocorrect: 'on', autocapitalize: 'off' }),
       keymap.of([...this.opts.extraKeys, ...formatKeymap, ...markdownKeymap, ...searchKeymap, ...historyKeymap, ...defaultKeymap]),
       pasteAndDrop(this.opts.paste),
       linkClicks(this.opts.openLink),
-      selectionToolbar((cmd) => this.opts.format(cmd)),
       EditorView.updateListener.of((u) => this.opts.onUpdate(u)),
     ]
   }
@@ -171,6 +174,19 @@ export class Editor {
     this.live = live
     this.view.dispatch({ effects: this.liveComp.reconfigure(live ? this.liveOn : this.liveOff) })
     if (live) syncLiveFocus(this.view)
+  }
+
+  private translations(): Extension {
+    return [
+      getLanguage() === 'fr' ? frenchPhrases : EditorState.phrases.of({}),
+      placeholder(tr('Écrivez en Markdown… Collez des images, glissez des fichiers, collez des liens.')),
+      selectionToolbar((cmd) => this.opts.format(cmd)),
+    ]
+  }
+
+  setLanguage() {
+    this.languageExtensions = this.translations()
+    this.view.dispatch({ effects: this.languageComp.reconfigure(this.languageExtensions) })
   }
 
   setLineNumbers(on: boolean) {

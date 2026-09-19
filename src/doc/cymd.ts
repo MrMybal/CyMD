@@ -1,3 +1,4 @@
+import { tr } from '../i18n'
 // Format .cymd : archive ZIP contenant le document et ses ressources.
 //
 //   mimetype        "application/x-cymd" (non compressé, en premier)
@@ -43,7 +44,7 @@ export function unpackCymd(data: Uint8Array): CymdContent {
     (manifest.main && files[manifest.main] ? manifest.main : undefined) ??
     (files[CYMD_MAIN] ? CYMD_MAIN : undefined) ??
     Object.keys(files).find((n) => /^[^/]+\.(md|markdown)$/i.test(n))
-  if (!main) throw new Error('Archive .cymd invalide : aucun document Markdown trouvé.')
+  if (!main) throw new Error(tr('Archive .cymd invalide : aucun document Markdown trouvé.'))
 
   let previews: Record<string, LinkPreview> = {}
   if (files['previews.json']) {

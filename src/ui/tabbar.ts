@@ -1,3 +1,4 @@
+import { tr } from '../i18n'
 // Barre d'onglets façon Chrome : clic, clic milieu pour fermer, double-clic sur le vide
 // pour un nouvel onglet, glisser pour réordonner, vers une autre fenêtre ou hors de la
 // fenêtre (nouvelle fenêtre).
@@ -50,7 +51,7 @@ export class TabBar {
     this.marker.className = 'tab-drop-marker'
     const add = document.createElement('button')
     add.className = 'tab-new'
-    add.title = 'Nouvel onglet (Ctrl+T)'
+    add.title = tr('Nouvel onglet (Ctrl+T)')
     add.append(icon('plus', 16))
     add.addEventListener('click', () => events.newTab())
     const filler = document.createElement('div')
@@ -66,6 +67,7 @@ export class TabBar {
   }
 
   render(tabs: TabInfo[], activeId: string) {
+    this.el.querySelector<HTMLButtonElement>('.tab-new')!.title = tr('Nouvel onglet (Ctrl+T)')
     const existing = new Map<string, HTMLElement>()
     for (const el of this.list.children) existing.set((el as HTMLElement).dataset.id!, el as HTMLElement)
     const els = tabs.map((t) => {
@@ -74,6 +76,7 @@ export class TabBar {
       el.classList.toggle('dirty', t.dirty)
       el.setAttribute('aria-selected', String(t.id === activeId))
       el.title = t.tooltip
+      el.querySelector<HTMLButtonElement>('.tab-close')!.title = tr("Fermer l'onglet (Ctrl+W)")
       el.querySelector('.tab-title')!.textContent = t.title
       const badge = el.querySelector('.tab-kind')!
       badge.textContent = t.kind === 'cymd' ? 'CY' : 'MD'
@@ -98,7 +101,7 @@ export class TabBar {
     dot.className = 'tab-dirty'
     const close = document.createElement('button')
     close.className = 'tab-close'
-    close.title = "Fermer l'onglet (Ctrl+W)"
+    close.title = tr("Fermer l'onglet (Ctrl+W)")
     close.append(icon('close', 14))
     close.addEventListener('mousedown', (e) => e.stopPropagation())
     close.addEventListener('click', (e) => {

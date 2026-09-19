@@ -18,6 +18,21 @@ const {
 const path = require('node:path')
 const fs = require('node:fs')
 const fsp = require('node:fs/promises')
+const locale = require('./i18n.cjs').createTranslator()
+const { tr } = locale
+
+function changeLanguage(value) {
+  if (value !== 'fr' && value !== 'en') throw new Error('Invalid language')
+  try {
+    fs.mkdirSync(app.getPath('userData'), { recursive: true })
+    fs.writeFileSync(path.join(app.getPath('userData'), 'language.json'), JSON.stringify({ language: value }))
+  } catch {
+    throw new Error(tr('Impossible de mémoriser la langue.'))
+  }
+  locale.setLanguage(value)
+  buildMenu()
+  for (const { win } of wins.values()) win.webContents.send('language:changed', value)
+}
 const { Readable } = require('node:stream')
 
 const DEV_URL = process.env.VITE_DEV_SERVER_URL
@@ -39,10 +54,11 @@ protocol.registerSchemesAsPrivileged([
 const wins = new Map()
 const updates = require('./updates.cjs').createUpdates({
   app,
+  tr,
   updater: require('electron-updater').autoUpdater,
   showDialog: (options) => {
     const win = BrowserWindow.getFocusedWindow() || BrowserWindow.getAllWindows()[0]
-    const settings = { title: 'Mises à jour CyMD', ...options }
+    const settings = { title: tr('Mises à jour CyMD'), ...options }
     return win ? dialog.showMessageBox(win, settings) : dialog.showMessageBox(settings)
   },
   openExternal: (url) => shell.openExternal(url),
@@ -75,14 +91,14 @@ function grant(ctx, filePath) {
 }
 
 function requireGrant(ctx, filePath) {
-  if (!ctx || !ctx.grants.has(key(filePath))) throw new Error('Accès refusé à ce fichier.')
+  if (!ctx || !ctx.grants.has(key(filePath))) throw new Error(tr('Accès refusé à ce fichier.'))
 }
 
 /** Résout `rel` dans le dossier du document, en refusant toute sortie du dossier. */
 function resolveInside(docPath, rel) {
   const dir = path.dirname(path.resolve(docPath))
   const target = path.resolve(dir, rel)
-  if (!isInside(target, dir)) throw new Error('Chemin hors du dossier du document.')
+  if (!isInside(target, dir)) throw new Error(tr('Chemin hors du dossier du document.'))
   return target
 }
 
@@ -162,7 +178,7 @@ function netSession() {
 
 function checkHttpUrl(url) {
   const u = new URL(url)
-  if (u.protocol !== 'http:' && u.protocol !== 'https:') throw new Error('URL non supportée')
+  if (u.protocol !== 'http:' && u.protocol !== 'https:') throw new Error(tr('URL non supportée'))
   return u.toString()
 }
 
@@ -177,7 +193,7 @@ async function readLimited(res, max, truncate) {
     total += value.byteLength
     if (total > max) {
       reader.cancel().catch(() => {})
-      if (!truncate) throw new Error('Fichier trop volumineux')
+      if (!truncate) throw new Error(tr('Fichier trop volumineux'))
       chunks.push(Buffer.from(value.subarray(0, value.byteLength - (total - max))))
       break
     }
@@ -245,9 +261,9 @@ function askUnsaved(win, name) {
   const choice = dialog.showMessageBoxSync(win, {
     type: 'warning',
     title: 'CyMD',
-    message: `Voulez-vous enregistrer les modifications de « ${name} » ?`,
-    detail: 'Vos modifications seront perdues si vous ne les enregistrez pas.',
-    buttons: ['Enregistrer', 'Ne pas enregistrer', 'Annuler'],
+    message: tr("Voulez-vous enregistrer les modifications de « {0} » ?", name),
+    detail: tr('Vos modifications seront perdues si vous ne les enregistrez pas.'),
+    buttons: [tr('Enregistrer'), tr('Ne pas enregistrer'), tr('Annuler')],
     defaultId: 0,
     cancelId: 2,
     noLink: true,
@@ -264,7 +280,7 @@ async function loadIntoWindow(ctx, filePath) {
     ctx.win.webContents.send('doc:load', { path: filePath, data: new Uint8Array(data) })
     focusWin(ctx.win)
   } catch (err) {
-    dialog.showErrorBox('CyMD', `Impossible d'ouvrir « ${filePath} » :\n${err.message}`)
+    dialog.showErrorBox('CyMD', tr("Impossible d'ouvrir « {0} » :\n{1}", filePath, err.message))
   }
 }
 
@@ -379,30 +395,30 @@ function showContextMenu(wc, params) {
   const items = []
   if (params.misspelledWord) {
     for (const s of params.dictionarySuggestions.slice(0, 6)) items.push({ label: s, click: () => wc.replaceMisspelling(s) })
-    if (!params.dictionarySuggestions.length) items.push({ label: 'Aucune suggestion', enabled: false })
-    items.push({ label: 'Ajouter au dictionnaire', click: () => wc.session.addWordToSpellCheckerDictionary(params.misspelledWord) })
+    if (!params.dictionarySuggestions.length) items.push({ label: tr('Aucune suggestion'), enabled: false })
+    items.push({ label: tr('Ajouter au dictionnaire'), click: () => wc.session.addWordToSpellCheckerDictionary(params.misspelledWord) })
     items.push({ type: 'separator' })
   }
   if (params.linkURL && /^(https?|mailto):/i.test(params.linkURL)) {
-    items.push({ label: 'Ouvrir le lien', click: () => openExternalSafe(params.linkURL) })
-    items.push({ label: 'Copier le lien', click: () => clipboard.writeText(params.linkURL) })
+    items.push({ label: tr('Ouvrir le lien'), click: () => openExternalSafe(params.linkURL) })
+    items.push({ label: tr('Copier le lien'), click: () => clipboard.writeText(params.linkURL) })
     items.push({ type: 'separator' })
   }
   if (params.mediaType === 'image') {
-    items.push({ label: "Copier l'image", click: () => wc.copyImageAt(params.x, params.y) })
+    items.push({ label: tr("Copier l'image"), click: () => wc.copyImageAt(params.x, params.y) })
     items.push({ type: 'separator' })
   }
   if (params.isEditable) {
     items.push(
-      { role: 'cut', label: 'Couper', enabled: params.editFlags.canCut },
-      { role: 'copy', label: 'Copier', enabled: params.editFlags.canCopy },
-      { role: 'paste', label: 'Coller', enabled: params.editFlags.canPaste },
-      { label: 'Coller en texte brut', enabled: params.editFlags.canPaste, click: () => wc.send('cmd', 'paste-plain') },
+      { role: 'cut', label: tr('Couper'), enabled: params.editFlags.canCut },
+      { role: 'copy', label: tr('Copier'), enabled: params.editFlags.canCopy },
+      { role: 'paste', label: tr('Coller'), enabled: params.editFlags.canPaste },
+      { label: tr('Coller en texte brut'), enabled: params.editFlags.canPaste, click: () => wc.send('cmd', 'paste-plain') },
       { type: 'separator' },
-      { role: 'selectAll', label: 'Tout sélectionner' },
+      { role: 'selectAll', label: tr('Tout sélectionner') },
     )
   } else if (params.selectionText) {
-    items.push({ role: 'copy', label: 'Copier' })
+    items.push({ role: 'copy', label: tr('Copier') })
   }
   while (items.length && items[items.length - 1].type === 'separator') items.pop()
   if (items.length) Menu.buildFromTemplate(items).popup({ window: BrowserWindow.fromWebContents(wc) })
@@ -427,111 +443,115 @@ function buildMenu() {
   const template = [
     ...(isMac ? [{ role: 'appMenu' }] : []),
     {
-      label: '&Fichier',
+      label: tr('&Fichier'),
       submenu: [
-        item('Nouvel onglet', 'CmdOrCtrl+T', 'new-tab'),
-        { label: 'Nouvelle fenêtre', accelerator: 'CmdOrCtrl+Shift+N', click: () => createWindow() },
-        item('Ouvrir…', 'CmdOrCtrl+O', 'open'),
+        item(tr('Nouvel onglet'), 'CmdOrCtrl+T', 'new-tab'),
+        { label: tr('Nouvelle fenêtre'), accelerator: 'CmdOrCtrl+Shift+N', click: () => createWindow() },
+        item(tr('Ouvrir…'), 'CmdOrCtrl+O', 'open'),
         sep,
-        item('Enregistrer', 'CmdOrCtrl+S', 'save'),
-        item('Enregistrer sous…', 'CmdOrCtrl+Shift+S', 'save-as'),
+        item(tr('Enregistrer'), 'CmdOrCtrl+S', 'save'),
+        item(tr('Enregistrer sous…'), 'CmdOrCtrl+Shift+S', 'save-as'),
         sep,
-        item('Exporter en HTML…', undefined, 'export-html'),
-        item("Afficher dans l'explorateur", undefined, 'show-in-folder'),
+        item(tr('Exporter en HTML…'), undefined, 'export-html'),
+        item(tr("Afficher dans l'explorateur"), undefined, 'show-in-folder'),
         sep,
-        item("Fermer l'onglet", 'CmdOrCtrl+W', 'close-tab'),
-        { role: 'close', label: 'Fermer la fenêtre', accelerator: 'CmdOrCtrl+Shift+W' },
-        ...(isMac ? [] : [{ role: 'quit', label: 'Quitter' }]),
+        item(tr("Fermer l'onglet"), 'CmdOrCtrl+W', 'close-tab'),
+        { role: 'close', label: tr('Fermer la fenêtre'), accelerator: 'CmdOrCtrl+Shift+W' },
+        ...(isMac ? [] : [{ role: 'quit', label: tr('Quitter') }]),
       ],
     },
     {
-      label: '&Édition',
+      label: tr('&Édition'),
       submenu: [
-        item('Annuler', 'CmdOrCtrl+Z', 'undo'),
-        item('Rétablir', 'CmdOrCtrl+Y', 'redo'),
+        item(tr("Annuler l'action"), 'CmdOrCtrl+Z', 'undo'),
+        item(tr('Rétablir'), 'CmdOrCtrl+Y', 'redo'),
         sep,
-        { role: 'cut', label: 'Couper' },
-        { role: 'copy', label: 'Copier' },
-        { role: 'paste', label: 'Coller' },
-        item('Coller en texte brut', 'CmdOrCtrl+Shift+V', 'paste-plain'),
-        { role: 'selectAll', label: 'Tout sélectionner' },
+        { role: 'cut', label: tr('Couper') },
+        { role: 'copy', label: tr('Copier') },
+        { role: 'paste', label: tr('Coller') },
+        item(tr('Coller en texte brut'), 'CmdOrCtrl+Shift+V', 'paste-plain'),
+        { role: 'selectAll', label: tr('Tout sélectionner') },
         sep,
-        item('Rechercher / Remplacer…', 'CmdOrCtrl+F', 'find'),
+        item(tr('Rechercher / Remplacer…'), 'CmdOrCtrl+F', 'find'),
         sep,
-        item('Insérer une image ou une vidéo…', undefined, 'insert-media'),
+        item(tr('Insérer une image ou une vidéo…'), undefined, 'insert-media'),
       ],
     },
     {
-      label: 'F&ormat',
+      label: tr('F&ormat'),
       submenu: [
-        item('Gras', 'CmdOrCtrl+B', 'format', 'bold'),
-        item('Italique', 'CmdOrCtrl+I', 'format', 'italic'),
-        item('Souligné', 'CmdOrCtrl+U', 'format', 'underline'),
-        item('Barré', 'CmdOrCtrl+Shift+X', 'format', 'strike'),
+        item(tr('Gras'), 'CmdOrCtrl+B', 'format', 'bold'),
+        item(tr('Italique'), 'CmdOrCtrl+I', 'format', 'italic'),
+        item(tr('Souligné'), 'CmdOrCtrl+U', 'format', 'underline'),
+        item(tr('Barré'), 'CmdOrCtrl+Shift+X', 'format', 'strike'),
         item('Code', 'CmdOrCtrl+E', 'format', 'code'),
         item('Spoiler', undefined, 'format', 'spoiler'),
-        item('Lien', 'CmdOrCtrl+K', 'format', 'link'),
+        item(tr('Lien'), 'CmdOrCtrl+K', 'format', 'link'),
         sep,
         // Pas de Ctrl+Alt+chiffre : c'est AltGr sur les claviers AZERTY (#, ~, @…).
-        item('Titre 1', 'CmdOrCtrl+Shift+1', 'format', 'h1'),
-        item('Titre 2', 'CmdOrCtrl+Shift+2', 'format', 'h2'),
-        item('Titre 3', 'CmdOrCtrl+Shift+3', 'format', 'h3'),
+        item(tr('Titre 1'), 'CmdOrCtrl+Shift+1', 'format', 'h1'),
+        item(tr('Titre 2'), 'CmdOrCtrl+Shift+2', 'format', 'h2'),
+        item(tr('Titre 3'), 'CmdOrCtrl+Shift+3', 'format', 'h3'),
         sep,
-        item('Liste à puces', 'CmdOrCtrl+Shift+8', 'format', 'bullet'),
-        item('Liste numérotée', 'CmdOrCtrl+Shift+7', 'format', 'ordered'),
-        item('Case à cocher', 'CmdOrCtrl+Shift+9', 'format', 'task'),
-        item('Citation', 'CmdOrCtrl+Shift+.', 'format', 'quote'),
+        item(tr('Liste à puces'), 'CmdOrCtrl+Shift+8', 'format', 'bullet'),
+        item(tr('Liste numérotée'), 'CmdOrCtrl+Shift+7', 'format', 'ordered'),
+        item(tr('Case à cocher'), 'CmdOrCtrl+Shift+9', 'format', 'task'),
+        item(tr('Citation'), 'CmdOrCtrl+Shift+.', 'format', 'quote'),
         sep,
-        item('Bloc de code', undefined, 'format', 'codeblock'),
-        item('Tableau', undefined, 'format', 'table'),
-        item('Ligne horizontale', undefined, 'format', 'hr'),
+        item(tr('Bloc de code'), undefined, 'format', 'codeblock'),
+        item(tr('Tableau'), undefined, 'format', 'table'),
+        item(tr('Ligne horizontale'), undefined, 'format', 'hr'),
       ],
     },
     {
-      label: '&Affichage',
+      label: tr('&Affichage'),
       submenu: [
+        { label: tr('Langue'), submenu: [
+          { label: 'Français', type: 'radio', checked: locale.getLanguage() === 'fr', click: () => changeLanguage('fr') },
+          { label: 'English', type: 'radio', checked: locale.getLanguage() === 'en', click: () => changeLanguage('en') },
+        ] },
         item('Live', 'CmdOrCtrl+1', 'mode', 'live'),
-        item('Côte à côte', 'CmdOrCtrl+2', 'mode', 'split'),
-        item('Brut', 'CmdOrCtrl+3', 'mode', 'raw'),
-        item('Lecture', 'CmdOrCtrl+4', 'mode', 'read'),
+        item(tr('Côte à côte'), 'CmdOrCtrl+2', 'mode', 'split'),
+        item(tr('Brut'), 'CmdOrCtrl+3', 'mode', 'raw'),
+        item(tr('Lecture'), 'CmdOrCtrl+4', 'mode', 'read'),
         sep,
-        item('Numéros de ligne', undefined, 'toggle-line-numbers'),
-        item('Onglet suivant', 'CmdOrCtrl+Tab', 'next-tab'),
-        item('Onglet précédent', 'CmdOrCtrl+Shift+Tab', 'prev-tab'),
+        item(tr('Numéros de ligne'), undefined, 'toggle-line-numbers'),
+        item(tr('Onglet suivant'), 'CmdOrCtrl+Tab', 'next-tab'),
+        item(tr('Onglet précédent'), 'CmdOrCtrl+Shift+Tab', 'prev-tab'),
         sep,
         {
-          label: 'Thème',
+          label: tr('Thème'),
           submenu: [
-            { label: 'Système', click: () => send('theme', 'system') },
-            { label: 'Clair', click: () => send('theme', 'light') },
-            { label: 'Sombre', click: () => send('theme', 'dark') },
+            { label: tr('Système'), click: () => send('theme', 'system') },
+            { label: tr('Clair'), click: () => send('theme', 'light') },
+            { label: tr('Sombre'), click: () => send('theme', 'dark') },
           ],
         },
-        item('Largeur de page limitée', undefined, 'toggle-narrow'),
+        item(tr('Largeur de page limitée'), undefined, 'toggle-narrow'),
         sep,
-        { role: 'zoomIn', label: 'Zoom avant' },
-        { role: 'zoomOut', label: 'Zoom arrière' },
-        { role: 'resetZoom', label: 'Taille réelle' },
+        { role: 'zoomIn', label: tr('Zoom avant') },
+        { role: 'zoomOut', label: tr('Zoom arrière') },
+        { role: 'resetZoom', label: tr('Taille réelle') },
         sep,
-        { role: 'togglefullscreen', label: 'Plein écran' },
-        ...(DEV_URL ? [sep, { role: 'reload', label: 'Recharger' }] : []),
-        { role: 'toggleDevTools', label: 'Outils de développement' },
+        { role: 'togglefullscreen', label: tr('Plein écran') },
+        ...(DEV_URL ? [sep, { role: 'reload', label: tr('Recharger') }] : []),
+        { role: 'toggleDevTools', label: tr('Outils de développement') },
       ],
     },
     {
-      label: 'Ai&de',
+      label: tr('Ai&de'),
       submenu: [
-        item("Document d'exemple", undefined, 'open-guide'),
-        { label: 'Rechercher des mises à jour…', click: () => { void updates.check() } },
+        item(tr("Document d'exemple"), undefined, 'open-guide'),
+        { label: tr('Rechercher des mises à jour…'), click: () => { void updates.check() } },
         sep,
         {
-          label: 'À propos de CyMD',
+          label: tr('À propos de CyMD'),
           click: () => dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
             type: 'info',
             icon: nativeImage.createFromPath(APP_ICON).resize({ width: 96, height: 96, quality: 'best' }),
-            title: 'À propos de CyMD',
+            title: tr('À propos de CyMD'),
             message: `CyMD ${app.getVersion()}`,
-            detail: `Éditeur et lecteur Markdown.\n\nElectron ${process.versions.electron} · Chromium ${process.versions.chrome} · Node ${process.versions.node}`,
+            detail: tr("Éditeur et lecteur Markdown.\n\nElectron {0} · Chromium {1} · Node {2}", process.versions.electron, process.versions.chrome, process.versions.node),
           }),
         },
       ],
@@ -560,6 +580,8 @@ ipcMain.on('app:ready', async (e) => {
 })
 
 ipcMain.handle('window:id', (e) => e.sender.id)
+ipcMain.handle('language:get', () => locale.getLanguage())
+ipcMain.handle('language:set', (_e, value) => changeLanguage(value))
 
 ipcMain.on('doc:state', (e, s) => {
   const ctx = ctxOf(e)
@@ -604,19 +626,19 @@ ipcMain.handle('tab:tearOff', (e, payload, screenX, screenY) => {
 })
 
 const FILTER_MD = { name: 'Markdown', extensions: ['md', 'markdown'] }
-const FILTER_CYMD = { name: 'Document CyMD tout-en-un', extensions: ['cymd'] }
+const FILTER_CYMD = { get name() { return tr('Document CyMD tout-en-un') }, extensions: ['cymd'] }
 
 ipcMain.handle('dialog:open', async (e) => {
   const ctx = ctxOf(e)
   const r = await dialog.showOpenDialog(ctx.win, {
-    title: 'Ouvrir',
+    title: tr('Ouvrir'),
     defaultPath: ctx.lastDir,
     properties: ['openFile', 'multiSelections'],
     filters: [
       { name: 'Documents (md, cymd)', extensions: ['md', 'markdown', 'cymd', 'txt'] },
       FILTER_CYMD,
       FILTER_MD,
-      { name: 'Tous les fichiers', extensions: ['*'] },
+      { name: tr('Tous les fichiers'), extensions: ['*'] },
     ],
   })
   if (r.canceled) return []
@@ -628,7 +650,7 @@ ipcMain.handle('dialog:open', async (e) => {
       app.addRecentDocument(filePath)
       files.push({ path: filePath, data: new Uint8Array(data) })
     } catch (err) {
-      dialog.showErrorBox('CyMD', `Impossible d'ouvrir « ${filePath} » :\n${err.message}`)
+      dialog.showErrorBox('CyMD', tr("Impossible d'ouvrir « {0} » :\n{1}", filePath, err.message))
     }
   }
   return files
@@ -638,8 +660,8 @@ ipcMain.handle('dialog:save', async (e, opts) => {
   const ctx = ctxOf(e)
   const baseDir = ctx.lastDir ?? app.getPath('documents')
   const r = await dialog.showSaveDialog(ctx.win, {
-    title: 'Enregistrer sous',
-    defaultPath: path.join(baseDir, opts.defaultName || 'Sans titre.md'),
+    title: tr('Enregistrer sous'),
+    defaultPath: path.join(baseDir, opts.defaultName || tr('Sans titre.md')),
     filters: opts.kind === 'cymd' ? [FILTER_CYMD, FILTER_MD] : [FILTER_MD, FILTER_CYMD],
   })
   if (r.canceled || !r.filePath) return null
@@ -651,9 +673,9 @@ ipcMain.handle('dialog:saveHtml', async (e, defaultName) => {
   const ctx = ctxOf(e)
   const baseDir = ctx.lastDir ?? app.getPath('documents')
   const r = await dialog.showSaveDialog(ctx.win, {
-    title: 'Exporter en HTML',
+    title: tr('Exporter en HTML'),
     defaultPath: path.join(baseDir, defaultName),
-    filters: [{ name: 'Page HTML', extensions: ['html'] }],
+    filters: [{ name: tr('Page HTML'), extensions: ['html'] }],
   })
   if (r.canceled || !r.filePath) return null
   grant(ctx, r.filePath)
@@ -789,6 +811,12 @@ if (!app.requestSingleInstanceLock()) {
   })
 
   app.whenReady().then(() => {
+    let language = app.getLocale().toLowerCase().startsWith('fr') ? 'fr' : 'en'
+    try {
+      const saved = JSON.parse(fs.readFileSync(path.join(app.getPath('userData'), 'language.json'), 'utf8')).language
+      if (saved === 'fr' || saved === 'en') language = saved
+    } catch { /* première ouverture ou préférence illisible */ }
+    locale.setLanguage(language)
     registerAssetProtocol()
     buildMenu()
     // Le lecteur YouTube intégré exige un Referer (erreur 153 sinon). Une page chargée

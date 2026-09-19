@@ -1,3 +1,4 @@
+import { tr } from '../i18n'
 // Rend « vivant » le HTML produit par renderMarkdown : médias du document, aperçus
 // de liens, cases à cocher cliquables, liens.
 
@@ -12,7 +13,7 @@ export function brokenMedia(src: string): HTMLElement {
   const span = document.createElement('span')
   span.className = 'cy-broken'
   span.textContent = src
-  span.title = `Média introuvable : ${src}`
+  span.title = tr("Média introuvable : {0}", src)
   return span
 }
 

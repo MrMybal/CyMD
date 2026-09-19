@@ -1,3 +1,4 @@
+import { tr } from '../i18n'
 import { basename, dirname, extname, stem } from './paths'
 
 export type DocKind = 'md' | 'cymd'
@@ -123,7 +124,7 @@ export class CyDoc {
   }
 
   get title(): string {
-    return this.path ? basename(this.path) : this.name
+    return this.path ? basename(this.path) : !this.handle && this.name === 'Sans titre' ? tr('Sans titre') : this.name
   }
 
   dispose(): void {

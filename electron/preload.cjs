@@ -4,6 +4,9 @@ const { contextBridge, ipcRenderer, webUtils } = require('electron')
 
 contextBridge.exposeInMainWorld('cymdNative', {
   platform: process.platform,
+  getLanguage: () => ipcRenderer.invoke('language:get'),
+  setLanguage: (value) => ipcRenderer.invoke('language:set', value),
+  onLanguage: (cb) => ipcRenderer.on('language:changed', (_e, value) => cb(value)),
   ready: () => ipcRenderer.send('app:ready'),
   windowId: () => ipcRenderer.invoke('window:id'),
   setState: (state) => ipcRenderer.send('doc:state', state),

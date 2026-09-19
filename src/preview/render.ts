@@ -1,3 +1,4 @@
+import { tr } from '../i18n'
 // Rendu Markdown → HTML (vues Côte à côte / Lecture, tableaux du mode Live, export).
 // Même conventions que l'éditeur : retours à la ligne conservés, GFM, cases à cocher,
 // images/vidéos/audio, et aperçu (embed) sous chaque URL « nue », comme Discord.
@@ -58,7 +59,7 @@ md.inline.ruler.before('emphasis', 'cy_spoiler', (state, silent) => {
   if (!silent) {
     const open = state.push('spoiler_open', 'span', 1)
     open.attrSet('class', 'cy-spoiler')
-    open.attrSet('title', 'Spoiler : cliquer pour afficher')
+    open.attrSet('title', tr('Spoiler : cliquer pour afficher'))
     const max = state.posMax
     state.pos = start + 2
     state.posMax = end

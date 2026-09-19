@@ -1,3 +1,4 @@
+import { tr, getLanguage, setLanguage, type Language } from '../i18n'
 // Barre d'outils : fichiers, mise en forme, numéros de ligne et mode d'affichage.
 
 import { icon, type IconName } from './icons'
@@ -64,8 +65,8 @@ function button(b: Btn, run: Run): HTMLButtonElement {
   const el = document.createElement('button')
   el.type = 'button'
   el.className = 'tb'
-  el.title = b.title
-  el.setAttribute('aria-label', b.title)
+  el.title = tr(b.title)
+  el.setAttribute('aria-label', tr(b.title))
   el.append(icon(b.icon))
   // Ne pas voler le focus à l'éditeur : la sélection reste intacte.
   el.addEventListener('mousedown', (e) => e.preventDefault())
@@ -102,13 +103,13 @@ export class Toolbar {
         const h = document.createElement('button')
         h.type = 'button'
         h.className = 'tb tb-drop'
-        h.title = 'Titre'
-        h.setAttribute('aria-label', 'Titre')
+        h.title = tr('Titre')
+        h.setAttribute('aria-label', tr('Titre'))
         h.append(icon('heading'), icon('chevron', 13))
         h.addEventListener('mousedown', (e) => e.preventDefault())
         h.addEventListener('click', () =>
           showMenu(
-            HEADINGS.map((it) => ({ label: it.label, hint: it.hint, className: it.cls, action: () => run('format', it.arg) })),
+            HEADINGS.map((it) => ({ label: tr(it.label), hint: it.hint, className: it.cls, action: () => run('format', it.arg) })),
             h,
           ),
         )
@@ -119,23 +120,35 @@ export class Toolbar {
 
     const right = document.createElement('div')
     right.className = 'tb-right'
-    this.numbersBtn = button({ icon: 'lineNumbers', title: 'Numéros de ligne', cmd: 'toggle-line-numbers' }, run)
+    this.numbersBtn = button({ icon: 'lineNumbers', title: tr('Numéros de ligne'), cmd: 'toggle-line-numbers' }, run)
     this.numbersBtn.classList.add('tb-toggle')
     const modes = document.createElement('div')
     modes.className = 'modes'
     modes.setAttribute('role', 'group')
-    modes.setAttribute('aria-label', "Mode d'affichage")
+    modes.setAttribute('aria-label', tr("Mode d'affichage"))
     for (const m of MODES) {
       const b = document.createElement('button')
       b.type = 'button'
       b.className = 'mode-btn'
-      b.textContent = m.label
-      b.title = m.hint
+      b.textContent = tr(m.label)
+      b.title = tr(m.hint)
       b.addEventListener('click', () => run('mode', m.id))
       modes.append(b)
       this.modeButtons.set(m.id, b)
     }
-    right.append(this.numbersBtn, modes)
+    const language = document.createElement('select')
+    language.className = 'language-select'
+    language.setAttribute('aria-label', tr('Langue'))
+    language.title = tr('Langue')
+    language.append(new Option('Français', 'fr'), new Option('English', 'en'))
+    language.value = getLanguage()
+    language.addEventListener('change', () => {
+      void setLanguage(language.value as Language).catch((error) => {
+        language.value = getLanguage()
+        window.alert(String(error.message))
+      })
+    })
+    right.append(language, this.numbersBtn, modes)
     this.el.append(scroll, right)
   }
 

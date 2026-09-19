@@ -3,6 +3,7 @@
 const RELEASES_URL = 'https://github.com/MrMybal/CyMD/releases/latest'
 
 function createUpdates({ app, updater, showDialog, openExternal, hasUnsaved, setProgress,
+  tr = (text, ...values) => text.replace(/\{(\d+)\}/g, (_match, index) => String(values[index])),
   platform = process.platform, portable = Boolean(process.env.PORTABLE_EXECUTABLE_DIR) }) {
   const supported = app.isPackaged && platform === 'win32' && !portable
   let busy = false
@@ -12,8 +13,8 @@ function createUpdates({ app, updater, showDialog, openExternal, hasUnsaved, set
   let installError = false
 
   const reportError = () => showDialog({ type: 'warning',
-    message: 'La mise à jour n’a pas pu aboutir.',
-    detail: 'Vérifiez votre connexion et réessayez plus tard. Une release compatible doit contenir son installeur et le fichier latest.yml.' })
+    message: tr('La mise à jour n’a pas pu aboutir.'),
+    detail: tr('Vérifiez votre connexion et réessayez plus tard. Une release compatible doit contenir son installeur et le fichier latest.yml.') })
 
   updater.autoDownload = false
   updater.autoInstallOnAppQuit = false
@@ -32,14 +33,14 @@ function createUpdates({ app, updater, showDialog, openExternal, hasUnsaved, set
 
   async function install() {
     const { response } = await showDialog({
-      type: 'info', message: `CyMD ${downloaded.version} est prêt à être installé.`,
-      detail: 'Enregistrez vos documents avant de redémarrer CyMD.',
-      buttons: ['Redémarrer et installer', 'Plus tard'], defaultId: 1, cancelId: 1,
+      type: 'info', message: tr("CyMD {0} est prêt à être installé.", downloaded.version),
+      detail: tr('Enregistrez vos documents avant de redémarrer CyMD.'),
+      buttons: [tr('Redémarrer et installer'), tr('Plus tard')], defaultId: 1, cancelId: 1,
     })
     if (response !== 0) return
     if (hasUnsaved()) {
-      await showDialog({ type: 'warning', message: 'Des documents ne sont pas enregistrés.',
-        detail: 'Enregistrez-les ou fermez-les, puis relancez « Rechercher des mises à jour » dans Aide.' })
+      await showDialog({ type: 'warning', message: tr('Des documents ne sont pas enregistrés.'),
+        detail: tr('Enregistrez-les ou fermez-les, puis relancez « Rechercher des mises à jour » dans Aide.') })
       return
     }
     installError = false
@@ -49,16 +50,16 @@ function createUpdates({ app, updater, showDialog, openExternal, hasUnsaved, set
 
   async function check(manual = true) {
     if (busy) {
-      if (manual) await showDialog({ type: 'info', message: 'Une recherche ou un téléchargement est déjà en cours.' })
+      if (manual) await showDialog({ type: 'info', message: tr('Une recherche ou un téléchargement est déjà en cours.') })
       return
     }
     busy = true
     try {
       if (!supported) {
         if (manual) {
-          const { response } = await showDialog({ type: 'info', message: 'Mises à jour de CyMD',
-            detail: 'L’installation automatique est disponible dans la version Windows installée. Les autres versions se téléchargent depuis les releases GitHub.',
-            buttons: ['Ouvrir les releases', 'Fermer'], cancelId: 1 })
+          const { response } = await showDialog({ type: 'info', message: tr('Mises à jour de CyMD'),
+            detail: tr('L’installation automatique est disponible dans la version Windows installée. Les autres versions se téléchargent depuis les releases GitHub.'),
+            buttons: [tr('Ouvrir les releases'), tr('Fermer')], cancelId: 1 })
           if (response === 0) await openExternal(RELEASES_URL)
         }
         return
@@ -67,13 +68,13 @@ function createUpdates({ app, updater, showDialog, openExternal, hasUnsaved, set
       available = null
       await updater.checkForUpdates()
       if (!available) {
-        if (manual) await showDialog({ type: 'info', message: `CyMD ${app.getVersion()} est à jour.` })
+        if (manual) await showDialog({ type: 'info', message: tr("CyMD {0} est à jour.", app.getVersion()) })
         return
       }
       const { response } = await showDialog({ type: 'info',
-        message: `CyMD ${available.version} est disponible.`,
-        detail: `Version actuelle : ${app.getVersion()}. Télécharger la mise à jour depuis GitHub ?`,
-        buttons: ['Télécharger', 'Plus tard'], defaultId: 0, cancelId: 1 })
+        message: tr("CyMD {0} est disponible.", available.version),
+        detail: tr("Version actuelle : {0}. Télécharger la mise à jour depuis GitHub ?", app.getVersion()),
+        buttons: [tr('Télécharger'), tr('Plus tard')], defaultId: 0, cancelId: 1 })
       if (response !== 0) return
       setProgress(0)
       await updater.downloadUpdate()

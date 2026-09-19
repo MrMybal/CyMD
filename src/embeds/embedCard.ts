@@ -1,3 +1,4 @@
+import { tr } from '../i18n'
 // Carte d'aperçu de lien façon Discord, partagée par l'éditeur Live et la vue rendue.
 
 import type { LinkPreview } from '../doc/document'
@@ -117,8 +118,8 @@ function fill(host: HTMLElement, url: string, p: LinkPreview | null, deps: Embed
     media.append(img)
     if (p.kind === 'youtube' && p.videoId) {
       const play = el('button', 'cy-embed-play')
-      play.title = 'Lire la vidéo'
-      play.setAttribute('aria-label', 'Lire la vidéo')
+      play.title = tr('Lire la vidéo')
+      play.setAttribute('aria-label', tr('Lire la vidéo'))
       media.append(play)
       media.addEventListener('click', (e) => {
         e.preventDefault()
@@ -153,7 +154,7 @@ function fill(host: HTMLElement, url: string, p: LinkPreview | null, deps: Embed
 function actions(host: HTMLElement, url: string, deps: EmbedDeps): HTMLElement {
   const bar = el('div', 'cy-embed-actions')
   const refresh = el('button', undefined, '↻')
-  refresh.title = "Actualiser l'aperçu"
+  refresh.title = tr("Actualiser l'aperçu")
   refresh.addEventListener('click', (e) => {
     e.preventDefault()
     deps.previews.refresh(url).then((p) => fill(host, url, p, deps))
@@ -161,7 +162,7 @@ function actions(host: HTMLElement, url: string, deps: EmbedDeps): HTMLElement {
   bar.append(refresh)
   if (deps.suppress) {
     const close = el('button', undefined, '✕')
-    close.title = "Masquer l'aperçu (entoure l'URL de < >)"
+    close.title = tr("Masquer l'aperçu (entoure l'URL de < >)")
     close.addEventListener('click', (e) => {
       e.preventDefault()
       deps.suppress!(url)

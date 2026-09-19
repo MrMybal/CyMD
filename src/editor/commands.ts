@@ -3,6 +3,7 @@
 import { EditorSelection, type ChangeSpec } from '@codemirror/state'
 import { indentLess, indentMore, insertTab } from '@codemirror/commands'
 import type { Command, EditorView, KeyBinding } from '@codemirror/view'
+import { tr } from '../i18n'
 
 /** Entoure la sélection de `open`…`close`, ou retire ces marques si elles y sont déjà. */
 function toggleWrap(open: string, close = open): Command {
@@ -162,7 +163,7 @@ export const formatCommands: Record<string, Command> = {
   task: toggleLinePrefix('task'),
   quote: toggleLinePrefix('quote'),
   codeblock: insertBlock('```\n$SEL\n```', 3),
-  table: insertBlock('| Colonne 1 | Colonne 2 |\n| --- | --- |\n| | |', 2),
+  table: (view) => insertBlock(tr('| Colonne 1 | Colonne 2 |\n| --- | --- |\n| | |'), 2)(view),
   hr: insertBlock('---'),
 }
 

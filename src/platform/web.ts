@@ -1,3 +1,4 @@
+import { tr } from '../i18n'
 // Version navigateur : fonctionne partout, avec des limites (pas d'accès au dossier du
 // fichier, aperçus de liens limités par CORS). Utilise l'API File System Access quand
 // elle existe (Chrome, Edge) pour enregistrer directement dans le fichier ouvert.
@@ -20,7 +21,7 @@ const fsw = window as unknown as FsWindow
 
 const TYPES = {
   md: { description: 'Markdown', accept: { 'text/markdown': ['.md', '.markdown'] } },
-  cymd: { description: 'Document CyMD tout-en-un', accept: { 'application/x-cymd': ['.cymd'] } },
+  cymd: { get description() { return tr('Document CyMD tout-en-un') }, accept: { 'application/x-cymd': ['.cymd'] } },
 }
 
 function pickWithInput(accept: string): Promise<File | null> {
@@ -95,7 +96,7 @@ export function createWebPlatform(): Platform {
           return null
         }
       }
-      const name = window.prompt('Nom du fichier (.md ou .cymd) :', defaultName)
+      const name = window.prompt(tr('Nom du fichier (.md ou .cymd) :'), defaultName)
       return name ? { path: null, name } : null
     },
 
@@ -104,7 +105,7 @@ export function createWebPlatform(): Platform {
         try {
           const handle = await fsw.showSaveFilePicker({
             suggestedName: defaultName,
-            types: [{ description: 'Page HTML', accept: { 'text/html': ['.html'] } }],
+            types: [{ description: tr('Page HTML'), accept: { 'text/html': ['.html'] } }],
           })
           return { path: null, name: handle.name, handle }
         } catch {
@@ -124,7 +125,7 @@ export function createWebPlatform(): Platform {
     },
 
     async askUnsaved(name: string) {
-      return window.confirm(`« ${name} » contient des modifications non enregistrées.\nLes abandonner ?`) ? 'discard' : 'cancel'
+      return window.confirm(tr("« {0} » contient des modifications non enregistrées.\nLes abandonner ?", name)) ? 'discard' : 'cancel'
     },
     showError: (message) => window.alert(message),
 
@@ -132,7 +133,7 @@ export function createWebPlatform(): Platform {
     readAsset: async () => null,
     assetExists: async () => false,
     writeAsset: async () => {
-      throw new Error('Non disponible dans la version web.')
+      throw new Error(tr('Non disponible dans la version web.'))
     },
 
     async fetchText(url: string) {

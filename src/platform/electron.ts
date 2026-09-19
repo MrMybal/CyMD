@@ -1,3 +1,4 @@
+import { tr } from '../i18n'
 import type { DocKind } from '../doc/document'
 import { basename } from '../doc/paths'
 import type {
@@ -15,6 +16,9 @@ import type {
 /** API exposée par electron/preload.cjs. */
 export interface NativeApi {
   platform: string
+  getLanguage(): Promise<'fr' | 'en'>
+  setLanguage(value: 'fr' | 'en'): Promise<void>
+  onLanguage(cb: (value: 'fr' | 'en') => void): void
   ready(): void
   windowId(): Promise<number>
   setState(state: WindowState): void
@@ -76,7 +80,7 @@ export function createElectronPlatform(api: NativeApi): Platform {
       return p ? { path: p, name: basename(p) } : null
     },
     async write(target, data) {
-      if (!target.path) throw new Error('Aucun chemin de fichier.')
+      if (!target.path) throw new Error(tr('Aucun chemin de fichier.'))
       await api.writeFile(target.path, data)
     },
     askUnsaved: (name) => api.askUnsaved(name),

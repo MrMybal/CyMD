@@ -1,3 +1,4 @@
+import { tr, getLanguage } from './i18n'
 import { redo, undo } from '@codemirror/commands'
 import { ensureSyntaxTree, syntaxTree } from '@codemirror/language'
 import { openSearchPanel } from '@codemirror/search'
@@ -30,6 +31,8 @@ import { showMenu } from './ui/menu'
 import { TAB_MIME, TabBar, type TabDragData, type TabInfo } from './ui/tabbar'
 import { MODES, Toolbar, type ViewMode } from './ui/toolbar'
 import guideText from './guide.md?raw'
+import guideEnglish from './guide.en.md?raw'
+const getGuide = () => getLanguage() === 'fr' ? guideText : guideEnglish
 import themeCss from './styles/theme.css?raw'
 import markdownCss from './styles/markdown.css?raw'
 
@@ -169,7 +172,7 @@ export class App {
 
     // Premier onglet : le guide au tout premier lancement, sinon un document vide.
     const first = !store('cymd.welcomed')
-      ? this.makeTab(Object.assign(new CyDoc(), { name: 'Bienvenue.md' }), guideText)
+      ? this.makeTab(Object.assign(new CyDoc(), { name: tr('Bienvenue.md') }), getGuide())
       : this.makeTab(new CyDoc(), '')
     store('cymd.welcomed', '1')
     this.tabs.push(first)
@@ -194,6 +197,24 @@ export class App {
     this.setMode('live')
     platform.ready()
     this.editor.view.focus()
+    window.addEventListener('cymd-language', () => {
+      const toolbar = new Toolbar((cmd, arg) => void this.command(cmd, arg))
+      this.toolbar.el.replaceWith(toolbar.el)
+      this.toolbar = toolbar
+      toolbar.setMode(this.mode)
+      toolbar.setLineNumbers(this.lineNumbers)
+      this.editor.setLanguage()
+      if (this.mode === 'live') {
+        this.editor.setLive(false)
+        this.editor.setLive(true)
+      }
+      this.blockCache.clear()
+      this.gen++
+      this.updateState()
+      this.updateStats()
+      this.updatePos()
+      if (this.mode === 'split' || this.mode === 'read') this.renderPreview()
+    })
   }
 
   // -------------------------------------------------------------------------
@@ -379,7 +400,7 @@ export class App {
         return this.exportHtml()
       case 'show-in-folder':
         if (this.doc.path) this.platform.showInFolder(this.doc.path)
-        else this.toast("Ce document n'est pas encore enregistré.")
+        else this.toast(tr("Ce document n'est pas encore enregistré."))
         return
       case 'undo':
         needsEditor()
@@ -426,7 +447,7 @@ export class App {
       case 'open-guide': {
         const existing = this.tabs.find((t) => !t.doc.path && t.doc.name === 'Guide CyMD.md')
         if (existing) return this.activate(existing)
-        return this.addTab(this.makeTab(Object.assign(new CyDoc(), { name: 'Guide CyMD.md' }), guideText))
+        return this.addTab(this.makeTab(Object.assign(new CyDoc(), { name: 'Guide CyMD.md' }), getGuide()))
       }
     }
   }
@@ -553,11 +574,11 @@ export class App {
     const others = this.tabs.filter((t) => t !== tab)
     showMenu(
       [
-        { label: 'Nouvel onglet', hint: 'Ctrl+T', action: () => this.newTab() },
+        { label: tr('Nouvel onglet'), hint: 'Ctrl+T', action: () => this.newTab() },
         { separator: true },
-        { label: "Fermer l'onglet", hint: 'Ctrl+W', action: () => void this.closeTab(tab) },
+        { label: tr("Fermer l'onglet"), hint: 'Ctrl+W', action: () => void this.closeTab(tab) },
         {
-          label: 'Fermer les autres onglets',
+          label: tr('Fermer les autres onglets'),
           disabled: !others.length,
           action: async () => {
             for (const t of others) if (!(await this.closeTab(t))) break
@@ -565,12 +586,12 @@ export class App {
         },
         { separator: true },
         {
-          label: 'Déplacer dans une nouvelle fenêtre',
+          label: tr('Déplacer dans une nouvelle fenêtre'),
           disabled: !this.platform.isDesktop || this.tabs.length < 2,
           action: () => this.tearOff(tab, window.screenX + 60, window.screenY + 60),
         },
         {
-          label: "Afficher dans l'explorateur",
+          label: tr("Afficher dans l'explorateur"),
           disabled: !this.platform.isDesktop || !tab.doc.path,
           action: () => tab.doc.path && this.platform.showInFolder(tab.doc.path),
         },
@@ -674,26 +695,26 @@ export class App {
     const d = this.doc
     if (d.kind === 'cymd') {
       const n = [...d.assets.entries()].filter(([p]) => !p.startsWith('previews/')).length
-      this.els.kind.textContent = `CyMD tout-en-un · ${n} média${n > 1 ? 's' : ''}`
-    } else this.els.kind.textContent = d.path ? 'Markdown · dossier' : 'Markdown'
+      this.els.kind.textContent = tr("CyMD tout-en-un · {0} média{1}", n, (getLanguage() === 'en' ? n !== 1 : n > 1) ? 's' : '')
+    } else this.els.kind.textContent = d.path ? tr('Markdown · dossier') : 'Markdown'
     this.els.kind.title =
       d.kind === 'cymd'
-        ? 'Document tout-en-un : texte, médias et aperçus de liens dans un seul fichier .cymd'
-        : 'Markdown simple : les images et vidéos sont lues depuis le dossier du fichier'
+        ? tr('Document tout-en-un : texte, médias et aperçus de liens dans un seul fichier .cymd')
+        : tr('Markdown simple : les images et vidéos sont lues depuis le dossier du fichier')
   }
 
   private updatePos() {
     const { state } = this.editor.view
     const r = state.selection.main
     const line = state.doc.lineAt(r.head)
-    const sel = r.empty ? '' : ` (${r.to - r.from} sélectionnés)`
+    const sel = r.empty ? '' : tr(" ({0} sélectionnés)", r.to - r.from)
     this.els.pos.textContent = `Ln ${line.number}, Col ${r.head - line.from + 1}${sel}`
   }
 
   private updateStats() {
     const text = this.editor.text
     const words = text.match(/[\p{L}\p{N}]+(?:['’-][\p{L}\p{N}]+)*/gu)?.length ?? 0
-    this.els.words.textContent = `${words} mot${words > 1 ? 's' : ''} · ${text.length} caractères`
+    this.els.words.textContent = tr("{0} mot{1} · {2} caractères", words, (getLanguage() === 'en' ? words !== 1 : words > 1) ? 's' : '', text.length)
     this.updateKind()
   }
 
@@ -1014,7 +1035,7 @@ export class App {
     const suggested: DocKind = doc.kind === 'cymd' || (!doc.path && hasMedia) ? 'cymd' : 'md'
     const heading = /^#{1,6}\s+(.+)$/m.exec(text)?.[1]
     const fromHeading = heading ? safeFileName(heading).replace(/-/g, ' ') : ''
-    const base = doc.path || doc.handle || doc.name !== 'Sans titre' ? stem(doc.title) : fromHeading || 'Sans titre'
+    const base = doc.path || doc.handle || doc.name !== 'Sans titre' ? stem(doc.title) : fromHeading || tr('Sans titre')
     const target = await this.platform.saveDialog(`${base}.${suggested}`, suggested)
     if (!target) return false
     const newKind: DocKind = extname(target.name) === '.cymd' ? 'cymd' : 'md'
@@ -1050,10 +1071,10 @@ export class App {
       const written = await this.writeDoc(tab)
       tab.dirty = tab.version !== written
       this.updateState()
-      this.toast(`Enregistré : ${tab.doc.title}`, 1400)
+      this.toast(tr("Enregistré : {0}", tab.doc.title), 1400)
       return true
     } catch (err) {
-      this.platform.showError(`Échec de l'enregistrement de « ${tab.doc.title} » :\n${(err as Error).message}`)
+      this.platform.showError(tr("Échec de l'enregistrement de « {0} » :\n{1}", tab.doc.title, (err as Error).message))
       return false
     } finally {
       this.saving = false
@@ -1090,7 +1111,7 @@ export class App {
       if (doc.path && this.platform.canWriteBesideDoc) {
         text = await this.writePendingAssets(tab, doc.path, text)
         version = tab.version // des références ont pu être renommées
-      } else this.toast('Les médias collés ne peuvent pas être écrits à côté du fichier ici : enregistrez en .cymd pour les garder.', 5000)
+      } else this.toast(tr('Les médias collés ne peuvent pas être écrits à côté du fichier ici : enregistrez en .cymd pour les garder.'), 5000)
     }
     const out = (doc.bom && doc.encoding === 'UTF-8' ? '﻿' : '') + (doc.eol === '\r\n' ? text.replace(/\n/g, '\r\n') : text)
     await this.platform.write(target, new TextEncoder().encode(out))
@@ -1175,7 +1196,7 @@ export class App {
       }
       const title = this.doc.title.replace(/[<>&]/g, '')
       const html = `<!doctype html>
-<html lang="fr">
+<html lang="${getLanguage()}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -1197,9 +1218,9 @@ ${box.innerHTML}
 </html>
 `
       await this.platform.write(target, new TextEncoder().encode(html))
-      this.toast(`Exporté : ${target.name}`)
+      this.toast(tr("Exporté : {0}", target.name))
     } catch (err) {
-      this.platform.showError(`Échec de l'export HTML :\n${(err as Error).message}`)
+      this.platform.showError(tr("Échec de l'export HTML :\n{0}", (err as Error).message))
     }
   }
 }

@@ -823,3 +823,12 @@ button {
 .cm-lp-block.markdown-body {
   font-size: inherit;
 }
+.language-select {
+  background: var(--bg-soft);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 4px;
+  font: inherit;
+  max-width: 100px;
+}

@@ -1,3 +1,4 @@
+import { tr } from '../i18n'
 // Widgets du mode Live : ce qui remplace la syntaxe Markdown quand le curseur n'y est pas.
 
 import { EditorView, WidgetType } from '@codemirror/view'
@@ -190,18 +191,18 @@ export class FenceWidget extends WidgetType {
     label.textContent = this.lang
     const btn = document.createElement('button')
     btn.className = 'cm-lp-copy'
-    btn.textContent = 'Copier'
-    btn.title = 'Copier le code'
+    btn.textContent = tr('Copier')
+    btn.title = tr('Copier le code')
     btn.addEventListener('mousedown', (e) => e.preventDefault())
     btn.addEventListener('click', async (e) => {
       e.preventDefault()
       try {
         await navigator.clipboard.writeText(this.code)
-        btn.textContent = 'Copié !'
+        btn.textContent = tr('Copié !')
       } catch {
-        btn.textContent = 'Échec'
+        btn.textContent = tr('Échec')
       }
-      setTimeout(() => (btn.textContent = 'Copier'), 1200)
+      setTimeout(() => (btn.textContent = tr('Copier')), 1200)
     })
     s.append(label, btn)
     return s

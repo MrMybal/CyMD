@@ -6,6 +6,10 @@ et Linux (Electron), et aussi dans un navigateur (avec quelques limites).
 
 ## Fonctionnalités
 
+- **Français et anglais** : choix dans la barre d'outils ou **Affichage → Langue**, mémorisé
+  entre les lancements et synchronisé entre fenêtres. Le système choisit le français pour les
+  langues système francophones, l'anglais sinon. Le changement préserve les documents et l'annulation.
+
 - **Onglets façon Chrome** : plusieurs documents par fenêtre ; glisser un onglet pour le réordonner, vers
   une autre fenêtre, ou hors de la fenêtre pour en créer une nouvelle. Un fichier ouvert depuis
   l'explorateur arrive en onglet dans la fenêtre déjà ouverte (pas de nouveau démarrage).
@@ -114,6 +118,10 @@ Test de fumée automatisé (ouvre un fichier, exécute un script dans la fenêtr
 `SMOKE_SCRIPT=etapes.js SMOKE_OUT=sortie electron scripts/smoke.cjs fichier.md`.
 
 ### Organisation
+
+Les traductions anglaises sont centralisées dans `locales/en.json` ; les clés constituent les
+textes français. Les moteurs `src/i18n.ts` et `electron/i18n.cjs` partagent ce catalogue.
+Les guides intégrés existent en français et en anglais. Les fichiers utilisateur ne sont pas traduits.
 
 ```
 electron/main.cjs        fenêtres, menus, fichiers, protocole cymd://, aperçus de liens (réseau)

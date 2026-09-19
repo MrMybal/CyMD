@@ -2,9 +2,10 @@ const { test } = require('node:test')
 const assert = require('node:assert/strict')
 const { EventEmitter } = require('node:events')
 const { createUpdates } = require('../electron/updates.cjs')
+const { createTranslator } = require('../electron/i18n.cjs')
 
 function setup({ available = true, dirty = false, packaged = true, portable = false,
-  answers = [0, 0], failure = false } = {}) {
+  answers = [0, 0], failure = false, language = 'fr' } = {}) {
   const updater = new EventEmitter()
   const calls = { checks: 0, downloads: 0, installs: 0, dialogs: [], links: [], progress: [] }
   updater.checkForUpdates = async () => {
@@ -20,6 +21,7 @@ function setup({ available = true, dirty = false, packaged = true, portable = fa
   updater.quitAndInstall = () => { calls.installs++ }
   const updates = createUpdates({
     app: { isPackaged: packaged, getVersion: () => '0.1.0' }, updater,
+    tr: createTranslator(language).tr,
     platform: 'win32', portable, hasUnsaved: () => dirty,
     showDialog: async (options) => { calls.dialogs.push(options); return { response: answers.shift() ?? 1 } },
     openExternal: async (url) => { calls.links.push(url) },
@@ -107,4 +109,13 @@ test('installer error events are reported', async () => {
   updater.quitAndInstall = () => updater.emit('error', new Error('installer failed'))
   await updates.check()
   assert.match(calls.dialogs.at(-1).message, /pas pu aboutir/)
+})
+
+test('update and unsaved-document prompts are translated into English', async () => {
+  const { updates, calls } = setup({ language: 'en', dirty: true })
+  await updates.check()
+  assert.equal(calls.dialogs[0].message, 'CyMD 0.2.0 is available.')
+  assert.equal(calls.dialogs[1].buttons[0], 'Restart and install')
+  assert.equal(calls.dialogs[2].message, 'Some documents have unsaved changes.')
+  assert.equal(calls.installs, 0)
 })

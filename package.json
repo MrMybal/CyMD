@@ -35,6 +35,8 @@
       "dist/**",
       "electron/main.cjs",
       "electron/updates.cjs",
+      "electron/i18n.cjs",
+      "locales/*.json",
       "electron/preload.cjs",
       "electron/icon.png",
       "package.json"
