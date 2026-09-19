@@ -23,7 +23,8 @@ for (const archive of found) {
   const packed = JSON.parse(asar.extractFile(archive, 'package.json'))
   assert.equal(packed.version, pkg.version)
   assert.equal(packed.main, pkg.main)
-  for (const file of ['electron/main.cjs', 'electron/preload.cjs', 'electron/updates.cjs', 'electron/i18n.cjs', 'locales/en.json']) {
+  assert.equal(packed.license, 'AGPL-3.0-only')
+  for (const file of ['LICENSE', 'electron/main.cjs', 'electron/preload.cjs', 'electron/updates.cjs', 'electron/i18n.cjs', 'locales/en.json']) {
     assert.deepEqual(asar.extractFile(archive, file), readFileSync(file), `Packaged source differs: ${file}`)
   }
   assert.ok(entries.includes('dist/index.html'))

@@ -66,4 +66,4 @@ jobs:
           RELEASE_TAG: ${{ github.ref_name }}
         run: |
           test -f packages/latest.yml
-          gh release create "$RELEASE_TAG" --verify-tag --draft --title "CyMD $RELEASE_TAG" --notes-file release-notes.md packages/*
+          gh release create "$RELEASE_TAG" --verify-tag --draft --title "CyMD $RELEASE_TAG" --notes-file release-notes.md packages/* LICENSE
