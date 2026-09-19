@@ -37,6 +37,21 @@ protocol.registerSchemesAsPrivileged([
  * @type {Map<number, WinCtx>}
  */
 const wins = new Map()
+const updates = require('./updates.cjs').createUpdates({
+  app,
+  updater: require('electron-updater').autoUpdater,
+  showDialog: (options) => {
+    const win = BrowserWindow.getFocusedWindow() || BrowserWindow.getAllWindows()[0]
+    const settings = { title: 'Mises à jour CyMD', ...options }
+    return win ? dialog.showMessageBox(win, settings) : dialog.showMessageBox(settings)
+  },
+  openExternal: (url) => shell.openExternal(url),
+  hasUnsaved: () => [...wins.values()].some((ctx) => ctx.dirty || !ctx.ready),
+  setProgress: (value) => {
+    for (const { win } of wins.values()) if (!win.isDestroyed()) win.setProgressBar(value)
+  },
+})
+app.on('before-quit', () => updates.stop())
 /** Dossiers racines dont le protocole cymd:// peut servir les fichiers. */
 const allowedRoots = new Set()
 
@@ -507,6 +522,7 @@ function buildMenu() {
       label: 'Ai&de',
       submenu: [
         item("Document d'exemple", undefined, 'open-guide'),
+        { label: 'Rechercher des mises à jour…', click: () => { void updates.check() } },
         sep,
         {
           label: 'À propos de CyMD',
@@ -796,6 +812,7 @@ if (!app.requestSingleInstanceLock()) {
 
     // Tous les fichiers passés au lancement s'ouvrent en onglets d'une même fenêtre.
     createWindow({ files: [...filesFromArgv(process.argv.slice(1)), ...pendingOpenFiles] })
+    updates.start()
 
     app.on('activate', () => {
       if (BrowserWindow.getAllWindows().length === 0) createWindow()

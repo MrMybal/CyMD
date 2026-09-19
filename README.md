@@ -65,6 +65,32 @@ regroupés dans le `.cymd`, ou extraits à côté du `.md`.
 | Ctrl+F | Rechercher / remplacer |
 | Ctrl+clic | Ouvrir un lien |
 
+## Mises à jour
+
+La version Windows installée recherche une nouvelle release stable GitHub 15 secondes après le
+démarrage. **Aide → Rechercher des mises à jour…** permet aussi de lancer la recherche manuellement.
+Le téléchargement et le redémarrage demandent confirmation. L'installation est bloquée tant qu'une
+fenêtre contient des documents non enregistrés. « Plus tard » conserve le téléchargement ; la même
+commande permet de reprendre l'installation. Fermer normalement CyMD n'installe pas la mise à jour.
+
+La version portable, les autres systèmes et le mode développement proposent d'ouvrir les
+[releases GitHub](https://github.com/MrMybal/CyMD/releases) pour une installation manuelle.
+
+### Publier une version Windows
+
+1. Augmenter la version avec `npm version patch --no-git-tag-version`, puis committer les changements.
+2. Créer le tag correspondant (`vX.Y.Z`) et le pousser sur GitHub.
+3. Le workflow Windows compile et teste les sources, puis crée une **release brouillon** avec
+   l'installeur NSIS, la version portable, les fichiers `.blockmap` et `latest.yml`.
+4. Tester l'installeur, puis publier le brouillon comme release stable pour proposer la mise à jour.
+
+Pour une compilation locale : `npm run dist:win`. Joindre ensemble les fichiers générés dans
+`release/` : `latest.yml` doit correspondre exactement à l'installeur fourni. Les commandes de
+compilation locales ne publient rien. Aucun jeton GitHub n'est nécessaire dans l'application.
+
+Une ancienne version sans ce système nécessite une première installation manuelle. Une mise à jour
+complète s'évalue entre deux versions installées distinctes et des releases publiées compatibles.
+
 ## Développement
 
 ```bash
