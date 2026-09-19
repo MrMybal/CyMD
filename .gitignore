@@ -1,0 +1,40 @@
+# Dépendances et sorties générées
+node_modules/
+dist/
+release/
+output/
+coverage/
+*.tsbuildinfo
+
+# Configuration et historique locaux
+.claude/
+.codex/
+.cyrevision/
+.agents/
+.cursor/
+.gemini/
+AGENTS.md
+AGENTS.local.md
+CLAUDE.md
+CLAUDE.local.md
+GEMINI.md
+.cursorrules
+.github/copilot-instructions.md
+.github/instructions/
+.github/prompts/
+.idea/
+.vscode/
+.env
+.env.*
+!.env.example
+*.local
+.npmrc
+
+# Journaux et fichiers temporaires
+tmp/
+temp/
+*.log
+*.bak
+*.tmp
+.DS_Store
+Thumbs.db

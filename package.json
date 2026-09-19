@@ -1,0 +1,104 @@
+{
+  "name": "cymd",
+  "productName": "CyMD",
+  "version": "0.1.0",
+  "description": "Éditeur et lecteur Markdown : aperçu en direct, images, vidéos et aperçus de liens.",
+  "author": "Cyberalien",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "main": "electron/main.cjs",
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "dev:web": "vite",
+    "typecheck": "tsc --noEmit",
+    "build": "tsc --noEmit && vite build",
+    "start": "npm run build && electron .",
+    "dist": "npm run build && electron-builder",
+    "dist:dir": "npm run build && electron-builder --dir"
+  },
+  "build": {
+    "appId": "fr.cyberalien.cymd",
+    "productName": "CyMD",
+    "directories": {
+      "output": "release"
+    },
+    "electronDist": "node_modules/electron/dist",
+    "electronLanguages": [
+      "fr",
+      "en-US"
+    ],
+    "files": [
+      "dist/**",
+      "electron/main.cjs",
+      "electron/preload.cjs",
+      "electron/icon.png",
+      "package.json"
+    ],
+    "fileAssociations": [
+      {
+        "ext": "cymd",
+        "name": "Document CyMD",
+        "description": "Document Markdown tout-en-un (CyMD)",
+        "mimeType": "application/x-cymd",
+        "role": "Editor"
+      },
+      {
+        "ext": [
+          "md",
+          "markdown"
+        ],
+        "name": "Markdown",
+        "description": "Fichier Markdown",
+        "mimeType": "text/markdown",
+        "role": "Editor"
+      }
+    ],
+    "win": {
+      "icon": "build/icon.ico",
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "mac": {
+      "target": "dmg",
+      "category": "public.app-category.productivity"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Office"
+    }
+  },
+  "devDependencies": {
+    "@codemirror/commands": "^6.11.1",
+    "@codemirror/lang-markdown": "^6.5.2",
+    "@codemirror/language": "^6.12.4",
+    "@codemirror/language-data": "^6.5.2",
+    "@codemirror/search": "^6.7.2",
+    "@codemirror/state": "^6.7.5",
+    "@codemirror/view": "^6.43.12",
+    "@lezer/common": "^1.5.2",
+    "@lezer/highlight": "^1.2.3",
+    "@lezer/markdown": "^1.7.2",
+    "@types/turndown": "^5.0.6",
+    "dompurify": "^3.4.15",
+    "electron": "^44.4.2",
+    "electron-builder": "^26.15.3",
+    "fflate": "^0.8.3",
+    "highlight.js": "^11.12.0",
+    "lucide": "^1.47.0",
+    "markdown-it": "^15.0.2",
+    "turndown": "^7.2.4",
+    "turndown-plugin-gfm": "^1.0.2",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.0"
+  }
+}
