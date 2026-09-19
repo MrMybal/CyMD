@@ -1,5 +1,6 @@
 import { createRequire } from 'node:module'
 import { spawnSync } from 'node:child_process'
+import { existsSync } from 'node:fs'
 
 const require = createRequire(import.meta.url)
 const hosts = { win: 'win32', mac: 'darwin', linux: 'linux' }
@@ -15,7 +16,7 @@ const args = [require.resolve('electron-builder/cli.js'), `--${target}`, '--publ
 if (unpacked) args.push('--dir')
 else args.push(target === 'mac' ? '--universal' : '--x64')
 // The installed Electron distribution is safe only for this OS and architecture.
-if (unpacked || (target !== 'mac' && process.arch === 'x64')) {
+if (existsSync('node_modules/electron/dist') && (unpacked || (target !== 'mac' && process.arch === 'x64'))) {
   args.push('--config.electronDist=node_modules/electron/dist')
 }
 const result = spawnSync(process.execPath, args, { stdio: 'inherit', shell: false })

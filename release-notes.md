@@ -1,4 +1,4 @@
-# CyMD 0.1.1
+# CyMD 0.1.2
 
 Éditeur Markdown avec aperçu en direct, documents `.cymd` regroupant texte et médias, et interface français/anglais.
 
@@ -6,7 +6,7 @@
 
 | Système | Sans installation | Installation |
 | --- | --- | --- |
-| Windows x64 | `CyMD-Portable-0.1.1-x64.exe` | `CyMD-Setup-0.1.1-x64.exe` |
+| Windows x64 | `CyMD-Portable-0.1.2-x64.exe` | `CyMD-Setup-0.1.2-x64.exe` |
 | macOS Intel et Apple Silicon | Archive ZIP Universal | DMG Universal : glisser CyMD vers Applications |
 | Linux x64 | AppImage | DEB pour Debian/Ubuntu |
 
