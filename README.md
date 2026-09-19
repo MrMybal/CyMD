@@ -115,6 +115,14 @@ compilation locales ne publient rien. Aucun jeton GitHub n'est nécessaire dans 
 Une ancienne version sans ce système nécessite une première installation manuelle. Une mise à jour
 complète s'évalue entre deux versions installées distinctes et des releases publiées compatibles.
 
+## Licence
+
+Copyright © 2026 Cyberalien.
+
+CyMD est distribué sous la **GNU Affero General Public License v3.0 uniquement**
+(`AGPL-3.0-only`). Le texte intégral est disponible dans [LICENSE](LICENSE).
+Les dépendances tierces conservent leurs licences respectives.
+
 ## Développement
 
 ```bash
