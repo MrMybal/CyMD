@@ -1,5 +1,12 @@
 // Utilitaires de chemins compatibles Windows (\) et POSIX (/).
 
+/** Windows ignore la casse ; les chemins POSIX peuvent désigner des fichiers distincts. */
+export function sameDocumentPath(a: string, b: string): boolean {
+  const windows = /^(?:[a-z]:[\\/]|\\\\)/i.test(a)
+  const normalize = (value: string) => windows ? value.replace(/\\/g, '/').toLowerCase() : value
+  return normalize(a) === normalize(b)
+}
+
 export function dirname(p: string): string {
   const i = Math.max(p.lastIndexOf('/'), p.lastIndexOf('\\'))
   return i <= 0 ? p.slice(0, i + 1) : p.slice(0, i)

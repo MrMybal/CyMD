@@ -16,6 +16,7 @@ import {
   normalizeRel,
   relativeInside,
   safeFileName,
+  sameDocumentPath as samePath,
   stem,
 } from './doc/paths'
 import { formatCommands } from './editor/commands'
@@ -75,11 +76,6 @@ function decodeText(data: Uint8Array): { text: string; bom: boolean; encoding: s
 
 function isReferenced(text: string, path: string): boolean {
   return text.includes(path) || text.includes(encodeURI(path))
-}
-
-function samePath(a: string, b: string): boolean {
-  const n = (p: string) => p.replace(/\//g, '\\').toLowerCase()
-  return n(a) === n(b)
 }
 
 function timestamp(): string {

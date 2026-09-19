@@ -80,13 +80,33 @@ commande permet de reprendre l'installation. Fermer normalement CyMD n'installe 
 La version portable, les autres systèmes et le mode développement proposent d'ouvrir les
 [releases GitHub](https://github.com/MrMybal/CyMD/releases) pour une installation manuelle.
 
-### Publier une version Windows
+### Formats distribués
+
+| Système | Sans installation | Installation | Architecture |
+| --- | --- | --- | --- |
+| Windows | Exécutable portable `.exe` | Installeur NSIS `.exe` | x64 |
+| macOS | Archive `.zip` contenant l'application `.app` | Image `.dmg`, copie vers Applications | Universal : Intel et Apple Silicon |
+| Linux | `.AppImage` | Paquet `.deb` pour Debian/Ubuntu | x64 |
+
+Sur Linux, rendre l'AppImage exécutable avant de la lancer (`chmod +x CyMD-*.AppImage`).
+Selon la distribution, le support FUSE peut être nécessaire. Le paquet `.deb` s'installe avec
+le gestionnaire de paquets. Sur macOS, la signature Developer ID et la notarisation sont à configurer
+avant une diffusion validée par Gatekeeper ; aucun certificat Apple n'est inclus dans le projet.
+
+Les paquets sont construits sur leur système cible. La configuration multiplateforme ne remplace pas
+un test réel sur Windows, macOS et Linux. Les raccourcis d'édition utilisent aussi Cmd sur macOS.
+Les mises à jour automatiques restent limitées à Windows installé ; ailleurs, le menu ouvre les releases.
+
+### Préparer une release
 
 1. Augmenter la version avec `npm version patch --no-git-tag-version`, puis committer les changements.
 2. Créer le tag correspondant (`vX.Y.Z`) et le pousser sur GitHub.
-3. Le workflow Windows compile et teste les sources, puis crée une **release brouillon** avec
-   l'installeur NSIS, la version portable, les fichiers `.blockmap` et `latest.yml`.
-4. Tester l'installeur, puis publier le brouillon comme release stable pour proposer la mise à jour.
+3. Le workflow compile et teste sur Windows, macOS et Linux. Une fois les trois compilations
+   réussies, il crée une **release brouillon** contenant tous les paquets et métadonnées de mise à jour.
+4. Tester les applications sur chaque système, puis publier le brouillon comme release stable.
+
+Le lancement manuel du workflow construit uniquement les paquets et les conserve comme artefacts
+GitHub Actions ; il ne crée pas de release. Les commandes locales ne poussent ni code ni tag.
 
 Pour une compilation locale : `npm run dist:win`. Joindre ensemble les fichiers générés dans
 `release/` : `latest.yml` doit correspondre exactement à l'installeur fourni. Les commandes de
@@ -104,6 +124,9 @@ npm run dev:web    # version navigateur seule (http://localhost:5173)
 npm run build      # vérification TypeScript + build de production (dist/)
 npm start          # build puis lance Electron sur dist/
 npm run dist       # installeur (NSIS + portable sous Windows) dans release/
+npm run dist:win   # Windows : portable + NSIS, à lancer sur Windows
+npm run dist:mac   # macOS : DMG + ZIP universal, à lancer sur macOS
+npm run dist:linux # Linux : AppImage + DEB x64, à lancer sur Linux
 npm run dist:dir   # application non empaquetée dans release/, pour tester
 ```
 
