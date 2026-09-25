@@ -115,6 +115,19 @@ compilation locales ne publient rien. Aucun jeton GitHub n'est nécessaire dans 
 Une ancienne version sans ce système nécessite une première installation manuelle. Une mise à jour
 complète s'évalue entre deux versions installées distinctes et des releases publiées compatibles.
 
+## Plugin intégré
+
+CyMD peut être affiché et édité dans une iframe au sein d'une autre application.
+`npm run build:plugin` génère le bundle dans `release/plugin`, avec la licence et les sources.
+Le [protocole d'intégration](docs/integration.md) fournit l'ouverture, l'état des modifications
+et la sauvegarde confirmée par l'hôte.
+
+Pour les sources locales de CyAIOrchestrator :
+`node integration/cyai/install.mjs CHEMIN_VERS_CYAIORCHESTRATOR`, après construction du plugin.
+Redémarrer ensuite CyAI depuis ces sources (ou reconstruire son application distribuée).
+Le plugin ajoute un bouton CyMD et ouvre les pièces jointes `.cymd` dans l'éditeur.
+Chaque sauvegarde ajoute une nouvelle pièce jointe ; le document original est conservé.
+
 ## Licence
 
 Copyright © 2026 Cyberalien.

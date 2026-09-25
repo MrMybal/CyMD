@@ -55,6 +55,7 @@ export interface TabPayload {
 
 /** Tout ce qui dépend de l'environnement (Electron ou navigateur). */
 export interface Platform {
+  readonly embedded?: boolean
   readonly isDesktop: boolean
   ready(): void
   windowId(): Promise<number>

@@ -1,7 +1,7 @@
 {
   "name": "cymd",
   "productName": "CyMD",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Éditeur et lecteur Markdown : aperçu en direct, images, vidéos et aperçus de liens.",
   "author": "Cyberalien",
   "homepage": "https://github.com/MrMybal/CyMD",
@@ -13,14 +13,15 @@
     "dev": "node scripts/dev.mjs",
     "dev:web": "vite",
     "typecheck": "tsc --noEmit",
-    "test": "node --test tests/*.test.cjs",
+    "test": "node --test tests/*.test.cjs integration/embedded.test.cjs",
     "build": "tsc --noEmit && vite build",
     "start": "npm run build && electron .",
     "dist": "npm run build && node scripts/package.mjs",
     "dist:win": "npm run build && node scripts/package.mjs win",
     "dist:mac": "npm run build && node scripts/package.mjs mac",
     "dist:linux": "npm run build && node scripts/package.mjs linux",
-    "dist:dir": "npm run build && node scripts/package.mjs dir"
+    "dist:dir": "npm run build && node scripts/package.mjs dir",
+    "build:plugin": "npm run build && node scripts/build-plugin.mjs"
   },
   "build": {
     "publish": [

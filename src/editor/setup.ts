@@ -20,7 +20,7 @@ import { HighlightStyle, indentUnit, syntaxHighlighting } from '@codemirror/lang
 import { highlightSelectionMatches, search, searchKeymap } from '@codemirror/search'
 import { tags as t } from '@lezer/highlight'
 import { formatKeymap } from './commands'
-import { linkClicks, livePreview, syncLiveFocus } from './livePreview'
+import { linkClicks, livePreview } from './livePreview'
 import { pasteAndDrop, type PasteDeps } from './paste'
 import { selectionToolbar } from './selectionToolbar'
 import { Spoiler } from './syntax'
@@ -139,7 +139,6 @@ export class Editor {
     if (this.gutterComp.get(state) !== gutter) effects.push(this.gutterComp.reconfigure(gutter))
     if (this.languageComp.get(state) !== this.languageExtensions) effects.push(this.languageComp.reconfigure(this.languageExtensions))
     if (effects.length) this.view.dispatch({ effects })
-    if (this.live) syncLiveFocus(this.view)
     this.view.scrollDOM.scrollTop = scrollTop
     if (!scrollTop) this.view.dispatch({ effects: EditorView.scrollIntoView(0, { y: 'start' }) })
     else requestAnimationFrame(() => (this.view.scrollDOM.scrollTop = scrollTop))
@@ -173,7 +172,6 @@ export class Editor {
     if (live === this.live) return
     this.live = live
     this.view.dispatch({ effects: this.liveComp.reconfigure(live ? this.liveOn : this.liveOff) })
-    if (live) syncLiveFocus(this.view)
   }
 
   private translations(): Extension {

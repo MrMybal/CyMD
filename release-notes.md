@@ -1,4 +1,4 @@
-# CyMD 0.1.3
+# CyMD 0.1.4
 
 Éditeur Markdown avec aperçu en direct, documents `.cymd` regroupant texte et médias, et interface français/anglais.
 
@@ -6,7 +6,7 @@
 
 | Système | Sans installation | Installation |
 | --- | --- | --- |
-| Windows x64 | `CyMD-Portable-0.1.3-x64.exe` | `CyMD-Setup-0.1.3-x64.exe` |
+| Windows x64 | `CyMD-Portable-0.1.4-x64.exe` | `CyMD-Setup-0.1.4-x64.exe` |
 | macOS Intel et Apple Silicon | Archive ZIP Universal | DMG Universal : glisser CyMD vers Applications |
 | Linux x64 | AppImage | DEB pour Debian/Ubuntu |
 
@@ -20,8 +20,9 @@ Sur les versions portables, macOS et Linux, **Aide → Rechercher des mises à j
 
 ## Changements
 
-- CyMD est distribué sous GNU Affero General Public License v3.0 uniquement (`AGPL-3.0-only`).
-- Le texte intégral de la licence est inclus dans les six paquets et joint à cette release.
-- Les métadonnées de licence sont harmonisées sur Windows, macOS et Linux.
+- En mode Live, la syntaxe reste masquée au clic et pendant la sélection : le texte ne se déplace plus pour révéler les balises.
+- Les tableaux restent rendus et leur texte peut être sélectionné. Utilisez Brut ou Côte à côte pour modifier leur structure Markdown.
+- Nouveau mode intégré pour ouvrir, éditer et enregistrer des documents CyMD dans une application hôte.
+- Archive `CyMD-plugin.zip` avec manifeste, licence et sources correspondantes. L’hôte doit prendre en charge le protocole d’intégration ; la documentation et l’adaptateur pour CyAIOrchestrator sont fournis dans les sources.
 
-Les dépendances tierces conservent leurs licences respectives. Cette version conserve les fonctionnalités et les langues français/anglais de la version précédente.
+CyMD reste distribué sous GNU AGPL v3.0 uniquement. Les dépendances tierces conservent leurs licences respectives. Interfaces français et anglais incluses.

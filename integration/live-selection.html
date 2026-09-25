@@ -1,0 +1,13 @@
+<!doctype html><html><body><div id="editor"></div><script type="module">
+import { Editor } from '/src/editor/setup.ts'
+import { renderMarkdown } from '/src/preview/render.ts'
+import '/src/styles/theme.css'
+import '/src/styles/app.css'
+import '/src/styles/markdown.css'
+const ctx={resolve:()=>null,generation:()=>0,renderEmbed(){},hasPreview:()=>false,renderBlock:renderMarkdown,hydrateBlock(){},openLink(){}}
+const editor=new Editor(document.querySelector('#editor'),{live:ctx,paste:{filesToMarkdown:async()=>'',storeDataImage:()=>null,openDocFile(){}},openLink(){},onUpdate(){},format(){},extraKeys:[]})
+const source='# Title\n\n**Bold** and *italic* with [link](https://example.com).\n\n> Quoted text\n\n- List item\n\n| First | Second |\n| --- | --- |\n| Alpha | Beta |\n\n```js\nconst value = 42\n```\n\nEnd'
+editor.setState(editor.createState(source))
+window.testEditor=editor
+window.testSource=source
+</script></body></html>

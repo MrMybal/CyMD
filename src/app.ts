@@ -167,7 +167,7 @@ export class App {
     this.editor.view.scrollDOM.addEventListener('scroll', () => this.syncPreviewScroll(), { passive: true })
 
     // Premier onglet : le guide au tout premier lancement, sinon un document vide.
-    const first = !store('cymd.welcomed')
+    const first = !platform.embedded && !store('cymd.welcomed')
       ? this.makeTab(Object.assign(new CyDoc(), { name: tr('Bienvenue.md') }), getGuide())
       : this.makeTab(new CyDoc(), '')
     store('cymd.welcomed', '1')

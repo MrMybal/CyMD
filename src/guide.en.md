@@ -1,6 +1,6 @@
 # Welcome to CyMD
 
-CyMD is a **Markdown** notepad: write plain text and see it formatted *live*. Click a line to reveal its Markdown syntax.
+CyMD is a **Markdown** notepad: write plain text and see it formatted *live*. Syntax stays hidden in Live, including while selecting text. Use Raw or Side by side to edit markup or table structure.
 
 ## Four views
 

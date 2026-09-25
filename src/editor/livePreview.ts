@@ -1,5 +1,5 @@
 // Mode Live : le Markdown est rendu directement dans l'éditeur. La syntaxe (#, **, [](…)…)
-// n'apparaît que là où se trouve le curseur, comme dans Obsidian. Les URLs nues ont un
+// reste masquée au clic et pendant la sélection. Les URLs nues ont un
 // aperçu sous leur ligne, comme sur Discord (<url> entre chevrons = pas d'aperçu).
 
 import { EditorState, StateEffect, StateField, type Extension, type Range } from '@codemirror/state'
@@ -20,21 +20,6 @@ import {
 
 /** Force la reconstruction des décorations (ex. : le document a changé de dossier). */
 export const refreshLive = StateEffect.define<null>()
-const setFocus = StateEffect.define<boolean>()
-
-const focusField = StateField.define<boolean>({
-  create: () => false,
-  update(v, tr) {
-    for (const e of tr.effects) if (e.is(setFocus)) v = e.value
-    return v
-  },
-})
-
-/** À appeler après avoir activé le mode Live, pour tenir compte du focus actuel. */
-export function syncLiveFocus(view: EditorView) {
-  view.dispatch({ effects: setFocus.of(view.hasFocus) })
-}
-
 // Les décorations ne sont calculées que dans une fenêtre autour de la partie visible,
 // pour rester fluide sur les gros documents.
 const MARGIN = 6000
@@ -123,18 +108,8 @@ function inside(node: SyntaxNode, name: string): boolean {
 function build(state: EditorState, ctx: LiveContext): DecorationSet {
   const out: Range<Decoration>[] = []
   const doc = state.doc
-  const ranges = state.field(focusField) ? state.selection.ranges : []
   const gen = ctx.generation()
-
-  const activeLines = new Set<number>()
-  for (const r of ranges) {
-    const a = doc.lineAt(r.from).number
-    const b = doc.lineAt(r.to).number
-    for (let i = a; i <= b; i++) activeLines.add(i)
-  }
-  const lineActive = (pos: number) => activeLines.has(doc.lineAt(pos).number)
-  const touches = (from: number, to: number) => ranges.some((r) => r.from <= to && r.to >= from)
-  const strictlyInside = (from: number, to: number) => ranges.some((r) => r.to > from && r.from < to)
+  // Le mode Live garde la syntaxe masquée, y compris au clic et à la sélection.
   const hide = (from: number, to: number) => {
     if (to > from) out.push(hidden.range(from, to))
   }
@@ -165,15 +140,13 @@ function build(state: EditorState, ctx: LiveContext): DecorationSet {
         case 'ATXHeading6': {
           const line = doc.lineAt(from)
           lineDeco(line.number, `cm-lp-h cm-lp-h${name.slice(-1)}`)
-          if (!lineActive(from)) {
-            for (let c = node.firstChild; c; c = c.nextSibling) {
-              if (c.name !== 'HeaderMark') continue
-              if (!doc.sliceString(line.from, c.from).trim()) hide(c.from, doc.sliceString(c.to, c.to + 1) === ' ' ? c.to + 1 : c.to)
-              else {
-                let s = c.from
-                while (s > line.from && doc.sliceString(s - 1, s) === ' ') s--
-                hide(s, c.to)
-              }
+          for (let c = node.firstChild; c; c = c.nextSibling) {
+            if (c.name !== 'HeaderMark') continue
+            if (!doc.sliceString(line.from, c.from).trim()) hide(c.from, doc.sliceString(c.to, c.to + 1) === ' ' ? c.to + 1 : c.to)
+            else {
+              let s = c.from
+              while (s > line.from && doc.sliceString(s - 1, s) === ' ') s--
+              hide(s, c.to)
             }
           }
           break
@@ -185,31 +158,30 @@ function build(state: EditorState, ctx: LiveContext): DecorationSet {
           const first = doc.lineAt(from).number
           const markLine = mark ? doc.lineAt(mark.from).number : doc.lineAt(to).number + 1
           for (let n = first; n < markLine; n++) lineDeco(n, `cm-lp-h cm-lp-h${name.slice(-1)}`)
-          if (mark && !touches(from, to)) lineDeco(markLine, 'cm-lp-setext-mark')
+          if (mark) lineDeco(markLine, 'cm-lp-setext-mark')
           break
         }
 
         case 'EmphasisMark':
         case 'StrikethroughMark': {
-          const p = node.parent
-          if (p && !touches(p.from, p.to)) hide(from, to)
+          hide(from, to)
           break
         }
 
         case 'InlineCode': {
           out.push(inlineCode.range(from, to))
-          if (!touches(from, to)) for (const c of node.getChildren('CodeMark')) hide(c.from, c.to)
+          for (const c of node.getChildren('CodeMark')) hide(c.from, c.to)
           return false
         }
 
         case 'Escape':
-          if (!touches(from, to)) hide(from, from + 1)
+          hide(from, from + 1)
           break
 
         case 'Spoiler': {
-          const open = touches(from, to)
+          const open = state.selection.ranges.some(r => r.from <= to && r.to >= from)
           out.push((open ? spoilerOpen : spoiler).range(from, to))
-          if (!open) for (const m of node.getChildren('SpoilerMark')) hide(m.from, m.to)
+          for (const m of node.getChildren('SpoilerMark')) hide(m.from, m.to)
           break
         }
 
@@ -227,10 +199,8 @@ function build(state: EditorState, ctx: LiveContext): DecorationSet {
           }
           if (!close) break
           if (close.from > to) out.push(Decoration.mark({ class: cls }).range(to, close.from))
-          if (!touches(from, close.to)) {
-            hide(from, to)
-            hide(close.from, close.to)
-          }
+          hide(from, to)
+          hide(close.from, close.to)
           break
         }
 
@@ -240,11 +210,9 @@ function build(state: EditorState, ctx: LiveContext): DecorationSet {
           const close = marks.find((m) => doc.sliceString(m.from, m.to) === ']')
           if (!url || !close || !marks.length) break
           const href = doc.sliceString(url.from, url.to).replace(/^<|>$/g, '')
-          if (!touches(from, to)) {
-            hide(from, marks[0].to)
-            hide(close.from, to)
-            if (close.from > marks[0].to) out.push(linkMark(href).range(marks[0].to, close.from))
-          }
+          hide(from, marks[0].to)
+          hide(close.from, to)
+          if (close.from > marks[0].to) out.push(linkMark(href).range(marks[0].to, close.from))
           break
         }
 
@@ -256,13 +224,12 @@ function build(state: EditorState, ctx: LiveContext): DecorationSet {
           const alt = close && marks.length ? doc.sliceString(marks[0].to, close.from) : ''
           const src = doc.sliceString(url.from, url.to).replace(/^<|>$/g, '')
           const kind = kindFromPath(src)
-          if (lineActive(from)) addBelow(to, new MediaWidget(src, alt, kind, true, ctx, gen))
-          else out.push(Decoration.replace({ widget: new MediaWidget(src, alt, kind, false, ctx, gen) }).range(from, to))
+          out.push(Decoration.replace({ widget: new MediaWidget(src, alt, kind, false, ctx, gen) }).range(from, to))
           return false
         }
 
         case 'Autolink': {
-          if (!touches(from, to)) for (const m of node.getChildren('LinkMark')) hide(m.from, m.to)
+          for (const m of node.getChildren('LinkMark')) hide(m.from, m.to)
           const url = node.getChild('URL')
           if (url) out.push(linkMark(hrefOfBareUrl(doc.sliceString(url.from, url.to))).range(url.from, url.to))
           return false
@@ -274,7 +241,7 @@ function build(state: EditorState, ctx: LiveContext): DecorationSet {
           const href = hrefOfBareUrl(doc.sliceString(from, to))
           out.push(linkMark(href).range(from, to))
           const embeddable = /^https?:\/\//i.test(href) && !inside(node, 'Table') && !inside(node, 'Link')
-          if (embeddable && (!lineActive(from) || ctx.hasPreview(href))) addBelow(to, new EmbedWidget(href, ctx, gen))
+          if (embeddable) addBelow(to, new EmbedWidget(href, ctx, gen))
           break
         }
 
@@ -286,7 +253,6 @@ function build(state: EditorState, ctx: LiveContext): DecorationSet {
             out.push(listNumber.range(from, to))
             break
           }
-          if (lineActive(from)) break
           if (item.getChild('Task')) hide(from, Math.min(doc.lineAt(from).to, doc.sliceString(to, to + 1) === ' ' ? to + 1 : to))
           else out.push(Decoration.replace({ widget: new BulletWidget(listDepth(list)) }).range(from, to))
           break
@@ -294,7 +260,7 @@ function build(state: EditorState, ctx: LiveContext): DecorationSet {
 
         case 'TaskMarker': {
           const checked = /x/i.test(doc.sliceString(from, to))
-          if (!strictlyInside(from, to)) out.push(Decoration.replace({ widget: new CheckboxWidget(checked) }).range(from, to))
+          out.push(Decoration.replace({ widget: new CheckboxWidget(checked) }).range(from, to))
           const task = node.parent
           if (checked && task && task.to > to + 1) out.push(taskDone.range(to + 1, task.to))
           break
@@ -308,7 +274,7 @@ function build(state: EditorState, ctx: LiveContext): DecorationSet {
         }
 
         case 'QuoteMark':
-          if (!lineActive(from)) hide(from, doc.sliceString(to, to + 1) === ' ' ? to + 1 : to)
+          hide(from, doc.sliceString(to, to + 1) === ' ' ? to + 1 : to)
           break
 
         case 'FencedCode':
@@ -321,7 +287,7 @@ function build(state: EditorState, ctx: LiveContext): DecorationSet {
             if (n === last.number) cls += ' cm-lp-codeblock-last'
             lineDeco(n, cls)
           }
-          if (name === 'FencedCode' && !touches(from, to)) {
+          if (name === 'FencedCode') {
             const marks = node.getChildren('CodeMark')
             const info = node.getChild('CodeInfo')
             const lang = info ? doc.sliceString(info.from, info.to) : ''
@@ -334,29 +300,23 @@ function build(state: EditorState, ctx: LiveContext): DecorationSet {
         }
 
         case 'HorizontalRule':
-          if (!lineActive(from)) out.push(Decoration.replace({ widget: hrWidget }).range(from, to))
+          out.push(Decoration.replace({ widget: hrWidget }).range(from, to))
           break
 
         case 'Table': {
           const first = doc.lineAt(from)
           const last = doc.lineAt(to)
-          if (!touches(first.from, last.to)) {
-            const src = doc.sliceString(first.from, last.to)
-            out.push(Decoration.replace({ widget: new RenderedBlockWidget(src, 'table', ctx, gen), block: true }).range(first.from, last.to))
-          } else {
-            for (let n = first.number; n <= last.number; n++) lineDeco(n, 'cm-lp-table-raw')
-          }
+          const src = doc.sliceString(first.from, last.to)
+          out.push(Decoration.replace({ widget: new RenderedBlockWidget(src, 'table', ctx, gen), block: true }).range(first.from, last.to))
           return false
         }
 
         case 'HTMLBlock': {
           const first = doc.lineAt(from)
           const last = doc.lineAt(to)
-          if (!touches(first.from, last.to)) {
-            const src = doc.sliceString(first.from, last.to)
-            if (ctx.renderBlock(src).trim()) {
-              out.push(Decoration.replace({ widget: new RenderedBlockWidget(src, 'html', ctx, gen), block: true }).range(first.from, last.to))
-            }
+          const src = doc.sliceString(first.from, last.to)
+          if (ctx.renderBlock(src).trim()) {
+            out.push(Decoration.replace({ widget: new RenderedBlockWidget(src, 'html', ctx, gen), block: true }).range(first.from, last.to))
           }
           return false
         }
@@ -408,7 +368,7 @@ export function livePreview(ctx: LiveContext): Extension {
       if (
         tr.docChanged ||
         tr.selection ||
-        tr.effects.some((e) => e.is(refreshLive) || e.is(setFocus) || e.is(setWindow)) ||
+        tr.effects.some((e) => e.is(refreshLive) || e.is(setWindow)) ||
         syntaxTree(tr.startState) !== syntaxTree(tr.state)
       ) {
         return build(tr.state, ctx)
@@ -418,10 +378,8 @@ export function livePreview(ctx: LiveContext): Extension {
     provide: (f) => EditorView.decorations.from(f),
   })
   return [
-    focusField,
     windowField,
     field,
     windowWatcher,
-    EditorView.focusChangeEffect.of((_state, focusing) => setFocus.of(focusing)),
   ]
 }

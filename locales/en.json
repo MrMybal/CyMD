@@ -159,5 +159,9 @@
   "Aucun chemin de fichier.": "No file path.",
   "Spoiler : cliquer pour afficher": "Spoiler: click to reveal",
   "Spoiler ||texte||": "Spoiler ||text||",
-  "| Colonne 1 | Colonne 2 |\n| --- | --- |\n| | |": "| Column 1 | Column 2 |\n| --- | --- |\n| | |"
+  "| Colonne 1 | Colonne 2 |\n| --- | --- |\n| | |": "| Column 1 | Column 2 |\n| --- | --- |\n| | |",
+  "Enregistrement refusé par l’application hôte.": "The host application refused to save the document.",
+  "Document intégré invalide ou trop volumineux (50 Mo maximum).": "Invalid embedded document or file too large (50 MB maximum).",
+  "Utilisez une extension .md ou .cymd.": "Use an .md or .cymd extension.",
+  "L’application hôte ne répond pas. Réessayez l’enregistrement.": "The host application is not responding. Try saving again."
 }

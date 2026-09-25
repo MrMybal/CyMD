@@ -1,5 +1,5 @@
 import { tr } from '../i18n'
-// Widgets du mode Live : ce qui remplace la syntaxe Markdown quand le curseur n'y est pas.
+// Widgets du mode Live : rendu des médias et des blocs à la place de leur syntaxe.
 
 import { EditorView, WidgetType } from '@codemirror/view'
 import type { MediaKind } from '../doc/media'
@@ -213,7 +213,7 @@ export class FenceWidget extends WidgetType {
   }
 }
 
-/** Bloc Markdown rendu tel quel (tableaux, blocs HTML) ; un clic repasse en brut. */
+/** Bloc rendu sélectionnable ; sa syntaxe reste réservée aux modes source. */
 export class RenderedBlockWidget extends WidgetType {
   constructor(
     readonly source: string,
@@ -233,12 +233,6 @@ export class RenderedBlockWidget extends WidgetType {
     el.className = `cm-lp-block cm-lp-${this.variant} markdown-body`
     el.innerHTML = this.ctx.renderBlock(this.source)
     this.ctx.hydrateBlock(el, () => view.requestMeasure())
-    el.addEventListener('mousedown', (e) => {
-      if ((e.target as HTMLElement).closest('a, input, video, audio, button, iframe')) return
-      e.preventDefault()
-      view.dispatch({ selection: { anchor: view.posAtDOM(el) } })
-      view.focus()
-    })
     return el
   }
 

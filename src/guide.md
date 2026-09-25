@@ -1,6 +1,6 @@
 # Bienvenue dans CyMD
 
-CyMD est un bloc-notes **Markdown** : vous écrivez du texte simple, et il s'affiche mis en forme *en direct*, comme sur Discord. Cliquez sur une ligne pour voir sa syntaxe brute.
+CyMD est un bloc-notes **Markdown** : vous écrivez du texte simple, et il s'affiche mis en forme *en direct*, comme sur Discord. La syntaxe reste masquée en Live, même pendant la sélection. Utilisez les vues Brut ou Côte à côte pour modifier les balises ou la structure des tableaux.
 
 ## Les quatre vues
 
