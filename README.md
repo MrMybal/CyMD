@@ -192,6 +192,18 @@ récupérés dans une session réseau séparée, sans cookies.
 
 ### Version navigateur
 
+**[Ouvrir CyMD en ligne](https://MrMybal.github.io/CyMD/)** — sans installation.
+
+Les documents s'ouvrent et s'enregistrent sur votre appareil ; ils ne sont pas stockés
+sur GitHub. Pensez à enregistrer vos modifications avant de fermer l'onglet.
+La licence et les sources déployées sont accessibles depuis le bas de l'éditeur.
+
+Le workflow **Web editor** publie automatiquement les nouvelles releases stables sur
+GitHub Pages et peut aussi être lancé manuellement. La source Pages du dépôt doit être
+**GitHub Actions**. `npm run build:pages` prépare le site dans `dist/`, avec des chemins
+relatifs compatibles avec `/CyMD/`.
+
+
 Ouvre et enregistre les fichiers (directement avec Chrome/Edge, par téléchargement ailleurs), mais ne
 peut pas lire les images du dossier d'un `.md` ni récupérer les aperçus de liens (CORS). Le format
 `.cymd` y fonctionne entièrement.

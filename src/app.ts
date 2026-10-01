@@ -249,6 +249,15 @@ export class App {
     const eol = h('span', 'st-eol')
     const encoding = h('span', 'st-enc')
     status.append(pos, words, h('span', 'spacer'), kind, eol, encoding)
+    if (import.meta.env.MODE === 'pages') {
+      for (const [label, href] of [['AGPL v3.0', './LICENSE.txt'], ['Source', './source.zip'], ['GitHub', 'https://github.com/MrMybal/CyMD']]) {
+        const link = h('a', '', label)
+        link.href = href
+        link.target = '_blank'
+        link.rel = 'noopener noreferrer'
+        status.append(link)
+      }
+    }
 
     const toast = h('div', 'toast')
     toast.setAttribute('role', 'status')

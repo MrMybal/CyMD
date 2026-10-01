@@ -2,7 +2,7 @@
   "name": "cymd",
   "productName": "CyMD",
   "version": "0.1.4",
-  "description": "Éditeur et lecteur Markdown : aperçu en direct, images, vidéos et aperçus de liens.",
+  "description": "Ã‰diteur et lecteur Markdown : aperÃ§u en direct, images, vidÃ©os et aperÃ§us de liens.",
   "author": "Cyberalien",
   "homepage": "https://github.com/MrMybal/CyMD",
   "license": "AGPL-3.0-only",
@@ -21,7 +21,8 @@
     "dist:mac": "npm run build && node scripts/package.mjs mac",
     "dist:linux": "npm run build && node scripts/package.mjs linux",
     "dist:dir": "npm run build && node scripts/package.mjs dir",
-    "build:plugin": "npm run build && node scripts/build-plugin.mjs"
+    "build:plugin": "npm run build && node scripts/build-plugin.mjs",
+    "build:pages": "tsc --noEmit && vite build --mode pages && node scripts/prepare-pages.mjs"
   },
   "build": {
     "publish": [
