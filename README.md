@@ -1,209 +1,237 @@
 # CyMD
 
-Éditeur et lecteur **Markdown** simple, façon Bloc-notes, avec un rendu **en direct** comme sur Discord :
-images, vidéos, aperçus de liens, cases à cocher, tableaux, code coloré… Fonctionne sous Windows, macOS
-et Linux (Electron), et aussi dans un navigateur (avec quelques limites).
+**English** · [Français](README.fr.md)
 
-## Fonctionnalités
+A simple, Notepad-style **Markdown** editor and reader with **live rendering** inspired by Discord:
+images, videos, link previews, checkboxes, tables and syntax-highlighted code. Runs on Windows,
+macOS and Linux (Electron), and in a browser with some limitations.
 
-- **Français et anglais** : choix dans la barre d'outils ou **Affichage → Langue**, mémorisé
-  entre les lancements et synchronisé entre fenêtres. Le système choisit le français pour les
-  langues système francophones, l'anglais sinon. Le changement préserve les documents et l'annulation.
+<a id="fonctionnalités"></a>
 
-- **Onglets façon Chrome** : plusieurs documents par fenêtre ; glisser un onglet pour le réordonner, vers
-  une autre fenêtre, ou hors de la fenêtre pour en créer une nouvelle. Un fichier ouvert depuis
-  l'explorateur arrive en onglet dans la fenêtre déjà ouverte (pas de nouveau démarrage).
-- **Barre d'outils** (fichiers + mise en forme) et **barre flottante sur la sélection**, comme sur Discord :
-  gras, italique, souligné (`<u>…</u>`), barré, citation, code, spoiler (`||…||`), lien.
-- **Numéros de ligne** en option (bouton `#` ou menu Affichage).
-- **4 vues** : *Live* (par défaut, la syntaxe n'apparaît que sur l'élément où se trouve le curseur),
-  *Côte à côte* (brut + aperçu, défilement synchronisé), *Brut* (texte seul) et *Lecture*.
-- **Copier-coller** : image collée (capture d'écran…) → ajoutée au document ; HTML d'une page web ou de
-  Word → converti en Markdown ; URL collée sur une sélection → lien ; `Ctrl+Shift+V` → texte brut.
-- **Glisser-déposer** d'images, vidéos et fichiers ; un `.md`/`.cymd` déposé est ouvert.
-- **Aperçus de liens** façon Discord sous chaque URL « nue » (Open Graph, YouTube lisible dans l'aperçu).
-  `<https://…>` entre chevrons = pas d'aperçu.
-- Images redimensionnables : `![légende|300](image.png)`.
-- Rechercher / remplacer, correcteur orthographique, thème clair/sombre, export HTML autonome.
-- Rapide même sur les gros fichiers (le rendu Live ne se calcule qu'autour de la zone visible).
+## Features
 
-## Deux formats
+- **French and English**: choose in the toolbar or **View → Language**. The choice persists
+  between launches and synchronizes across windows. French is selected for French system
+  languages, English otherwise. Switching preserves documents and undo history.
+- **Chrome-style tabs**: several documents per window. Drag tabs to reorder them, move them to
+  another window, or detach them into a new window. Files opened from the file manager appear
+  as tabs in the running window without starting another instance.
+- **Toolbar** (files and formatting) and **floating selection toolbar**, inspired by Discord:
+  bold, italic, underline (`<u>…</u>`), strikethrough, quote, code, spoiler (`||…||`) and link.
+- Optional **line numbers** (`#` button or View menu).
+- **Four views**: *Live* (default; syntax appears only on the element containing the cursor),
+  *Side by side* (source and preview, synchronized scrolling), *Source* (text only) and *Reading*.
+- **Copy and paste**: pasted images (such as screenshots) are added to the document; HTML from
+  a webpage or Word is converted to Markdown; pasting a URL over a selection creates a link;
+  `Ctrl+Shift+V` pastes plain text.
+- **Drag and drop** images, videos and files; dropping a `.md`/`.cymd` opens it.
+- Discord-style **link previews** below bare URLs (Open Graph, with playable YouTube previews).
+  Angle-bracket URLs such as `<https://…>` do not produce a preview.
+- Resizable images: `![caption|300](image.png)`.
+- Find/replace, spell checking, light/dark themes and standalone HTML export.
+- Fast even with large files: Live rendering is computed only around the visible area.
 
-### `.md` : Markdown simple (mode dossier)
+<a id="deux-formats"></a>
 
-Un fichier texte standard. Les images et vidéos référencées sont lues **dans le dossier du fichier et ses
-sous-dossiers** (`![photo](images/photo.jpg)`). Les médias collés sont écrits dans un sous-dossier
-`assets/` à l'enregistrement. L'encodage, le BOM et les fins de ligne (CRLF/LF) du fichier sont conservés.
+## Two formats
 
-### `.cymd` : document tout-en-un
+<a id="md--markdown-simple-mode-dossier"></a>
 
-Une archive **ZIP** (comme `.docx`/`.epub`) qui regroupe tout ; on peut l'ouvrir avec 7-Zip :
+### `.md`: plain Markdown (folder mode)
+
+A standard text file. Referenced images and videos are read **from the file's folder and its
+subfolders** (`![photo](images/photo.jpg)`). Pasted media is written to an `assets/` subfolder
+when saving. The file's encoding, BOM and line endings (CRLF/LF) are preserved.
+
+<a id="cymd--document-tout-en-un"></a>
+
+### `.cymd`: an all-in-one document
+
+A **ZIP** archive (like `.docx`/`.epub`) containing everything. It can be opened with 7-Zip:
 
 ```
 mimetype          application/x-cymd
 manifest.json     { format, version, main, created, modified }
-document.md       le texte Markdown
-previews.json     aperçus de liens { url: { title, description, image, … } }
-assets/…          images, vidéos, fichiers
-previews/…        miniatures des aperçus (lisibles hors connexion)
+document.md       Markdown text
+previews.json     link previews { url: { title, description, image, … } }
+assets/…          images, videos, files
+previews/…        preview thumbnails (available offline)
 ```
 
-Les médias qui ne sont plus utilisés dans le texte ne sont pas enregistrés.
-*Fichier → Enregistrer sous* permet de passer d'un format à l'autre : les fichiers du dossier sont
-regroupés dans le `.cymd`, ou extraits à côté du `.md`.
+Media no longer used in the text is omitted when saving.
+*File → Save as* switches between formats: folder files are packed into a `.cymd`,
+or extracted next to the `.md` file.
 
-## Raccourcis
+<a id="raccourcis"></a>
 
-| Raccourci | Action |
+## Keyboard shortcuts
+
+| Shortcut | Action |
 | --- | --- |
-| Ctrl+T (ou Ctrl+N) / Ctrl+Shift+N | Nouvel onglet / nouvelle fenêtre |
-| Ctrl+W / Ctrl+Shift+W | Fermer l'onglet / la fenêtre |
-| Ctrl+Tab / Ctrl+Shift+Tab | Onglet suivant / précédent |
-| Ctrl+O, Ctrl+S, Ctrl+Shift+S | Ouvrir (plusieurs fichiers possibles), enregistrer, enregistrer sous |
-| Ctrl+1 … Ctrl+4 | Live, Côte à côte, Brut, Lecture |
-| Ctrl+B / I / U / E / K | Gras, italique, souligné, code, lien |
-| Ctrl+Shift+X | Barré |
-| Ctrl+Shift+1 / 2 / 3 | Titre 1 / 2 / 3 |
-| Ctrl+Shift+8 / 7 / 9 / . | Liste à puces / numérotée / cases à cocher / citation |
-| Tab / Shift+Tab | Indenter / désindenter (listes) |
-| Ctrl+F | Rechercher / remplacer |
-| Ctrl+clic | Ouvrir un lien |
+| Ctrl+T (or Ctrl+N) / Ctrl+Shift+N | New tab / new window |
+| Ctrl+W / Ctrl+Shift+W | Close tab / window |
+| Ctrl+Tab / Ctrl+Shift+Tab | Next / previous tab |
+| Ctrl+O, Ctrl+S, Ctrl+Shift+S | Open (multiple files supported), save, save as |
+| Ctrl+1 … Ctrl+4 | Live, Side by side, Source, Reading |
+| Ctrl+B / I / U / E / K | Bold, italic, underline, code, link |
+| Ctrl+Shift+X | Strikethrough |
+| Ctrl+Shift+1 / 2 / 3 | Heading 1 / 2 / 3 |
+| Ctrl+Shift+8 / 7 / 9 / . | Bulleted / numbered / checkbox list / quote |
+| Tab / Shift+Tab | Indent / outdent (lists) |
+| Ctrl+F | Find / replace |
+| Ctrl+click | Open a link |
 
-## Mises à jour
+<a id="mises-à-jour"></a>
 
-La version Windows installée recherche une nouvelle release stable GitHub 15 secondes après le
-démarrage. **Aide → Rechercher des mises à jour…** permet aussi de lancer la recherche manuellement.
-Le téléchargement et le redémarrage demandent confirmation. L'installation est bloquée tant qu'une
-fenêtre contient des documents non enregistrés. « Plus tard » conserve le téléchargement ; la même
-commande permet de reprendre l'installation. Fermer normalement CyMD n'installe pas la mise à jour.
+## Updates
 
-La version portable, les autres systèmes et le mode développement proposent d'ouvrir les
-[releases GitHub](https://github.com/MrMybal/CyMD/releases) pour une installation manuelle.
+The installed Windows version checks for a new stable GitHub release 15 seconds after startup.
+**Help → Check for updates…** also starts a manual check. Downloading and restarting require
+confirmation. Installation is blocked while any window contains unsaved documents. “Later”
+keeps the download; the same command resumes installation. Closing CyMD normally does not
+install the update.
 
-### Formats distribués
+The portable version, other operating systems and development mode offer to open
+[GitHub releases](https://github.com/MrMybal/CyMD/releases) for manual installation.
 
-| Système | Sans installation | Installation | Architecture |
+<a id="formats-distribués"></a>
+
+### Distribution formats
+
+| System | No installation | Installation | Architecture |
 | --- | --- | --- | --- |
-| Windows | Exécutable portable `.exe` | Installeur NSIS `.exe` | x64 |
-| macOS | Archive `.zip` contenant l'application `.app` | Image `.dmg`, copie vers Applications | Universal : Intel et Apple Silicon |
-| Linux | `.AppImage` | Paquet `.deb` pour Debian/Ubuntu | x64 |
+| Windows | Portable `.exe` | NSIS `.exe` installer | x64 |
+| macOS | `.zip` archive containing the `.app` | `.dmg` image, copy to Applications | Universal: Intel and Apple Silicon |
+| Linux | `.AppImage` | `.deb` package for Debian/Ubuntu | x64 |
 
-Sur Linux, rendre l'AppImage exécutable avant de la lancer (`chmod +x CyMD-*.AppImage`).
-Selon la distribution, le support FUSE peut être nécessaire. Le paquet `.deb` s'installe avec
-le gestionnaire de paquets. Sur macOS, la signature Developer ID et la notarisation sont à configurer
-avant une diffusion validée par Gatekeeper ; aucun certificat Apple n'est inclus dans le projet.
+On Linux, make the AppImage executable before running it (`chmod +x CyMD-*.AppImage`).
+Depending on the distribution, FUSE support may be required. Install the `.deb` through
+the package manager. On macOS, Developer ID signing and notarization must be configured
+before distributing a Gatekeeper-approved build; the project includes no Apple certificate.
 
-Les paquets sont construits sur leur système cible. La configuration multiplateforme ne remplace pas
-un test réel sur Windows, macOS et Linux. Les raccourcis d'édition utilisent aussi Cmd sur macOS.
-Les mises à jour automatiques restent limitées à Windows installé ; ailleurs, le menu ouvre les releases.
+Packages are built on their target system. Cross-platform configuration does not replace
+real testing on Windows, macOS and Linux. Editing shortcuts also use Cmd on macOS.
+Automatic updates remain limited to installed Windows builds; elsewhere the menu opens releases.
 
-### Préparer une release
+<a id="préparer-une-release"></a>
 
-1. Augmenter la version avec `npm version patch --no-git-tag-version`, puis committer les changements.
-2. Créer le tag correspondant (`vX.Y.Z`) et le pousser sur GitHub.
-3. Le workflow compile et teste sur Windows, macOS et Linux. Une fois les trois compilations
-   réussies, il crée une **release brouillon** contenant tous les paquets et métadonnées de mise à jour.
-4. Tester les applications sur chaque système, puis publier le brouillon comme release stable.
+### Prepare a release
 
-Le lancement manuel du workflow construit uniquement les paquets et les conserve comme artefacts
-GitHub Actions ; il ne crée pas de release. Les commandes locales ne poussent ni code ni tag.
+1. Bump the version with `npm version patch --no-git-tag-version`, then commit the changes.
+2. Create the matching tag (`vX.Y.Z`) and push it to GitHub.
+3. The workflow builds and tests on Windows, macOS and Linux. After all three builds succeed,
+   it creates a **draft release** containing all packages and update metadata.
+4. Test the applications on each system, then publish the draft as a stable release.
 
-Pour une compilation locale : `npm run dist:win`. Joindre ensemble les fichiers générés dans
-`release/` : `latest.yml` doit correspondre exactement à l'installeur fourni. Les commandes de
-compilation locales ne publient rien. Aucun jeton GitHub n'est nécessaire dans l'application.
+Running the workflow manually only builds packages and keeps them as GitHub Actions artifacts;
+it does not create a release. Local commands push neither code nor tags.
 
-Une ancienne version sans ce système nécessite une première installation manuelle. Une mise à jour
-complète s'évalue entre deux versions installées distinctes et des releases publiées compatibles.
+For a local build: `npm run dist:win`. Distribute the generated `release/` files together:
+`latest.yml` must exactly match the supplied installer. Local build commands publish nothing.
+The application does not require a GitHub token.
 
-## Plugin intégré
+An older version without this update system requires an initial manual installation. A full
+update is evaluated between two distinct installed versions and compatible published releases.
 
-CyMD peut être affiché et édité dans une iframe au sein d'une autre application.
-`npm run build:plugin` génère le bundle dans `release/plugin`, avec la licence et les sources.
-Le [protocole d'intégration](docs/integration.md) fournit l'ouverture, l'état des modifications
-et la sauvegarde confirmée par l'hôte.
+<a id="plugin-intégré"></a>
 
-Pour les sources locales de CyAIOrchestrator :
-`node integration/cyai/install.mjs CHEMIN_VERS_CYAIORCHESTRATOR`, après construction du plugin.
-Redémarrer ensuite CyAI depuis ces sources (ou reconstruire son application distribuée).
-Le plugin ajoute un bouton CyMD et ouvre les pièces jointes `.cymd` dans l'éditeur.
-Chaque sauvegarde ajoute une nouvelle pièce jointe ; le document original est conservé.
+## Embedded plugin
 
-## Licence
+CyMD can be displayed and edited in an iframe inside another application.
+`npm run build:plugin` generates the bundle in `release/plugin`, including the license and sources.
+The [integration protocol](docs/integration.md) provides opening, modification status
+and host-confirmed saving.
+
+For local CyAIOrchestrator sources, run
+`node integration/cyai/install.mjs PATH_TO_CYAIORCHESTRATOR` after building the plugin.
+Then restart CyAI from those sources, or rebuild its distributed application.
+The plugin adds a CyMD button and opens `.cymd` attachments in the editor.
+Each save adds a new attachment; the original document is retained.
+
+<a id="licence"></a>
+
+## License
 
 Copyright © 2026 Cyberalien.
 
-CyMD est distribué sous la **GNU Affero General Public License v3.0 uniquement**
-(`AGPL-3.0-only`). Le texte intégral est disponible dans [LICENSE](LICENSE).
-Les dépendances tierces conservent leurs licences respectives.
+CyMD is distributed under the **GNU Affero General Public License v3.0 only**
+(`AGPL-3.0-only`). The full text is available in [LICENSE](LICENSE).
+Third-party dependencies retain their respective licenses.
 
-## Développement
+<a id="développement"></a>
+
+## Development
 
 ```bash
 npm ci
-npm run dev        # Electron + Vite avec rechargement à chaud
-npm run dev:web    # version navigateur seule (http://localhost:5173)
-npm run build      # vérification TypeScript + build de production (dist/)
-npm start          # build puis lance Electron sur dist/
-npm run dist       # installeur (NSIS + portable sous Windows) dans release/
-npm run dist:win   # Windows : portable + NSIS, à lancer sur Windows
-npm run dist:mac   # macOS : DMG + ZIP universal, à lancer sur macOS
-npm run dist:linux # Linux : AppImage + DEB x64, à lancer sur Linux
-npm run dist:dir   # application non empaquetée dans release/, pour tester
+npm run dev        # Electron + Vite with hot reload
+npm run dev:web    # browser-only version (http://localhost:5173)
+npm run build      # TypeScript checks + production build (dist/)
+npm start          # build, then launch Electron using dist/
+npm run dist       # installer (NSIS + portable on Windows) in release/
+npm run dist:win   # Windows: portable + NSIS; run on Windows
+npm run dist:mac   # macOS: universal DMG + ZIP; run on macOS
+npm run dist:linux # Linux: x64 AppImage + DEB; run on Linux
+npm run dist:dir   # unpackaged application in release/ for testing
 ```
 
-Si Electron ne démarre pas après `npm install` (binaire manquant), lancer :
+If Electron does not start after `npm install` because its binary is missing, run
 `node node_modules/electron/install.js`.
 
-Icônes : le logo source est `assets/branding/cymd-logo-yellow.png`. Après l'avoir modifié, régénérer
-toutes les icônes (exécutable, installeur, fenêtre, interface, favicon) avec
-`powershell -ExecutionPolicy Bypass -File scripts/make-icons.ps1` (option `-Source autre-logo.png`).
+Icons: the source logo is `assets/branding/cymd-logo-yellow.png`. After changing it, regenerate
+all icons (executable, installer, window, interface and favicon) with
+`powershell -ExecutionPolicy Bypass -File scripts/make-icons.ps1` (option: `-Source another-logo.png`).
 
-Test de fumée automatisé (ouvre un fichier, exécute un script dans la fenêtre, enregistre une capture) :
-`SMOKE_SCRIPT=etapes.js SMOKE_OUT=sortie electron scripts/smoke.cjs fichier.md`.
+Automated smoke test (opens a file, executes a script in the window, saves a screenshot):
+`SMOKE_SCRIPT=steps.js SMOKE_OUT=output electron scripts/smoke.cjs file.md`.
 
-### Organisation
+<a id="organisation"></a>
 
-Les traductions anglaises sont centralisées dans `locales/en.json` ; les clés constituent les
-textes français. Les moteurs `src/i18n.ts` et `electron/i18n.cjs` partagent ce catalogue.
-Les guides intégrés existent en français et en anglais. Les fichiers utilisateur ne sont pas traduits.
+### Layout
+
+English translations are centralized in `locales/en.json`; keys are the French text.
+The `src/i18n.ts` and `electron/i18n.cjs` engines share this catalog.
+Built-in guides are available in French and English. User files are not translated.
 
 ```
-electron/main.cjs        fenêtres, menus, fichiers, protocole cymd://, aperçus de liens (réseau)
-assets/branding/         logo source pour régénérer les icônes
-electron/preload.cjs     pont sécurisé vers le rendu
-src/app.ts               contrôleur : documents, modes, enregistrement, médias
-src/editor/              CodeMirror 6 : mode Live, widgets, commandes, copier-coller
-src/preview/             rendu Markdown (markdown-it + DOMPurify) et hydratation
-src/ui/                  onglets, barre d'outils, menus, icônes (Lucide)
-src/embeds/              aperçus de liens et cartes façon Discord
-src/doc/                 modèle de document, format .cymd, chemins, types de médias
-src/platform/            Electron / navigateur
-build/icon.ico, icon.png icônes de l'exécutable et de l'installeur (générées)
-electron/icon.png        icône de fenêtre / « À propos » (générée)
-public/logo.png          logo de l'interface et favicon (généré)
+electron/main.cjs        windows, menus, files, cymd:// protocol, link previews (network)
+assets/branding/         source logo for regenerating icons
+electron/preload.cjs     secure renderer bridge
+src/app.ts               controller: documents, modes, saving, media
+src/editor/              CodeMirror 6: Live mode, widgets, commands, copy/paste
+src/preview/             Markdown rendering (markdown-it + DOMPurify) and hydration
+src/ui/                  tabs, toolbar, menus, icons (Lucide)
+src/embeds/              link previews and Discord-style cards
+src/doc/                 document model, .cymd format, paths, media types
+src/platform/            Electron / browser
+build/icon.ico, icon.png executable and installer icons (generated)
+electron/icon.png        window / About icon (generated)
+public/logo.png          interface logo and favicon (generated)
 ```
 
-### Sécurité
+<a id="sécurité"></a>
 
-Rendu isolé (`sandbox`, `contextIsolation`), HTML nettoyé par DOMPurify, aucune navigation dans la
-fenêtre (les liens s'ouvrent dans le navigateur), protocole `cymd://` limité au dossier des documents
-ouverts, liens vers des fichiers locaux jamais exécutés (affichés dans l'explorateur), aperçus de liens
-récupérés dans une session réseau séparée, sans cookies.
+### Security
 
-### Version navigateur
+Isolated renderer (`sandbox`, `contextIsolation`), HTML sanitized with DOMPurify, no navigation
+inside the window (links open in the browser), `cymd://` restricted to the folders of open documents,
+local file links never executed (shown in the file manager), and link previews fetched through
+a separate network session without cookies.
 
-**[Ouvrir CyMD en ligne](https://MrMybal.github.io/CyMD/)** — sans installation.
+<a id="version-navigateur"></a>
 
-Les documents s'ouvrent et s'enregistrent sur votre appareil ; ils ne sont pas stockés
-sur GitHub. Pensez à enregistrer vos modifications avant de fermer l'onglet.
-La licence et les sources déployées sont accessibles depuis le bas de l'éditeur.
+### Browser version
 
-Le workflow **Web editor** publie automatiquement les nouvelles releases stables sur
-GitHub Pages et peut aussi être lancé manuellement. La source Pages du dépôt doit être
-**GitHub Actions**. `npm run build:pages` prépare le site dans `dist/`, avec des chemins
-relatifs compatibles avec `/CyMD/`.
+**[Open CyMD online](https://MrMybal.github.io/CyMD/)** — no installation required.
 
+Documents open and save on your device; they are not stored on GitHub.
+Save changes before closing the tab. The deployed license and sources are accessible
+at the bottom of the editor.
 
-Ouvre et enregistre les fichiers (directement avec Chrome/Edge, par téléchargement ailleurs), mais ne
-peut pas lire les images du dossier d'un `.md` ni récupérer les aperçus de liens (CORS). Le format
-`.cymd` y fonctionne entièrement.
+The **Web editor** workflow automatically publishes new stable releases to GitHub Pages
+and can also run manually. The repository's Pages source must be **GitHub Actions**.
+`npm run build:pages` prepares the site in `dist/`, with relative paths compatible with `/CyMD/`.
+
+The browser version opens and saves files directly in Chrome/Edge and through downloads elsewhere,
+but cannot read images from a `.md` file's folder or retrieve link previews (CORS).
+The `.cymd` format is fully supported.
