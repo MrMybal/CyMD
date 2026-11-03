@@ -6,6 +6,28 @@
 images, vidéos, aperçus de liens, cases à cocher, tableaux, code coloré… Fonctionne sous Windows, macOS
 et Linux (Electron), et aussi dans un navigateur (avec quelques limites).
 
+## Aperçu de l’application
+
+Captures de la version navigateur de CyMD, avec un document de démonstration.
+
+### Écrire en mode Live
+
+La mise en forme apparaît directement dans l’éditeur, sans afficher les balises Markdown.
+
+![CyMD en mode Live : texte mis en forme, image et liste de tâches](docs/images/cymd-live.jpg)
+
+### Comparer le Markdown et son aperçu
+
+La vue Côte à côte affiche le texte source à gauche et le document mis en forme à droite.
+
+![CyMD en vue Côte à côte : source Markdown et aperçu du même document](docs/images/cymd-split.jpg)
+
+### Lire le document
+
+La vue Lecture présente les listes de tâches, citations, tableaux et blocs de code colorés.
+
+![CyMD en vue Lecture : liste de tâches, citation, tableau et code JavaScript](docs/images/cymd-reading.jpg)
+
 ## Fonctionnalités
 
 - **Français et anglais** : choix dans la barre d'outils ou **Affichage → Langue**, mémorisé
@@ -18,7 +40,7 @@ et Linux (Electron), et aussi dans un navigateur (avec quelques limites).
 - **Barre d'outils** (fichiers + mise en forme) et **barre flottante sur la sélection**, comme sur Discord :
   gras, italique, souligné (`<u>…</u>`), barré, citation, code, spoiler (`||…||`), lien.
 - **Numéros de ligne** en option (bouton `#` ou menu Affichage).
-- **4 vues** : *Live* (par défaut, la syntaxe n'apparaît que sur l'élément où se trouve le curseur),
+- **4 vues** : *Live* (par défaut, mise en forme en direct sans afficher les balises Markdown),
   *Côte à côte* (brut + aperçu, défilement synchronisé), *Brut* (texte seul) et *Lecture*.
 - **Copier-coller** : image collée (capture d'écran…) → ajoutée au document ; HTML d'une page web ou de
   Word → converti en Markdown ; URL collée sur une sélection → lien ; `Ctrl+Shift+V` → texte brut.

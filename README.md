@@ -6,6 +6,28 @@ A simple, Notepad-style **Markdown** editor and reader with **live rendering** i
 images, videos, link previews, checkboxes, tables and syntax-highlighted code. Runs on Windows,
 macOS and Linux (Electron), and in a browser with some limitations.
 
+## Screenshots
+
+Screenshots of the CyMD browser version, using a sample document and the French interface.
+
+### Write in Live mode
+
+Formatting appears directly in the editor, without showing Markdown markers.
+
+![CyMD in Live mode with formatted text, an image and a task list](docs/images/cymd-live.jpg)
+
+### Compare Markdown and its preview
+
+Side by side shows the Markdown source on the left and the rendered document on the right.
+
+![CyMD in Side by side mode with Markdown source and its rendered preview](docs/images/cymd-split.jpg)
+
+### Read the document
+
+Reading mode displays task lists, blockquotes, tables and syntax-highlighted code.
+
+![CyMD in Reading mode with tasks, a blockquote, a table and JavaScript code](docs/images/cymd-reading.jpg)
+
 <a id="fonctionnalités"></a>
 
 ## Features
@@ -19,7 +41,7 @@ macOS and Linux (Electron), and in a browser with some limitations.
 - **Toolbar** (files and formatting) and **floating selection toolbar**, inspired by Discord:
   bold, italic, underline (`<u>…</u>`), strikethrough, quote, code, spoiler (`||…||`) and link.
 - Optional **line numbers** (`#` button or View menu).
-- **Four views**: *Live* (default; syntax appears only on the element containing the cursor),
+- **Four views**: *Live* (default; live formatting without showing Markdown markers),
   *Side by side* (source and preview, synchronized scrolling), *Source* (text only) and *Reading*.
 - **Copy and paste**: pasted images (such as screenshots) are added to the document; HTML from
   a webpage or Word is converted to Markdown; pasting a URL over a selection creates a link;
