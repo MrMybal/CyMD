@@ -1,6 +1,24 @@
-name: Web editor
+name: Web editor and documentation
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/pages.yml'
+      - 'manual/**'
+      - 'docs/**'
+      - 'src/**'
+      - 'locales/**'
+      - 'scripts/**'
+      - 'public/**'
+      - 'vendor/**'
+      - 'package*.json'
+      - 'cydoc.config.json'
+      - 'index.html'
+      - 'vite.config.ts'
+      - 'tsconfig.json'
+      - 'README*.md'
+      - 'LICENSE'
   release:
     types: [published]
 permissions:
@@ -10,7 +28,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   build:
-    if: github.event_name == 'workflow_dispatch' || github.event.release.prerelease == false
+    if: github.event_name != 'release' || github.event.release.prerelease == false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -28,7 +46,7 @@ jobs:
       - run: npm run build:pages
       - uses: actions/upload-pages-artifact@v4
         with:
-          path: dist
+          path: output/pages
   deploy:
     needs: build
     runs-on: ubuntu-latest

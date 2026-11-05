@@ -44,6 +44,7 @@ export interface NativeApi {
   openLinked(docPath: string, rel: string): Promise<boolean>
   showInFolder(path: string): Promise<void>
   openFile(path: string): Promise<boolean>
+  openHelp(target?: string): Promise<void>
   newWindow(): Promise<void>
   closeWindow(): Promise<void>
   setTheme(theme: ThemeChoice): Promise<void>
@@ -113,6 +114,7 @@ export function createElectronPlatform(api: NativeApi): Platform {
     showInFolder: (p) => void api.showInFolder(p),
     openFileByPath: (p) => api.openFile(p),
     pathForFile: (file) => api.pathForFile(file),
+    openHelp: (target) => api.openHelp(target),
     newWindow: () => void api.newWindow(),
     closeWindow: () => void api.closeWindow(),
     setTheme: (t) => void api.setTheme(t),

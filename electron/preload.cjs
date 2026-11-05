@@ -51,6 +51,7 @@ contextBridge.exposeInMainWorld('cymdNative', {
   openLinked: (docPath, rel) => ipcRenderer.invoke('shell:openLinked', docPath, rel),
   showInFolder: (filePath) => ipcRenderer.invoke('shell:showInFolder', filePath),
   openFile: (filePath) => ipcRenderer.invoke('window:openFile', filePath),
+  openHelp: (target) => ipcRenderer.invoke('help:open', target),
   newWindow: () => ipcRenderer.invoke('window:new'),
   closeWindow: () => ipcRenderer.invoke('window:close'),
   setTheme: (theme) => ipcRenderer.invoke('theme:set', theme),

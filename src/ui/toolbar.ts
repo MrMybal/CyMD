@@ -148,7 +148,8 @@ export class Toolbar {
         window.alert(String(error.message))
       })
     })
-    right.append(language, this.numbersBtn, modes)
+    const help = button({ icon: 'help', title: tr('Documentation (F1)'), cmd: 'help' }, run)
+    right.append(language, this.numbersBtn, modes, help)
     this.el.append(scroll, right)
   }
 

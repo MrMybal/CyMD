@@ -31,8 +31,8 @@ import { collectLocalRefs, renderMarkdown, slugify } from './preview/render'
 import { showMenu } from './ui/menu'
 import { TAB_MIME, TabBar, type TabDragData, type TabInfo } from './ui/tabbar'
 import { MODES, Toolbar, type ViewMode } from './ui/toolbar'
-import guideText from './guide.md?raw'
-import guideEnglish from './guide.en.md?raw'
+import guideText from '../manual/examples/welcome.fr.md?raw'
+import guideEnglish from '../manual/examples/welcome.en.md?raw'
 const getGuide = () => getLanguage() === 'fr' ? guideText : guideEnglish
 import themeCss from './styles/theme.css?raw'
 import markdownCss from './styles/markdown.css?raw'
@@ -166,10 +166,8 @@ export class App {
     this.toolbar.setLineNumbers(this.lineNumbers)
     this.editor.view.scrollDOM.addEventListener('scroll', () => this.syncPreviewScroll(), { passive: true })
 
-    // Premier onglet : le guide au tout premier lancement, sinon un document vide.
-    const first = !platform.embedded && !store('cymd.welcomed')
-      ? this.makeTab(Object.assign(new CyDoc(), { name: tr('Bienvenue.md') }), getGuide())
-      : this.makeTab(new CyDoc(), '')
+    const showWelcome = !platform.embedded && !store('cymd.welcomed')
+    const first = this.makeTab(new CyDoc(), '')
     store('cymd.welcomed', '1')
     this.tabs.push(first)
     this.showTab(first)
@@ -193,6 +191,7 @@ export class App {
     this.setMode('live')
     platform.ready()
     this.editor.view.focus()
+    if (showWelcome) void this.command('help', 'overview')
     window.addEventListener('cymd-language', () => {
       const toolbar = new Toolbar((cmd, arg) => void this.command(cmd, arg))
       this.toolbar.el.replaceWith(toolbar.el)
@@ -277,6 +276,12 @@ export class App {
     window.addEventListener(
       'keydown',
       (e) => {
+        if (e.key === 'F1') {
+          e.preventDefault()
+          void this.command('help', e.shiftKey ? this.mode : 'overview')
+          return
+        }
+        if (document.querySelector('.help-dialog[open]')) return
         const mod = e.ctrlKey || e.metaKey
         if (!mod || e.altKey) return
         const key = e.key.toLowerCase()
@@ -449,10 +454,17 @@ export class App {
         this.editor.view.requestMeasure()
         return
       }
-      case 'open-guide': {
-        const existing = this.tabs.find((t) => !t.doc.path && t.doc.name === 'Guide CyMD.md')
+      case 'help-context':
+        try { await this.platform.openHelp(this.mode) } catch (error) { this.platform.showError(String(error)) }
+        return
+      case 'open-guide':
+      case 'help':
+        try { await this.platform.openHelp(arg || 'overview') } catch (error) { this.platform.showError(String(error)) }
+        return
+      case 'open-example': {
+        const existing = this.tabs.find((t) => !t.doc.path && t.doc.name === tr('Bienvenue.md'))
         if (existing) return this.activate(existing)
-        return this.addTab(this.makeTab(Object.assign(new CyDoc(), { name: 'Guide CyMD.md' }), getGuide()))
+        return this.addTab(this.makeTab(Object.assign(new CyDoc(), { name: tr('Bienvenue.md') }), getGuide()))
       }
     }
   }

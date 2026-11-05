@@ -832,3 +832,10 @@ button {
   font: inherit;
   max-width: 100px;
 }
+
+.help-dialog { width: min(1200px, 96vw); height: 92vh; max-width: 96vw; max-height: 96vh; padding: 0; border: 1px solid var(--border); border-radius: 10px; background: var(--bg); color: var(--fg); }
+.help-dialog[open] { display: flex; flex-direction: column; }
+.help-dialog::backdrop { background: #0008; }
+.help-dialog-bar { display: flex; justify-content: space-between; gap: 12px; padding: 8px 12px; align-items: center; }
+.help-dialog-bar button { padding: 8px 12px; cursor: pointer; }
+.help-dialog iframe { flex: 1; min-height: 0; width: 100%; border: 0; }

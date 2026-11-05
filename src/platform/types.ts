@@ -92,6 +92,7 @@ export interface Platform {
   showInFolder(path: string): void
   openFileByPath(path: string): Promise<boolean>
   pathForFile(file: File): string | null
+  openHelp(target?: string): Promise<void>
   newWindow(): void
   closeWindow(): void
   setTheme(theme: ThemeChoice): void

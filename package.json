@@ -10,11 +10,11 @@
   "type": "module",
   "main": "electron/main.cjs",
   "scripts": {
-    "dev": "node scripts/dev.mjs",
-    "dev:web": "vite",
+    "dev": "npm run docs:build && node scripts/dev.mjs",
+    "dev:web": "npm run docs:build && vite",
     "typecheck": "tsc --noEmit",
     "test": "node --test tests/*.test.cjs integration/embedded.test.cjs",
-    "build": "tsc --noEmit && vite build",
+    "build": "npm run docs:build && tsc --noEmit && vite build",
     "start": "npm run build && electron .",
     "dist": "npm run build && node scripts/package.mjs",
     "dist:win": "npm run build && node scripts/package.mjs win",
@@ -22,7 +22,12 @@
     "dist:linux": "npm run build && node scripts/package.mjs linux",
     "dist:dir": "npm run build && node scripts/package.mjs dir",
     "build:plugin": "npm run build && node scripts/build-plugin.mjs",
-    "build:pages": "tsc --noEmit && vite build --mode pages && node scripts/prepare-pages.mjs"
+    "build:pages": "npm run docs:build && tsc --noEmit && vite build --mode pages && node scripts/prepare-pages.mjs && node scripts/verify-pages.mjs",
+    "docs:build": "node scripts/build-help.mjs",
+    "docs:check": "npm run docs:build && node --test tests/help.test.cjs",
+    "test:help": "electron scripts/help-smoke.cjs",
+    "pretest": "npm run docs:build",
+    "pages:check": "node scripts/verify-pages.mjs"
   },
   "build": {
     "publish": [
@@ -51,7 +56,8 @@
       "electron/preload.cjs",
       "electron/icon.png",
       "LICENSE",
-      "package.json"
+      "package.json",
+      "electron/help.cjs"
     ],
     "fileAssociations": [
       {
@@ -119,6 +125,7 @@
     "@lezer/highlight": "^1.2.3",
     "@lezer/markdown": "^1.7.2",
     "@types/turndown": "^5.0.6",
+    "cydoc": "file:vendor/cydoc-0.1.0.tgz",
     "dompurify": "^3.4.15",
     "electron": "^44.4.2",
     "electron-builder": "^26.15.3",

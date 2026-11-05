@@ -1,0 +1,52 @@
+{
+  "overview": {
+    "pageId": "overview"
+  },
+  "open-guide": {
+    "pageId": "overview"
+  },
+  "live": {
+    "pageId": "editing",
+    "anchor": "live"
+  },
+  "split": {
+    "pageId": "editing",
+    "anchor": "split"
+  },
+  "raw": {
+    "pageId": "editing",
+    "anchor": "raw"
+  },
+  "read": {
+    "pageId": "editing",
+    "anchor": "read"
+  },
+  "files": {
+    "pageId": "documents",
+    "anchor": "formats"
+  },
+  "media": {
+    "pageId": "media",
+    "anchor": "images"
+  },
+  "shortcuts": {
+    "pageId": "shortcuts"
+  },
+  "updates": {
+    "pageId": "installation",
+    "anchor": "updates"
+  },
+  "example": {
+    "pageId": "example"
+  },
+  "integration": {
+    "pageId": "integration"
+  },
+  "interface": {
+    "pageId": "overview",
+    "state": {
+      "media": "interface",
+      "zoom": "1.2"
+    }
+  }
+}

@@ -40,6 +40,15 @@ const isMac = process.platform === 'darwin'
 const DOC_EXTS = new Set(['.md', '.markdown', '.mdown', '.mkd', '.cymd', '.txt'])
 const USER_AGENT = 'Mozilla/5.0 (compatible; CyMDBot/0.1; link preview)'
 const APP_ID = 'fr.cyberalien.cymd'
+let help
+async function openHelp(target = 'overview') {
+  try {
+    help ||= require('./help.cjs').createHelp({ app, BrowserWindow, nativeTheme, shell, session, getLanguage: locale.getLanguage })
+    await help.open(target)
+  } catch {
+    await dialog.showMessageBox({ type: 'error', title: tr('Documentation CyMD'), message: tr('La documentation locale est indisponible. Réinstallez le paquet complet de CyMD.') })
+  }
+}
 
 protocol.registerSchemesAsPrivileged([
   { scheme: 'cymd', privileges: { standard: true, secure: true, supportFetchAPI: true, stream: true } },
@@ -429,7 +438,8 @@ function showContextMenu(wc, params) {
 // affichés mais pas interceptés (registerAccelerator: false) pour éviter les doublons.
 
 function send(cmd, arg) {
-  const win = BrowserWindow.getFocusedWindow() || BrowserWindow.getAllWindows()[0]
+  const focused = BrowserWindow.getFocusedWindow()
+  const win = focused && wins.has(focused.webContents.id) ? focused : [...wins.values()].find(ctx => !ctx.win.isDestroyed())?.win
   if (win) win.webContents.send('cmd', cmd, arg)
   else if (cmd === 'new-tab' || cmd === 'open') createWindow()
 }
@@ -541,7 +551,13 @@ function buildMenu() {
     {
       label: tr('Ai&de'),
       submenu: [
-        item(tr("Document d'exemple"), undefined, 'open-guide'),
+        { label: tr('Documentation CyMD'), accelerator: 'F1', click: () => { void openHelp() } },
+        item(tr('Aide sur la vue actuelle'), 'Shift+F1', 'help-context'),
+        { label: tr('Images et médias'), click: () => { void openHelp('media') } },
+        { label: tr('Formats et enregistrement'), click: () => { void openHelp('files') } },
+        { label: tr('Raccourcis clavier'), click: () => { void openHelp('shortcuts') } },
+        { label: tr('Intégration dans une application'), click: () => { void openHelp('integration') } },
+        item(tr("Document d'exemple"), undefined, 'open-example'),
         { label: tr('Rechercher des mises à jour…'), click: () => { void updates.check() } },
         sep,
         {
@@ -577,6 +593,11 @@ ipcMain.on('app:ready', async (e) => {
     ctx.win.webContents.send('tab:attach', payload, -1)
   }
   for (const p of ctx.pending.splice(0)) await loadIntoWindow(ctx, p)
+})
+
+ipcMain.handle('help:open', (e, target) => {
+  if (!ctxOf(e)) throw new Error('Unknown editor window')
+  return openHelp(typeof target === 'string' ? target : 'overview')
 })
 
 ipcMain.handle('window:id', (e) => e.sender.id)
@@ -843,7 +864,7 @@ if (!app.requestSingleInstanceLock()) {
     updates.start()
 
     app.on('activate', () => {
-      if (BrowserWindow.getAllWindows().length === 0) createWindow()
+      if (wins.size === 0) createWindow()
     })
   })
 

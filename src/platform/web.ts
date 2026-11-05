@@ -1,3 +1,4 @@
+import { openBrowserHelp } from '../help/browser'
 import { tr } from '../i18n'
 // Version navigateur : fonctionne partout, avec des limites (pas d'accès au dossier du
 // fichier, aperçus de liens limités par CORS). Utilise l'API File System Access quand
@@ -47,6 +48,7 @@ function download(name: string, data: Uint8Array) {
 export function createWebPlatform(): Platform {
   return {
     isDesktop: false,
+    openHelp: async (target) => openBrowserHelp(target),
     canWriteBesideDoc: false,
     ready() {},
     windowId: async () => 0,

@@ -1,0 +1,5 @@
+/* CyMD's yellow identity, with readable accents in both built-in themes. */
+#app[data-theme="light"] { --accent: #745700; --accent-bg: #fff4c7; }
+#app[data-theme="dark"] { --accent: #f3cd48; --accent-bg: #3c341a; }
+.prose .diagram { overflow-x: auto; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; } }

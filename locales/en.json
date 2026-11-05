@@ -163,5 +163,15 @@
   "Enregistrement refusé par l’application hôte.": "The host application refused to save the document.",
   "Document intégré invalide ou trop volumineux (50 Mo maximum).": "Invalid embedded document or file too large (50 MB maximum).",
   "Utilisez une extension .md ou .cymd.": "Use an .md or .cymd extension.",
-  "L’application hôte ne répond pas. Réessayez l’enregistrement.": "The host application is not responding. Try saving again."
+  "L’application hôte ne répond pas. Réessayez l’enregistrement.": "The host application is not responding. Try saving again.",
+  "Documentation CyMD": "CyMD documentation",
+  "Documentation (F1)": "Documentation (F1)",
+  "Télécharger le manuel hors ligne": "Download the offline manual",
+  "Fermer la documentation": "Close documentation",
+  "Aide sur la vue actuelle": "Help for the current view",
+  "Images et médias": "Images and media",
+  "Formats et enregistrement": "Formats and saving",
+  "Raccourcis clavier": "Keyboard shortcuts",
+  "Intégration dans une application": "Embed in an application",
+  "La documentation locale est indisponible. Réinstallez le paquet complet de CyMD.": "Local documentation is unavailable. Reinstall the complete CyMD package."
 }

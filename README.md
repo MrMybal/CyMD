@@ -6,6 +6,8 @@ A simple, Notepad-style **Markdown** editor and reader with **live rendering** i
 images, videos, link previews, checkboxes, tables and syntax-highlighted code. Runs on Windows,
 macOS and Linux (Electron), and in a browser with some limitations.
 
+**[Read the documentation](https://mrmybal.github.io/CyMD/help/#/en/overview)** — user guides, screenshots and diagrams, in English and French. The same manual is available offline inside the application.
+
 ## Screenshots
 
 Screenshots of the CyMD browser version, using a sample document and the French interface.
@@ -29,6 +31,16 @@ Reading mode displays task lists, blockquotes, tables and syntax-highlighted cod
 ![CyMD in Reading mode with tasks, a blockquote, a table and JavaScript code](docs/images/cymd-reading.jpg)
 
 <a id="fonctionnalités"></a>
+
+## Local documentation
+
+Open **Help → CyMD documentation**, use the book button, or press **F1**.
+**Shift+F1** opens help for the current view. The bilingual CyDoc manual includes
+screenshots, zoom, SVG diagrams, search, examples and the plugin protocol.
+The desktop reader opens a bundled `file://` URL and requires no Internet or server.
+The web/plugin help also offers an offline ZIP: extract it and open `index.html`.
+
+Authoring and validation: [Documentation maintenance](docs/documentation.md).
 
 ## Features
 

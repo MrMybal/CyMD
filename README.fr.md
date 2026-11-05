@@ -6,6 +6,8 @@
 images, vidéos, aperçus de liens, cases à cocher, tableaux, code coloré… Fonctionne sous Windows, macOS
 et Linux (Electron), et aussi dans un navigateur (avec quelques limites).
 
+**[Consulter la documentation](https://mrmybal.github.io/CyMD/help/#/fr/overview)** — guides, captures et schémas, en français et en anglais. Le même manuel est disponible hors ligne dans l’application.
+
 ## Aperçu de l’application
 
 Captures de la version navigateur de CyMD, avec un document de démonstration.
@@ -27,6 +29,16 @@ La vue Côte à côte affiche le texte source à gauche et le document mis en fo
 La vue Lecture présente les listes de tâches, citations, tableaux et blocs de code colorés.
 
 ![CyMD en vue Lecture : liste de tâches, citation, tableau et code JavaScript](docs/images/cymd-reading.jpg)
+
+## Documentation locale
+
+Ouvrez **Aide → Documentation CyMD**, utilisez le bouton livre ou appuyez sur **F1**.
+**Maj+F1** ouvre l’aide de la vue actuelle. Le manuel CyDoc bilingue comprend captures,
+zoom, schémas SVG, recherche, exemples et protocole d’intégration du plugin.
+Sur ordinateur, le lecteur livré s’ouvre en `file://`, sans Internet ni serveur.
+L’aide web/plugin propose aussi un ZIP hors ligne : extrayez-le puis ouvrez `index.html`.
+
+Rédaction et vérifications : [maintenance de la documentation](docs/documentation.md).
 
 ## Fonctionnalités
 

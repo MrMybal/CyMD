@@ -2,6 +2,7 @@
 
 import {
   Bold,
+  BookOpen,
   ChevronDown,
   Code,
   EyeOff,
@@ -30,6 +31,7 @@ import {
 } from 'lucide'
 
 export const ICONS = {
+  help: BookOpen,
   new: FilePlus,
   open: FolderOpen,
   save: Save,

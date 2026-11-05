@@ -38,3 +38,8 @@ temp/
 *.tmp
 .DS_Store
 Thumbs.db
+
+# Generated offline documentation
+/public/help/
+/public/help-links.cjs
+/public/CyMD-help.zip
