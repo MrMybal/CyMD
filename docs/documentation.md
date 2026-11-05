@@ -130,3 +130,7 @@ creating a deployment build. CI builds the checked-out commit automatically.
 The verifier checks the publication allowlist, both README language routes,
 all local document links and resources, and byte-for-byte inclusion of the
 complete CyDoc export and offline ZIP.
+
+Manual inputs use LF line endings through .gitattributes so CyDoc revision hashes
+and imported examples stay consistent across Windows and Linux. The HTTP check
+normalizes text line endings and verifies the published editor asset URLs.

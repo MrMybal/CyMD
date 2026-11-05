@@ -4,7 +4,7 @@ title: Construire et maintenir CyMD
 description: Construire et maintenir CyMD
 section: Référence développeur
 order: 110
-sourceRevision: 1
+sourceRevision: 2
 ---
 
 ## Construire depuis les sources {#build}
@@ -70,10 +70,11 @@ Les documents s'ouvrent et s'enregistrent sur votre appareil ; ils ne sont pas s
 sur GitHub. Pensez à enregistrer vos modifications avant de fermer l'onglet.
 La licence et les sources déployées sont accessibles depuis le bas de l'éditeur.
 
-Le workflow **Web editor** publie automatiquement les nouvelles releases stables sur
-GitHub Pages et peut aussi être lancé manuellement. La source Pages du dépôt doit être
-**GitHub Actions**. `npm run build:pages` prépare le site dans `dist/`, avec des chemins
-relatifs compatibles avec `/CyMD/`.
+Le workflow **Web editor and documentation** publie les changements concernés sur main
+et les nouvelles releases stables sur GitHub Pages. Il peut aussi être lancé manuellement.
+La source Pages du dépôt doit être **GitHub Actions**. `npm run build:pages` prépare
+le site dans `output/pages/`, avec le manuel bilingue complet dans `help/` et des
+chemins relatifs compatibles avec `/CyMD/`.
 
 
 Ouvre et enregistre les fichiers (directement avec Chrome/Edge, par téléchargement ailleurs), mais ne

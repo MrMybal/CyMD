@@ -53,6 +53,14 @@ for (const [file, locale] of [['README.md', 'en'], ['README.fr.md', 'fr']]) {
 assert.ok(published.every(name => !/\.map$|help-links\.cjs$|node_modules|vendor|\.tgz$/.test(name)))
 console.log('Pages: ' + expectedHelp.length + ' complete help files, ' + data.pages.length + ' pages, ' + references + ' local links/resources verified.')
 
+function equalContent(actual, expected, name) {
+  if (/\.(?:html|css|js|json|md|txt|svg)$/.test(name)) {
+    // Git checks out text with LF on CI and CRLF on Windows; JSON embeds EOLs too.
+    const normalize = bytes => bytes.toString('utf8').replaceAll('\r\n', '\n').replaceAll('\\r\\n', '\\n')
+    assert.equal(normalize(actual), normalize(expected), 'Published content differs: ' + name)
+  } else assert.deepEqual(actual, expected, 'Published content differs: ' + name)
+}
+
 // Optional post-deployment verification; every exported resource must be reachable.
 if (process.argv[2]) {
   const base = new URL(process.argv[2])
@@ -61,8 +69,20 @@ if (process.argv[2]) {
     const response = await fetch(new URL(name, base), { signal: AbortSignal.timeout(30000) })
     assert.equal(response.status, 200, name)
     const bytes = Buffer.from(await response.arrayBuffer())
-    if (name !== 'CyMD-help.zip') assert.deepEqual(bytes, readFileSync(root + '/' + name), 'Published content differs: ' + name)
-    else assert.deepEqual(Object.keys(unzipSync(bytes)).sort(), expectedHelp)
+    if (name === 'index.html') {
+      // Vite hashes can differ across OSes because imported raw examples retain EOLs.
+      assert.match(bytes.toString('utf8'), /<title>CyMD<\/title>/)
+      for (const match of bytes.toString('utf8').matchAll(/(?:src|href)=["']([^"']+)["']/g)) {
+        if (!match[1].startsWith('./assets/')) continue
+        const asset = await fetch(new URL(match[1], base), { signal: AbortSignal.timeout(30000) })
+        assert.equal(asset.status, 200, match[1])
+        await asset.arrayBuffer()
+      }
+    } else if (name === 'CyMD-help.zip') {
+      const downloaded = unzipSync(bytes)
+      assert.deepEqual(Object.keys(downloaded).sort(), expectedHelp)
+      for (const file of expectedHelp) equalContent(Buffer.from(downloaded[file]), readFileSync(root + '/help/' + file), file)
+    } else equalContent(bytes, readFileSync(root + '/' + name), name)
   }
   console.log('Published editor, complete documentation and offline download verified at ' + base.href)
 }

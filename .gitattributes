@@ -1,0 +1,2 @@
+# Keep manual revision hashes and raw examples identical on every build host.
+manual/** text eol=lf

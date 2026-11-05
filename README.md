@@ -262,9 +262,11 @@ Documents open and save on your device; they are not stored on GitHub.
 Save changes before closing the tab. The deployed license and sources are accessible
 at the bottom of the editor.
 
-The **Web editor** workflow automatically publishes new stable releases to GitHub Pages
-and can also run manually. The repository's Pages source must be **GitHub Actions**.
-`npm run build:pages` prepares the site in `dist/`, with relative paths compatible with `/CyMD/`.
+The **Web editor and documentation** workflow publishes relevant changes on main and
+new stable releases to GitHub Pages, and can also run manually. The repository's Pages
+source must be **GitHub Actions**. `npm run build:pages` prepares the site in
+`output/pages/`, including the complete bilingual manual under `help/`, with relative
+paths compatible with `/CyMD/`.
 
 The browser version opens and saves files directly in Chrome/Edge and through downloads elsewhere,
 but cannot read images from a `.md` file's folder or retrieve link previews (CORS).
