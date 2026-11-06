@@ -8,7 +8,7 @@ function createHelp({ app, BrowserWindow, nativeTheme, shell, session, getLangua
   let configured = false
   let pending = Promise.resolve()
   const assets = process.env.VITE_DEV_SERVER_URL ? 'public' : 'dist'
-  const base = pathToFileURL(path.join(app.getAppPath(), assets, 'help/index.html')).href
+  const base = pathToFileURL(path.join(app.getAppPath(), 'Documentation', 'Documentation.html')).href
   // CyDoc's public route API is bundled at build time.
   const { helpLink } = require(path.join(app.getAppPath(), assets, 'help-links.cjs'))
   function allowed(url) {
@@ -18,7 +18,7 @@ function createHelp({ app, BrowserWindow, nativeTheme, shell, session, getLangua
     try { if (['https:', 'http:', 'mailto:'].includes(new URL(url).protocol)) void shell.openExternal(url) } catch {}
   }
   async function navigate(target = 'overview') {
-    if (!fs.existsSync(path.join(app.getAppPath(), assets, 'help/index.html'))) throw new Error('Local documentation is missing. Run npm run build.')
+    if (!fs.existsSync(path.join(app.getAppPath(), 'Documentation', 'Documentation.html'))) throw new Error('Local documentation is missing. Run npm run build.')
     const url = helpLink(base, getLanguage(), target)
     if (!window || window.isDestroyed()) {
       const helpSession = session.fromPartition('persist:cymd-help')

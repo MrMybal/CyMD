@@ -5,15 +5,14 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/pages.yml'
-      - 'manual/**'
+      - '.CyDocBuild/**'
+      - '.gitattributes'
       - 'docs/**'
       - 'src/**'
       - 'locales/**'
       - 'scripts/**'
       - 'public/**'
-      - 'vendor/**'
       - 'package*.json'
-      - 'cydoc.config.json'
       - 'index.html'
       - 'vite.config.ts'
       - 'tsconfig.json'

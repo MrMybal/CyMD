@@ -1,0 +1,39 @@
+{
+  "name": "CyMD",
+  "version": "0.1.5",
+  "defaultLocale": "en",
+  "locales": [
+    {
+      "code": "en",
+      "label": "English"
+    },
+    {
+      "code": "fr",
+      "label": "Français"
+    }
+  ],
+  "homePage": "overview",
+  "content": "manual",
+  "assets": "assets",
+  "out": "../Documentation",
+  "modules": [
+    "image"
+  ],
+  "sources": [
+    "../src/platform"
+  ],
+  "aliases": {
+    "guide": "overview",
+    "open-guide": "overview",
+    "Bienvenue.md": "overview",
+    "Welcome.md": "overview",
+    "Guide CyMD.md": "overview",
+    "development": "overview#help",
+    "translation-report": "overview#help",
+    "source-src-doc-cymd-ts": "documents#formats",
+    "source-src-doc-document-ts": "documents#formats",
+    "source-src-doc-media-ts": "media#images",
+    "source-src-doc-paths-ts": "documents#opening"
+  },
+  "logo": "assets/cymd-logo.png"
+}

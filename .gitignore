@@ -43,3 +43,7 @@ Thumbs.db
 /public/help/
 /public/help-links.cjs
 /public/CyMD-help.zip
+
+/Documentation/
+/public/Documentation/
+/.CyDocBuild/internal/

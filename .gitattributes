@@ -1,2 +1,6 @@
-# Keep manual revision hashes and raw examples identical on every build host.
-manual/** text eol=lf
+# Stable documentation revision hashes across build hosts.
+.CyDocBuild/** text eol=lf
+.CyDocBuild/vendor/*.tgz binary
+.CyDocBuild/assets/*.png binary
+.CyDocBuild/assets/*.jpg binary
+src/examples/** text eol=lf

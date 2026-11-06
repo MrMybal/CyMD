@@ -33,7 +33,7 @@ export function openBrowserHelp(target = 'overview') {
   frame.title = tr('Documentation CyMD')
   reader.querySelector('a')!.textContent = tr('Télécharger le manuel hors ligne')
   reader.querySelector('button')!.textContent = tr('Fermer la documentation')
-  const base = new URL(`${import.meta.env.BASE_URL}help/index.html`, document.baseURI).href
+  const base = new URL(`${import.meta.env.BASE_URL}Documentation/Documentation.html`, document.baseURI).href
   const url = helpLink(base, getLanguage(), target)
   if (frame.src !== url) frame.src = url
   if (!reader.open) {

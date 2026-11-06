@@ -7,7 +7,7 @@ const output = resolve('output/pages')
 if (relative(process.cwd(), output).replaceAll('\\', '/') !== 'output/pages') throw new Error('Invalid Pages output')
 rmSync(output, { recursive: true, force: true })
 mkdirSync(output, { recursive: true })
-for (const name of ['index.html', 'logo.png', 'assets', 'help', 'CyMD-help.zip']) {
+for (const name of ['index.html', 'logo.png', 'assets', 'Documentation', 'help', 'CyMD-help.zip']) {
   cpSync(`dist/${name}`, `${output}/${name}`, { recursive: true })
 }
 copyFileSync('LICENSE', `${output}/LICENSE.txt`)

@@ -18,9 +18,10 @@ writeFileSync(`${root}/plugin.json`, JSON.stringify(manifest, null, 2) + '\n')
 // Include tracked source and the explicit documentation inputs needed to rebuild this bundle.
 const tracked = execFileSync('git', ['-c', `safe.directory=${process.cwd().replaceAll('\\', '/')}`, 'ls-files', '-z'], { encoding: 'utf8' }).split('\0').filter(Boolean)
 const files = new Set([...tracked, 'src/platform/embedded.ts', 'scripts/build-plugin.mjs', 'docs/integration.md'])
-for (const dir of ['manual', 'src/help', 'vendor']) {
+for (const dir of ['.CyDocBuild', 'src/help', 'src/examples']) {
   function addSources(base) {
     for (const entry of readdirSync(base, { withFileTypes: true })) {
+      if (['internal', 'node_modules', 'generated'].includes(entry.name)) continue
       const name = base + '/' + entry.name
       if (entry.isDirectory()) addSources(name)
       else files.add(name)
@@ -28,9 +29,9 @@ for (const dir of ['manual', 'src/help', 'vendor']) {
   }
   addSources(dir)
 }
-for (const name of ['cydoc.config.json', 'electron/help.cjs', 'scripts/build-help.mjs', 'scripts/help-smoke.cjs', 'tests/help.test.cjs', 'docs/documentation.md', 'docs/images/favicon.svg']) files.add(name)
+for (const name of ['electron/help.cjs', 'docs/images/favicon.svg']) files.add(name)
 const source = {}
-for (const file of files) if (existsSync(file)) source[file] = readFileSync(file)
+for (const file of files) if (existsSync(file) && !file.startsWith('.CyDocBuild/internal/')) source[file] = readFileSync(file)
 writeFileSync(`${root}/source.zip`, zipSync(source))
 const bundle = {}
 function collect(dir, prefix = '') {

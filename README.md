@@ -6,7 +6,7 @@ A simple, Notepad-style **Markdown** editor and reader with **live rendering** i
 images, videos, link previews, checkboxes, tables and syntax-highlighted code. Runs on Windows,
 macOS and Linux (Electron), and in a browser with some limitations.
 
-**[Read the documentation](https://mrmybal.github.io/CyMD/help/#/en/overview)** — user guides, screenshots and diagrams, in English and French. The same manual is available offline inside the application.
+**[Read the documentation](https://mrmybal.github.io/CyMD/Documentation/Documentation.html#/en/overview)** — user guides, screenshots and diagrams, in English and French. The same manual is available offline inside the application.
 
 ## Screenshots
 
@@ -38,9 +38,8 @@ Open **Help → CyMD documentation**, use the book button, or press **F1**.
 **Shift+F1** opens help for the current view. The bilingual CyDoc manual includes
 screenshots, zoom, SVG diagrams, search, examples and the plugin protocol.
 The desktop reader opens a bundled `file://` URL and requires no Internet or server.
-The web/plugin help also offers an offline ZIP: extract it and open `index.html`.
+The web/plugin help also offers an offline ZIP: extract it and open `Documentation.html`.
 
-Authoring and validation: [Documentation maintenance](docs/documentation.md).
 
 ## Features
 
@@ -265,7 +264,7 @@ at the bottom of the editor.
 The **Web editor and documentation** workflow publishes relevant changes on main and
 new stable releases to GitHub Pages, and can also run manually. The repository's Pages
 source must be **GitHub Actions**. `npm run build:pages` prepares the site in
-`output/pages/`, including the complete bilingual manual under `help/`, with relative
+`output/pages/`, including the complete bilingual manual under `Documentation/`, with relative
 paths compatible with `/CyMD/`.
 
 The browser version opens and saves files directly in Chrome/Edge and through downloads elsewhere,
