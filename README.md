@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="public/logo.png" alt="CyMD logo" width="128" height="128">
+</p>
+
 # CyMD
 
 **[Discover CyMD](https://mrmybal.github.io/CyMD/?lang=en)** · [Open the web editor](https://mrmybal.github.io/CyMD/editor.html)

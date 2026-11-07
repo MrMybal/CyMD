@@ -1,5 +1,9 @@
 [English](README.md) · **Français**
 
+<p align="center">
+  <img src="public/logo.png" alt="Logo CyMD" width="128" height="128">
+</p>
+
 # CyMD
 
 **[Découvrir CyMD](https://mrmybal.github.io/CyMD/?lang=fr)** · [Ouvrir l’éditeur web](https://mrmybal.github.io/CyMD/editor.html)
