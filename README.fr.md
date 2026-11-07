@@ -1,74 +1,54 @@
-[English](README.md) · **Français**
+<table width="100%">
+  <tr>
+    <td width="30%" align="left" valign="top">
+      <a href="https://mrmybal.github.io/CyMD/?lang=fr">Présentation</a><br>
+      <a href="https://mrmybal.github.io/CyMD/Documentation/Documentation.html#/fr/overview">Manuel</a><br>
+      <a href="https://github.com/MrMybal/CyMD">Dépôt</a><br><br>
+      <sub>README</sub><br>
+      <a href="README.md">English</a> · <a href="README.fr.md">Français</a>
+    </td>
+    <td width="40%" align="center" valign="middle">
+      <img src="public/logo.png" alt="CyMD" width="128">
+    </td>
+    <td width="30%" align="right" valign="top">
+      <p><sub>Licence de l’application</sub><br><a href="LICENSE"><strong>AGPL-3.0-only</strong></a></p>
+      <p><sub>Version</sub><br><a href="release-notes.md#changements"><strong>0.1.6</strong></a><br><strong>EN DÉVELOPPEMENT</strong></p>
+      <p><a href="https://github.com/MrMybal/CyMD/releases/tag/v0.1.6"><strong>Télécharger</strong></a><br><sub>Windows · macOS · Linux</sub></p>
+    </td>
+  </tr>
+</table>
 
-<p align="center">
-  <img src="public/logo.png" alt="Logo CyMD" width="128" height="128">
-</p>
+<h1 align="center">CyMD</h1>
 
-# CyMD
+Éditeur et lecteur Markdown pour les notes de projet, les guides illustrés et les fichiers README. CyMD réunit une interface familière de bloc-notes, un rendu en direct et des documents locaux sur Windows, macOS, Linux et dans le navigateur.
 
-**[Découvrir CyMD](https://mrmybal.github.io/CyMD/?lang=fr)** · [Ouvrir l’éditeur web](https://mrmybal.github.io/CyMD/editor.html)
+> **EN DÉVELOPPEMENT · 0.1.6**
+>
+> Version de développement publiée, avec une icône dédiée aux documents `.cymd` sur Windows et macOS. Gardez une sauvegarde des fichiers importants. Consultez les [notes de version et limites documentées](release-notes.md#changements).
 
-Éditeur et lecteur **Markdown** simple, façon Bloc-notes, avec un rendu **en direct** comme sur Discord :
-images, vidéos, aperçus de liens, cases à cocher, tableaux, code coloré… Fonctionne sous Windows, macOS
-et Linux (Electron), et aussi dans un navigateur (avec quelques limites).
+<a id="aperçu-de-lapplication"></a>
+<a id="écrire-en-mode-live"></a>
 
-**[Consulter la documentation](https://mrmybal.github.io/CyMD/Documentation/Documentation.html#/fr/overview)** — guides, captures et schémas, en français et en anglais. Le même manuel est disponible hors ligne dans l’application.
+[![Vue Live de CyMD en français avec des notes mises en forme, une image intégrée, des tâches et un tableau](.CyDocBuild/assets/cymd-live-fr.jpg)](.CyDocBuild/assets/cymd-live-fr.jpg)
 
-## Aperçu de l’application
+## À propos de CyMD
 
-Captures de la version navigateur de CyMD, avec un document de démonstration.
+Écrivez directement en vue **Live** sans balises Markdown, comparez le texte et son aperçu **Côte à côte**, modifiez le **Brut**, ou passez en **Lecture**. Gardez plusieurs notes dans des onglets et utilisez les outils de mise en forme près de votre sélection.
 
-### Écrire en mode Live
+Enregistrez des fichiers `.md` avec leurs médias dans un dossier voisin, ou partagez une seule archive `.cymd` contenant le texte, les images et les aperçus de liens en cache. Les fichiers restent sur votre appareil ; CyMD ne nécessite pas de compte et ne fournit pas de sauvegarde dans le cloud.
 
-La mise en forme apparaît directement dans l’éditeur, sans afficher les balises Markdown.
+<a id="comparer-le-markdown-et-son-aperçu"></a>
 
-![CyMD en mode Live : texte mis en forme, image et liste de tâches](docs/images/cymd-live.jpg)
+[![Vue Côte à côte de CyMD en français, avec le Markdown brut et son aperçu synchronisé](.CyDocBuild/assets/cymd-split-fr.jpg)](.CyDocBuild/assets/cymd-split-fr.jpg)
 
-### Comparer le Markdown et son aperçu
+<a id="lire-le-document"></a>
 
-La vue Côte à côte affiche le texte source à gauche et le document mis en forme à droite.
+[![Vue Lecture de CyMD en français avec des tâches, une citation et du code coloré](.CyDocBuild/assets/cymd-read-fr.jpg)](.CyDocBuild/assets/cymd-read-fr.jpg)
 
-![CyMD en vue Côte à côte : source Markdown et aperçu du même document](docs/images/cymd-split.jpg)
+### Deux formats
 
-### Lire le document
-
-La vue Lecture présente les listes de tâches, citations, tableaux et blocs de code colorés.
-
-![CyMD en vue Lecture : liste de tâches, citation, tableau et code JavaScript](docs/images/cymd-reading.jpg)
-
-## Documentation locale
-
-Ouvrez **Aide → Documentation CyMD**, utilisez le bouton livre ou appuyez sur **F1**.
-**Maj+F1** ouvre l’aide de la vue actuelle. Le manuel CyDoc bilingue comprend captures,
-zoom, schémas SVG, recherche, exemples et protocole d’intégration du plugin.
-Sur ordinateur, le lecteur livré s’ouvre en `file://`, sans Internet ni serveur.
-L’aide web/plugin propose aussi un ZIP hors ligne : extrayez-le puis ouvrez `Documentation.html`.
-
-
-## Fonctionnalités
-
-- **Français et anglais** : choix dans la barre d'outils ou **Affichage → Langue**, mémorisé
-  entre les lancements et synchronisé entre fenêtres. Le système choisit le français pour les
-  langues système francophones, l'anglais sinon. Le changement préserve les documents et l'annulation.
-
-- **Onglets façon Chrome** : plusieurs documents par fenêtre ; glisser un onglet pour le réordonner, vers
-  une autre fenêtre, ou hors de la fenêtre pour en créer une nouvelle. Un fichier ouvert depuis
-  l'explorateur arrive en onglet dans la fenêtre déjà ouverte (pas de nouveau démarrage).
-- **Barre d'outils** (fichiers + mise en forme) et **barre flottante sur la sélection**, comme sur Discord :
-  gras, italique, souligné (`<u>…</u>`), barré, citation, code, spoiler (`||…||`), lien.
-- **Numéros de ligne** en option (bouton `#` ou menu Affichage).
-- **4 vues** : *Live* (par défaut, mise en forme en direct sans afficher les balises Markdown),
-  *Côte à côte* (brut + aperçu, défilement synchronisé), *Brut* (texte seul) et *Lecture*.
-- **Copier-coller** : image collée (capture d'écran…) → ajoutée au document ; HTML d'une page web ou de
-  Word → converti en Markdown ; URL collée sur une sélection → lien ; `Ctrl+Shift+V` → texte brut.
-- **Glisser-déposer** d'images, vidéos et fichiers ; un `.md`/`.cymd` déposé est ouvert.
-- **Aperçus de liens** façon Discord sous chaque URL « nue » (Open Graph, YouTube lisible dans l'aperçu).
-  `<https://…>` entre chevrons = pas d'aperçu.
-- Images redimensionnables : `![légende|300](image.png)`.
-- Rechercher / remplacer, correcteur orthographique, thème clair/sombre, export HTML autonome.
-- Rapide même sur les gros fichiers (le rendu Live ne se calcule qu'autour de la zone visible).
-
-## Deux formats
+<details>
+<summary>Formats de fichiers, médias et structure de l’archive</summary>
 
 ### `.md` : Markdown simple (mode dossier)
 
@@ -93,7 +73,35 @@ Les médias qui ne sont plus utilisés dans le texte ne sont pas enregistrés.
 *Fichier → Enregistrer sous* permet de passer d'un format à l'autre : les fichiers du dossier sont
 regroupés dans le `.cymd`, ou extraits à côté du `.md`.
 
-## Raccourcis
+</details>
+
+## Fonctionnalités
+
+- **Français et anglais** : choix dans la barre d'outils ou **Affichage → Langue**, mémorisé
+  entre les lancements et synchronisé entre fenêtres. Le système choisit le français pour les
+  langues système francophones, l'anglais sinon. Le changement préserve les documents et l'annulation.
+
+- **Onglets façon Chrome** : plusieurs documents par fenêtre ; glisser un onglet pour le réordonner, vers
+  une autre fenêtre, ou hors de la fenêtre pour en créer une nouvelle. Un fichier ouvert depuis
+  l'explorateur arrive en onglet dans la fenêtre déjà ouverte (pas de nouveau démarrage).
+- **Barre d'outils** (fichiers + mise en forme) et **barre flottante sur la sélection**, comme sur Discord :
+  gras, italique, souligné (`<u>…</u>`), barré, citation, code, spoiler (`||…||`), lien.
+- **Numéros de ligne** en option (bouton `#` ou menu Affichage).
+- **4 vues** : *Live* (par défaut, mise en forme en direct sans afficher les balises Markdown),
+  *Côte à côte* (brut + aperçu, défilement synchronisé), *Brut* (texte seul) et *Lecture*.
+- **Copier-coller** : image collée (capture d'écran…) → ajoutée au document ; HTML d'une page web ou de
+  Word → converti en Markdown ; URL collée sur une sélection → lien ; `Ctrl+Shift+V` → texte brut.
+- **Glisser-déposer** d'images, vidéos et fichiers ; un `.md`/`.cymd` déposé est ouvert.
+- **Aperçus de liens** façon Discord sous chaque URL « nue » (Open Graph, YouTube lisible dans l'aperçu).
+  `<https://…>` entre chevrons = pas d'aperçu.
+- Images redimensionnables : `![légende|300](image.png)`.
+- Rechercher / remplacer, correcteur orthographique, thème clair/sombre, export HTML autonome.
+
+
+<a id="raccourcis"></a>
+
+<details>
+<summary>Raccourcis</summary>
 
 | Raccourci | Action |
 | --- | --- |
@@ -110,7 +118,39 @@ regroupés dans le `.cymd`, ou extraits à côté du `.md`.
 | Ctrl+F | Rechercher / remplacer |
 | Ctrl+clic | Ouvrir un lien |
 
-## Mises à jour
+</details>
+
+<a id="documentation-locale"></a>
+
+### Documentation
+
+Ouvrez **Aide → Documentation CyMD**, utilisez le bouton livre ou appuyez sur **F1**.
+**Maj+F1** ouvre l’aide de la vue actuelle. Le manuel CyDoc bilingue comprend captures,
+zoom, schémas SVG, recherche, exemples et protocole d’intégration du plugin.
+Sur ordinateur, le lecteur livré s’ouvre en `file://`, sans Internet ni serveur.
+L’aide web/plugin propose aussi un ZIP hors ligne : extrayez-le puis ouvrez `Documentation.html`.
+
+---
+
+## Installation
+
+Node.js n’est pas nécessaire pour utiliser l’application téléchargée. Choisissez un paquet dans la [release 0.1.6](https://github.com/MrMybal/CyMD/releases/tag/v0.1.6).
+
+<a id="formats-distribués"></a>
+
+| Système | Sans installation | Installeur | Architecture |
+| --- | --- | --- | --- |
+| Windows | [Portable .exe](https://github.com/MrMybal/CyMD/releases/download/v0.1.6/CyMD-Portable-0.1.6-x64.exe) | [NSIS .exe](https://github.com/MrMybal/CyMD/releases/download/v0.1.6/CyMD-Setup-0.1.6-x64.exe) | x64 |
+| macOS | [ZIP](https://github.com/MrMybal/CyMD/releases/download/v0.1.6/CyMD-0.1.6-macOS-universal.zip) | [DMG](https://github.com/MrMybal/CyMD/releases/download/v0.1.6/CyMD-0.1.6-macOS-universal.dmg) | Intel + Apple Silicon |
+| Linux | [AppImage](https://github.com/MrMybal/CyMD/releases/download/v0.1.6/CyMD-0.1.6-Linux-x86_64.AppImage) | [DEB](https://github.com/MrMybal/CyMD/releases/download/v0.1.6/CyMD-0.1.6-Linux-amd64.deb) | x64 |
+
+1. **Windows** — Lancez l’installeur et choisissez un dossier d’installation, ou démarrez l’exécutable portable.
+2. **macOS** — Ouvrez le DMG et glissez CyMD dans Applications, ou extrayez le ZIP. Intel et Apple Silicon sont inclus.
+3. **Linux** — Rendez l’AppImage exécutable (`chmod +x CyMD-*.AppImage`), ou installez le DEB avec votre gestionnaire de paquets. L’AppImage peut nécessiter FUSE.
+
+Les paquets Windows et macOS ne disposent pas de signature de distribution ; les paquets macOS ne sont pas notarisés. Il n’existe pas de version Android native. L’icône des documents `.cymd` est associée par les installeurs Windows et les paquets macOS ; Linux conserve une icône générique et la version Windows portable n’enregistre pas d’association de fichiers.
+
+### Mises à jour
 
 La version Windows installée recherche une nouvelle release stable GitHub 15 secondes après le
 démarrage. **Aide → Rechercher des mises à jour…** permet aussi de lancer la recherche manuellement.
@@ -121,63 +161,25 @@ commande permet de reprendre l'installation. Fermer normalement CyMD n'installe 
 La version portable, les autres systèmes et le mode développement proposent d'ouvrir les
 [releases GitHub](https://github.com/MrMybal/CyMD/releases) pour une installation manuelle.
 
-### Formats distribués
+### Version navigateur
 
-| Système | Sans installation | Installation | Architecture |
-| --- | --- | --- | --- |
-| Windows | Exécutable portable `.exe` | Installeur NSIS `.exe` | x64 |
-| macOS | Archive `.zip` contenant l'application `.app` | Image `.dmg`, copie vers Applications | Universal : Intel et Apple Silicon |
-| Linux | `.AppImage` | Paquet `.deb` pour Debian/Ubuntu | x64 |
+[Ouvrez l’éditeur web](https://mrmybal.github.io/CyMD/editor.html) sans installation. Chrome et Edge permettent l’ouverture et l’enregistrement directs lorsque disponibles ; les autres navigateurs utilisent la sélection de fichiers et les téléchargements. Enregistrez avant de fermer l’onglet. Les documents ne sont pas stockés sur GitHub.
 
-Sur Linux, rendre l'AppImage exécutable avant de la lancer (`chmod +x CyMD-*.AppImage`).
-Selon la distribution, le support FUSE peut être nécessaire. Le paquet `.deb` s'installe avec
-le gestionnaire de paquets. Sur macOS, la signature Developer ID et la notarisation sont à configurer
-avant une diffusion validée par Gatekeeper ; aucun certificat Apple n'est inclus dans le projet.
+Une page web ne peut pas lire les images voisines d’un fichier `.md` local ni récupérer librement les aperçus de liens, à cause des restrictions du navigateur. Utilisez `.cymd` pour transporter les médias intégrés. Les aperçus et vidéos en ligne nécessitent Internet ; la lecture dépend aussi des codecs.
 
-Les paquets sont construits sur leur système cible. La configuration multiplateforme ne remplace pas
-un test réel sur Windows, macOS et Linux. Les raccourcis d'édition utilisent aussi Cmd sur macOS.
-Les mises à jour automatiques restent limitées à Windows installé ; ailleurs, le menu ouvre les releases.
+<a id="développement"></a>
 
-### Préparer une release
+## Sources, compilation et bibliothèques nécessaires
 
-1. Augmenter la version avec `npm version patch --no-git-tag-version`, puis committer les changements.
-2. Créer le tag correspondant (`vX.Y.Z`) et le pousser sur GitHub.
-3. Le workflow compile et teste sur Windows, macOS et Linux. Une fois les trois compilations
-   réussies, il crée une **release brouillon** contenant tous les paquets et métadonnées de mise à jour.
-4. Tester les applications sur chaque système, puis publier le brouillon comme release stable.
+Utilisez **Node.js 22+**, npm et Git pour compiler les sources. Construisez les paquets de bureau sur leur système cible. Les dépendances sont verrouillées dans [package-lock.json](package-lock.json) ; `.CyDocBuild/vendor/` fournit la bibliothèque CyDoc utilisée par le manuel.
 
-Le lancement manuel du workflow construit uniquement les paquets et les conserve comme artefacts
-GitHub Actions ; il ne crée pas de release. Les commandes locales ne poussent ni code ni tag.
+<details>
+<summary>Compiler, lancer et maintenir CyMD</summary>
 
-Pour une compilation locale : `npm run dist:win`. Joindre ensemble les fichiers générés dans
-`release/` : `latest.yml` doit correspondre exactement à l'installeur fourni. Les commandes de
-compilation locales ne publient rien. Aucun jeton GitHub n'est nécessaire dans l'application.
-
-Une ancienne version sans ce système nécessite une première installation manuelle. Une mise à jour
-complète s'évalue entre deux versions installées distinctes et des releases publiées compatibles.
-
-## Plugin intégré
-
-CyMD peut être affiché et édité dans une iframe au sein d'une autre application.
-`npm run build:plugin` génère le bundle dans `release/plugin`, avec la licence et les sources.
-Le [protocole d'intégration](docs/integration.md) fournit l'ouverture, l'état des modifications
-et la sauvegarde confirmée par l'hôte.
-
-Pour les sources locales de CyAIOrchestrator :
-`node integration/cyai/install.mjs CHEMIN_VERS_CYAIORCHESTRATOR`, après construction du plugin.
-Redémarrer ensuite CyAI depuis ces sources (ou reconstruire son application distribuée).
-Le plugin ajoute un bouton CyMD et ouvre les pièces jointes `.cymd` dans l'éditeur.
-Chaque sauvegarde ajoute une nouvelle pièce jointe ; le document original est conservé.
-
-## Licence
-
-Copyright © 2026 Cyberalien.
-
-CyMD est distribué sous la **GNU Affero General Public License v3.0 uniquement**
-(`AGPL-3.0-only`). Le texte intégral est disponible dans [LICENSE](LICENSE).
-Les dépendances tierces conservent leurs licences respectives.
-
-## Développement
+```sh
+git clone https://github.com/MrMybal/CyMD.git
+cd CyMD
+```
 
 ```bash
 npm ci
@@ -231,21 +233,71 @@ fenêtre (les liens s'ouvrent dans le navigateur), protocole `cymd://` limité a
 ouverts, liens vers des fichiers locaux jamais exécutés (affichés dans l'explorateur), aperçus de liens
 récupérés dans une session réseau séparée, sans cookies.
 
-### Version navigateur
+Les icônes de document utilisent le logo d’origine sur une feuille repliée. Régénérez leurs fichiers ICO/ICNS/PNG avec `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/make-document-icons.ps1` ; consultez le [guide des icônes](assets/branding/README.md).
 
-**[Ouvrir CyMD en ligne](https://mrmybal.github.io/CyMD/editor.html)** — sans installation.
+### Préparer une release
 
-Les documents s'ouvrent et s'enregistrent sur votre appareil ; ils ne sont pas stockés
-sur GitHub. Pensez à enregistrer vos modifications avant de fermer l'onglet.
-La licence et les sources déployées sont accessibles depuis le bas de l'éditeur.
+Mettez à jour la version de l’application dans `package.json` et `package-lock.json`, la version et les liens de téléchargement de la vitrine, ainsi que `release-notes.md`. La génération du manuel synchronise sa version avec l’application. Committez, créez le tag `vX.Y.Z`, puis poussez lorsque vous êtes prêt à publier. Le workflow de bureau construit et teste les trois plateformes et crée une release brouillon. Validez les paquets et les fichiers `latest*.yml` correspondants avant publication. Un lancement manuel du workflow produit uniquement des artefacts de compilation.
 
-Le workflow **Web editor and documentation** publie les changements concernés sur main
-et les nouvelles releases stables sur GitHub Pages. Il peut aussi être lancé manuellement.
-La source Pages du dépôt doit être **GitHub Actions**. `npm run build:pages` prépare
-le site dans `output/pages/`, avec le manuel bilingue complet dans `Documentation/` et des
-chemins relatifs compatibles avec `/CyMD/`.
+### Vitrine et documentation hors ligne
 
+`npm run build:pages` génère la vitrine, l’éditeur web, le manuel CyDoc bilingue complet et l’archive des sources dans `output/pages/`. `npm run preview:pages` lance l’aperçu local. Consultez le [guide de la vitrine](website/README.md). GitHub Pages utilise le workflow **Web editor and documentation** ; la source Pages du dépôt doit être GitHub Actions. Aucune commande de compilation locale ne publie de contenu.
 
-Ouvre et enregistre les fichiers (directement avec Chrome/Edge, par téléchargement ailleurs), mais ne
-peut pas lire les images du dossier d'un `.md` ni récupérer les aperçus de liens (CORS). Le format
-`.cymd` y fonctionne entièrement.
+</details>
+
+### Plugin intégré
+
+<details>
+<summary>Intégrer CyMD dans une autre application</summary>
+
+CyMD peut être affiché et édité dans une iframe au sein d'une autre application.
+`npm run build:plugin` génère le bundle dans `release/plugin`, avec la licence et les sources.
+Le [protocole d'intégration](docs/integration.md) fournit l'ouverture, l'état des modifications
+et la sauvegarde confirmée par l'hôte.
+
+Pour les sources locales de CyAIOrchestrator :
+`node integration/cyai/install.mjs CHEMIN_VERS_CYAIORCHESTRATOR`, après construction du plugin.
+Redémarrer ensuite CyAI depuis ces sources (ou reconstruire son application distribuée).
+Le plugin ajoute un bouton CyMD et ouvre les pièces jointes `.cymd` dans l'éditeur.
+Chaque sauvegarde ajoute une nouvelle pièce jointe ; le document original est conservé.
+
+</details>
+
+---
+
+## Licence
+
+**CyMD utilise la [GNU Affero General Public License v3.0 uniquement](LICENSE)** (`AGPL-3.0-only`). Copyright © 2026 Cyberalien. Les bibliothèques tierces conservent leurs propres licences.
+
+### Principales bibliothèques tierces
+
+Certains paquets déclarés comme dépendances de développement sont intégrés à l’éditeur exécuté. Les périmètres ci-dessous les distinguent des outils de compilation.
+
+| Bibliothèque · sources | Licence · texte | Utilisation / périmètre |
+| --- | --- | --- |
+| [Electron](https://github.com/electron/electron) | [MIT](https://github.com/electron/electron/blob/main/LICENSE) | Exécution sur bureau ; Chromium et Node.js conservent leurs notices. |
+| [CodeMirror 6 / Lezer](https://github.com/codemirror/view) | [MIT](https://github.com/codemirror/view/blob/main/LICENSE) · [Lezer MIT](https://github.com/lezer-parser/common/blob/main/LICENSE) | Éditeur, commandes, recherche et analyse ; intégrés à l’exécution. Lezer utilise aussi MIT. |
+| [markdown-it](https://github.com/markdown-it/markdown-it) | [MIT](https://github.com/markdown-it/markdown-it/blob/master/LICENSE) | Rendu Markdown à l’exécution. |
+| [DOMPurify](https://github.com/cure53/DOMPurify) | [Apache-2.0 OU MPL-2.0](https://github.com/cure53/DOMPurify/blob/main/LICENSE) | Nettoyage HTML à l’exécution. Conditions alternatives MPL-2.0 : [LICENSE-MPL](https://github.com/cure53/DOMPurify/blob/main/LICENSE-MPL). |
+| [fflate](https://github.com/101arrowz/fflate) | [MIT](https://github.com/101arrowz/fflate/blob/master/LICENSE) | Archives ZIP des documents à l’exécution ; génération des ZIP du plugin et du manuel. |
+| [highlight.js](https://github.com/highlightjs/highlight.js) | [BSD-3-Clause](https://github.com/highlightjs/highlight.js/blob/main/LICENSE) | Coloration du code dans les documents affichés. |
+| [Lucide / Feather](https://github.com/lucide-icons/lucide) | [ISC + MIT](https://github.com/lucide-icons/lucide/blob/main/LICENSE) | Icônes de l’interface ; les icônes issues de Feather conservent leurs notices MIT. |
+| [Turndown](https://github.com/mixmark-io/turndown) | [MIT](https://github.com/mixmark-io/turndown/blob/master/LICENSE) | Conversion du HTML collé en Markdown ; à l’exécution. |
+| [turndown-plugin-gfm](https://github.com/domchristie/turndown-plugin-gfm) | [MIT](https://github.com/domchristie/turndown-plugin-gfm/blob/master/LICENSE) | Tableaux, tâches et texte barré dans le HTML collé ; à l’exécution. |
+| [electron-updater / electron-builder](https://github.com/electron-userland/electron-builder) | [MIT](https://github.com/electron-userland/electron-builder/blob/master/LICENSE) | L’updater s’exécute dans l’application ; builder produit les paquets à la compilation. |
+| [CyDoc](https://github.com/MrMybal/CyDoc) | [MIT](https://mrmybal.github.io/CyMD/Documentation/DocData/CyDoc-LICENSE.txt) | Génère le manuel ; lecteur et module image intégrés. L’accès aux sources est restreint. |
+| [marked](https://github.com/markedjs/marked) | [MIT](https://github.com/markedjs/marked/blob/master/LICENSE) | Compilation Markdown CyDoc ; uniquement à la génération. |
+| [PrismJS](https://github.com/PrismJS/prism) | [MIT](https://github.com/PrismJS/prism/blob/master/LICENSE) | Coloration du code CyDoc ; uniquement à la génération. |
+| [esbuild](https://github.com/evanw/esbuild) | [MIT](https://github.com/evanw/esbuild/blob/main/LICENSE.md) | Assemblage de CyDoc et des liens d’aide ; uniquement à la génération. |
+| [TypeScript](https://github.com/microsoft/TypeScript) | [Apache-2.0](https://github.com/microsoft/TypeScript/blob/main/LICENSE.txt) | Développement et vérification des types uniquement. |
+| [@types/turndown](https://github.com/DefinitelyTyped/DefinitelyTyped) | [MIT](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/LICENSE) | Définitions de types utilisées uniquement au développement. |
+| [Vite](https://github.com/vitejs/vite) | [MIT + notices des composants](https://github.com/vitejs/vite/blob/main/packages/vite/LICENSE.md) | Serveur de développement et assemblage de production ; inutile pour lancer les paquets installés. |
+
+Ce tableau répertorie les principaux composants ; il ne remplace pas leurs notices complètes et n’énumère pas toutes les dépendances transitives. Conservez les textes de licence distribués avec Electron, ses composants Chromium/Node.js, CyDoc et les autres paquets intégrés. Le fichier de verrouillage décrit les dépendances résolues. CyDoc utilise ici uniquement son module image ; Three.js et le lecteur mesh ne sont pas inclus.
+
+## Références et liens
+
+- [Manuel en français](https://mrmybal.github.io/CyMD/Documentation/Documentation.html#/fr/overview) · [Manuel hors ligne ZIP](https://mrmybal.github.io/CyMD/CyMD-help.zip)
+- [Vitrine](https://mrmybal.github.io/CyMD/?lang=fr) · [Éditeur web](https://mrmybal.github.io/CyMD/editor.html)
+- [Dépôt des sources](https://github.com/MrMybal/CyMD) · [Releases](https://github.com/MrMybal/CyMD/releases) · [Suivi des problèmes](https://github.com/MrMybal/CyMD/issues)
+- [Protocole du plugin](docs/integration.md) · [Compilation de la vitrine](website/README.md)
