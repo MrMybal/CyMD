@@ -5,7 +5,7 @@ en: {
  nav: ['Explore','Tools','Documentation','Downloads'], chapters: ['Views','Writing','Media','Files','Make it yours','Documentation','Download'],
  skip:'Skip to content', language:'Language', menu:'Menu', close:'Close image', expand:'Enlarge', previous:'Previous image', next:'Next image',
  intro:'A small editor. Room for your ideas.', summary:'Write notes, shape a guide or collect a few ideas. CyMD brings Markdown, images and a readable live view together in a familiar notepad.',
- download:'Download CyMD', try:'Open the web editor', status:'v0.1.5 · Early development (0.x)', platforms:'Windows · macOS · Linux', heroCaption:'CyMD / Live view', photoNote:'Real application captures with example documents. Click an image to explore.',
+ download:'Download CyMD', try:'Open the web editor', status:'v0.1.6 · Early development (0.x)', platforms:'Windows · macOS · Linux', heroCaption:'CyMD / Live view', photoNote:'Real application captures with example documents. Click an image to explore.',
  strip:['Markdown, without the clutter.','LIVE RENDERING','.MD + .CYMD','LOCAL FILES','OPEN SOURCE'],
  modesLabel:'01 / FOUR WAYS TO WORK', modesTitle:'Your words. Your view.', modesIntro:'Move between writing, checking the syntax and reading. The document stays the same.',
  modes:[
@@ -45,7 +45,7 @@ en: {
  pluginLink:'Explore the integration protocol',pluginDownload:'Download the plugin',
  faqTitle:'Before your first note.',
  faq:[
- ['Is this a finished product?','CyMD is at version 0.1.5, in its early 0.x development. The repository does not name a separate alpha or beta channel. Keep backups of important documents.'],
+ ['Is this a finished product?','CyMD is at version 0.1.6, in its early 0.x development. The repository does not name a separate alpha or beta channel. Keep backups of important documents.'],
  ['What changes in the browser?','The web edition can work with .cymd documents, but cannot freely read media beside a plain .md file. Saving uses file-picker support or downloads. New link previews may be limited by CORS. There is no account sync or server-side document storage.'],
  ['How do updates work?','Installed Windows builds can download and install GitHub releases after confirmation. Portable Windows, macOS and Linux builds open the release downloads for a manual update. Unsaved documents prevent an update restart.'],
  ['Can I use it on my phone?','The website is responsive. CyMD currently provides desktop packages and a browser edition; there is no native Android or iOS package.'],
@@ -54,7 +54,7 @@ en: {
  downloadsLabel:'07 / START WITH A NOTE', downloadsTitle:'A home for your next idea.',
  downloadsText:'Choose your desktop package, or try the editor in your browser.',
  installer:'Installer',portable:'Portable', macDetail:'Universal · Intel + Apple Silicon',linuxDetail:'x64 · Debian/Ubuntu for DEB',windowsDetail:'x64 · Windows',
- releaseNote:'Current release: v0.1.5. Windows and macOS builds are not distribution-signed; macOS builds are not notarized. Linux AppImage may require FUSE.',
+ releaseNote:'Current release: v0.1.6. Windows and macOS builds are not distribution-signed; macOS builds are not notarized. Linux AppImage may require FUSE.',
  release:'All releases & release notes', footer:'Made by Cyberalien. For notes worth keeping.',license:'License', source:'Source code',top:'Back to top',
 }};
 export const fr = {
@@ -63,7 +63,7 @@ export const fr = {
  nav:['Découvrir','Outils','Documentation','Téléchargements'],chapters:['Les vues','Écrire','Médias','Fichiers','À votre façon','Documentation','Télécharger'],
  skip:'Aller au contenu',language:'Langue',menu:'Menu',close:'Fermer l’image',expand:'Agrandir',previous:'Image précédente',next:'Image suivante',
  intro:'Un petit éditeur. De la place pour vos idées.',summary:'Prenez des notes, rédigez un guide ou rassemblez quelques idées. CyMD réunit Markdown, images et rendu en direct dans un bloc-notes familier.',
- download:'Télécharger CyMD',try:'Ouvrir l’éditeur web',status:'v0.1.5 · Version initiale (0.x)',platforms:'Windows · macOS · Linux',heroCaption:'CyMD / Vue Live',photoNote:'Vraies captures du logiciel avec des documents d’exemple. Cliquez sur une image pour l’explorer.',
+ download:'Télécharger CyMD',try:'Ouvrir l’éditeur web',status:'v0.1.6 · Version initiale (0.x)',platforms:'Windows · macOS · Linux',heroCaption:'CyMD / Vue Live',photoNote:'Vraies captures du logiciel avec des documents d’exemple. Cliquez sur une image pour l’explorer.',
  strip:['Le Markdown, en toute simplicité.','RENDU LIVE','.MD + .CYMD','FICHIERS LOCAUX','OPEN SOURCE'],
  modesLabel:'01 / QUATRE FAÇONS DE TRAVAILLER',modesTitle:'Vos mots. Votre vue.',modesIntro:'Passez de l’écriture à la syntaxe, puis à la lecture. Le document reste le même.',
  modes:[
@@ -103,7 +103,7 @@ export const fr = {
  pluginLink:'Découvrir le protocole d’intégration',pluginDownload:'Télécharger le plugin',
  faqTitle:'Avant votre première note.',
  faq:[
- ['Est-ce une version finale ?','CyMD est en version 0.1.5, au début de son développement 0.x. Le dépôt ne définit pas de canal alpha ou bêta distinct. Gardez une sauvegarde des documents importants.'],
+ ['Est-ce une version finale ?','CyMD est en version 0.1.6, au début de son développement 0.x. Le dépôt ne définit pas de canal alpha ou bêta distinct. Gardez une sauvegarde des documents importants.'],
  ['Quelles sont les limites du navigateur ?','La version web utilise les documents .cymd, mais ne peut pas lire librement les médias voisins d’un fichier .md. L’enregistrement utilise le sélecteur de fichiers ou un téléchargement. Les nouveaux aperçus peuvent être limités par CORS. Il n’y a ni synchronisation de comptes ni stockage des documents sur un serveur.'],
  ['Comment fonctionnent les mises à jour ?','La version Windows installée télécharge et installe les releases GitHub après confirmation. Windows portable, macOS et Linux ouvrent les téléchargements pour une mise à jour manuelle. Les documents non enregistrés empêchent le redémarrage de mise à jour.'],
  ['Puis-je l’utiliser sur mon téléphone ?','Le site s’adapte aux petits écrans. CyMD propose actuellement des paquets de bureau et une version navigateur ; il n’existe pas de paquet natif Android ou iOS.'],
@@ -112,7 +112,7 @@ export const fr = {
  downloadsLabel:'07 / TOUT COMMENCE PAR UNE NOTE',downloadsTitle:'Un endroit pour votre prochaine idée.',
  downloadsText:'Choisissez votre version de bureau ou essayez l’éditeur dans votre navigateur.',
  installer:'Installeur',portable:'Portable',macDetail:'Universal · Intel et Apple Silicon',linuxDetail:'x64 · DEB pour Debian/Ubuntu',windowsDetail:'x64 · Windows',
- releaseNote:'Version actuelle : v0.1.5. Les paquets Windows et macOS ne disposent pas de signature de distribution ; macOS n’est pas notarisé. L’AppImage Linux peut nécessiter FUSE.',
+ releaseNote:'Version actuelle : v0.1.6. Les paquets Windows et macOS ne disposent pas de signature de distribution ; macOS n’est pas notarisé. L’AppImage Linux peut nécessiter FUSE.',
  release:'Toutes les versions et leurs nouveautés',footer:'Créé par Cyberalien. Pour les notes à garder.',license:'Licence',source:'Code source',top:'Retour en haut'
 };
 export const locales = { en:content.en, fr };

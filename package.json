@@ -1,7 +1,7 @@
 {
   "name": "cymd",
   "productName": "CyMD",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Ã‰diteur et lecteur Markdown : aperÃ§u en direct, images, vidÃ©os et aperÃ§us de liens.",
   "author": "Cyberalien",
   "homepage": "https://github.com/MrMybal/CyMD",
@@ -65,6 +65,7 @@
     "fileAssociations": [
       {
         "ext": "cymd",
+        "icon": "cymd",
         "name": "Document CyMD",
         "description": "Document Markdown tout-en-un (CyMD)",
         "mimeType": "application/x-cymd",
