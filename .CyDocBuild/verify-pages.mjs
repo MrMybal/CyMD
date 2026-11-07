@@ -13,7 +13,7 @@ function files(dir, prefix = '') {
 const published = files(root)
 assert.deepEqual(files(root + '/help').sort(), ['index.html', 'redirect.js'])
 assert.match(readFileSync(root + '/help/redirect.js', 'utf8'), /Documentation\/Documentation.html/)
-assert.deepEqual(readdirSync(root).sort(), ['.nojekyll', 'CyMD-help.zip', 'LICENSE.txt', 'Documentation', 'assets', 'help', 'index.html', 'logo.png', 'source.zip'].sort())
+assert.deepEqual(readdirSync(root).sort(), ['.nojekyll', 'CyMD-help.zip', 'LICENSE.txt', 'Documentation', 'assets', 'site-assets', 'help', 'index.html', 'editor.html', 'logo.png', 'source.zip'].sort())
 const expectedHelp = files('Documentation').sort()
 assert.deepEqual(files(root + '/Documentation').sort(), expectedHelp)
 for (const name of expectedHelp) assert.deepEqual(readFileSync(root + '/Documentation/' + name), readFileSync('Documentation/' + name))
@@ -25,7 +25,7 @@ const data = JSON.parse(readFileSync(root + '/Documentation/DocData/manifest.jso
 const docs = createDocumentation(data)
 let references = 0
 function reference(href, from, locale) {
-  if (!href || /^(?:https?:|mailto:|data:|blob:)/i.test(href)) return
+  if (!href || href.startsWith('?') || /^(?:https?:|mailto:|data:|blob:)/i.test(href)) return
   if (href.startsWith('#/')) {
     const route = parseLink(href.replaceAll('&amp;', '&'))
     const result = docs.resolve(route.pageId, route.locale || locale)
@@ -44,6 +44,7 @@ function checkHtml(html, from, locale) {
   for (const m of html.matchAll(/\b(?:src|href)=["']([^"']+)["']/g)) reference(m[1], from, locale)
 }
 checkHtml(readFileSync(root + '/index.html', 'utf8'), 'index.html')
+checkHtml(readFileSync(root + '/editor.html', 'utf8'), 'editor.html')
 checkHtml(readFileSync(root + '/Documentation/Documentation.html', 'utf8'), 'Documentation/Documentation.html')
 for (const page of data.pages) checkHtml(page.html, 'Documentation/DocData/content.html', page.locale)
 for (const name of published.filter(name => name.endsWith('.css'))) {
@@ -67,15 +68,15 @@ function equalContent(actual, expected, name) {
 if (process.argv[2]) {
   const base = new URL(process.argv[2])
   assert.ok(base.protocol === 'https:' || base.hostname === 'localhost')
-  for (const name of ['index.html', 'CyMD-help.zip', ...expectedHelp.map(name => 'Documentation/' + name)]) {
+  for (const name of ['index.html', 'editor.html', 'CyMD-help.zip', ...expectedHelp.map(name => 'Documentation/' + name)]) {
     const response = await fetch(new URL(name, base), { signal: AbortSignal.timeout(30000) })
     assert.equal(response.status, 200, name)
     const bytes = Buffer.from(await response.arrayBuffer())
-    if (name === 'index.html') {
+    if (name === 'index.html' || name === 'editor.html') {
       // Vite hashes can differ across OSes because imported raw examples retain EOLs.
-      assert.match(bytes.toString('utf8'), /<title>CyMD<\/title>/)
+      assert.match(bytes.toString('utf8'), /<title>CyMD(?:[^<]*)<\/title>/)
       for (const match of bytes.toString('utf8').matchAll(/(?:src|href)=["']([^"']+)["']/g)) {
-        if (!match[1].startsWith('./assets/')) continue
+        if (!/^\.\/(?:assets|site-assets)\//.test(match[1])) continue
         const asset = await fetch(new URL(match[1], base), { signal: AbortSignal.timeout(30000) })
         assert.equal(asset.status, 200, match[1])
         await asset.arrayBuffer()

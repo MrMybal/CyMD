@@ -1,5 +1,7 @@
 # CyMD
 
+**[Discover CyMD](https://mrmybal.github.io/CyMD/?lang=en)** · [Open the web editor](https://mrmybal.github.io/CyMD/editor.html)
+
 **English** · [Français](README.fr.md)
 
 A simple, Notepad-style **Markdown** editor and reader with **live rendering** inspired by Discord:
@@ -255,7 +257,7 @@ a separate network session without cookies.
 
 ### Browser version
 
-**[Open CyMD online](https://MrMybal.github.io/CyMD/)** — no installation required.
+**[Open CyMD online](https://mrmybal.github.io/CyMD/editor.html)** — no installation required.
 
 Documents open and save on your device; they are not stored on GitHub.
 Save changes before closing the tab. The deployed license and sources are accessible

@@ -1,0 +1,118 @@
+export const content = {
+en: {
+ title: 'CyMD — Markdown, in plain sight.',
+ description: 'A focused Markdown editor for notes, illustrated documents and technical writing. Live rendering, portable .cymd files and local documentation.',
+ nav: ['Explore','Tools','Documentation','Downloads'], chapters: ['Views','Writing','Media','Files','Make it yours','Documentation','Download'],
+ skip:'Skip to content', language:'Language', menu:'Menu', close:'Close image', expand:'Enlarge', previous:'Previous image', next:'Next image',
+ intro:'A small editor. Room for your ideas.', summary:'Write notes, shape a guide or collect a few ideas. CyMD brings Markdown, images and a readable live view together in a familiar notepad.',
+ download:'Download CyMD', try:'Open the web editor', status:'v0.1.5 · Early development (0.x)', platforms:'Windows · macOS · Linux', heroCaption:'CyMD / Live view', photoNote:'Real application captures with example documents. Click an image to explore.',
+ strip:['Markdown, without the clutter.','LIVE RENDERING','.MD + .CYMD','LOCAL FILES','OPEN SOURCE'],
+ modesLabel:'01 / FOUR WAYS TO WORK', modesTitle:'Your words. Your view.', modesIntro:'Move between writing, checking the syntax and reading. The document stays the same.',
+ modes:[
+  {id:'live',name:'Live',title:'Write in the finished document.',text:'Headings, emphasis, lists and images appear as you write. Markdown markers stay hidden, including while selecting text.',tags:['Rendered text','Clickable tasks','In-place images'],image:'live',alt:'CyMD in Live view with formatted notes, an image and a task list',doc:'editing/live'},
+  {id:'split',name:'Side by side',title:'See both sides of Markdown.',text:'Keep source and preview together, with synchronized scrolling. Check a table, adjust a link or learn what the syntax does.',tags:['Source + preview','Synchronized scrolling','Table editing'],image:'split',alt:'CyMD with Markdown source on the left and a rendered preview on the right',doc:'editing/split'},
+  {id:'raw',name:'Source',title:'Get straight to the text.',text:'Work directly with Markdown markers, code fences and table rows. Optional line numbers help you find your place.',tags:['Plain Markdown','Line numbers','Direct syntax editing'],image:'source',alt:'CyMD Source view showing Markdown text with line numbers',doc:'editing/raw'},
+  {id:'read',name:'Reading',title:'Take a step back and read.',text:'Review a document without editing the text. Tables, quotes and highlighted code remain readable. Double-click to return to editing.',tags:['Read-only view','Highlighted code','Rendered tables'],image:'read',alt:'CyMD Reading view with checkboxes, a quote, table and code',doc:'editing/read'}
+ ],
+ guide:'Read the guide', toolsLabel:'02 / THE EVERYDAY TOOLS', toolsTitle:'A little structure goes a long way.',
+ toolsIntro:'For a project note, a learning journal or the next README: keep the editing tools close, and the document in focus.',
+ tools:[
+  {title:'Select. Format. Keep writing.',text:'Use the toolbar or format right beside your selection. Bold, italic, links, inline code and spoilers are a click away.',image:'tools',alt:'Text selected in CyMD with its floating formatting toolbar',detail:'Ctrl+B · Ctrl+I · Ctrl+K'},
+  {title:'Find the detail you need.',text:'Search and replace without leaving the editor. Match whole words or case, and use regular expressions when you need them.',image:'search',alt:'CyMD find and replace panel with a search for ideas',detail:'Ctrl+F'},
+ ],
+ mediaLabel:'03 / MORE THAN PLAIN TEXT', mediaTitle:'Give the words some context.',
+ mediaText:'Paste a screenshot, drop a file or add an image and choose its display width. Keep instructions, tasks and the visual reference in one document.',
+ mediaList:['Images and supported videos inside your notes','Tables, checklists, quotes and highlighted code','Desktop link previews, with cached cards in .cymd'],
+ mediaFine:'New link previews and online videos need Internet. Playback depends on the supported codec; CyMD does not convert video.',
+ mediaAlt:'CyMD Live view containing an embedded image, tasks and formatted text',
+ filesLabel:'04 / YOUR DOCUMENTS', filesTitle:'Plain text when you want it. Everything together when you need it.',
+ filesIntro:'Choose the format when you save. Use Save as to move between a Markdown folder and a self-contained document.',
+ formats:[
+  {extension:'.md',title:'The familiar Markdown file.',text:'Keep editable plain text and media in the same folder. Pasted images are saved into an assets folder.',items:['Open with other Markdown tools','Preserve encoding and line endings','Share the folder with its images']},
+  {extension:'.cymd',title:'One file, with the pictures.',text:'Carry Markdown, media and cached link previews in a ZIP-based document. The text remains accessible with an archive tool.',items:['Keep embedded media together','Open in desktop, web or a compatible host','No account needed to work on local files']}
+ ],
+ diagram:['Markdown text','Images & media','One .cymd document'], diagramLabel:'Markdown text and media are packaged into a single .cymd file',
+ comfortLabel:'05 / A FAMILIAR WORKSPACE', comfortTitle:'Settle into your own rhythm.',
+ comfortText:'Keep multiple notes in tabs, switch the interface between English and French, and use the desktop View menu for light, dark or system appearance.',
+ comfortList:['Reorder tabs; detach or move them between desktop windows','Paste rich text as Markdown, or use Ctrl+Shift+V for plain text','Use keyboard shortcuts, optional line numbers and desktop spell checking'],
+ lightCaption:'Light appearance · Browser edition',darkCaption:'Dark appearance · Desktop edition',lightAlt:'CyMD with a light interface showing an example note',
+ docsLabel:'06 / HELP, WITH THE APP', docsTitle:'The manual travels with you.',
+ docsText:'Illustrated guides, diagrams, search and a public integration reference. The same English and French CyDoc reader is available here and installed with the app.',
+ docsNote:'Press F1 for help or Shift+F1 for the current view. The installed manual works without a server or Internet. The ZIP below can also be extracted and opened locally.',
+ docsButton:'Open the documentation', offline:'Download the offline manual', docsAlt:'CyDoc manual with chapter navigation, search and illustrated instructions',
+ pluginLabel:'FOR APPLICATION BUILDERS',pluginTitle:'Bring CyMD into your application.',
+ pluginText:'The embedded plugin opens Markdown and .cymd documents inside a compatible host. Its message protocol handles opening, modification status and host-confirmed saving.',
+ pluginLink:'Explore the integration protocol',pluginDownload:'Download the plugin',
+ faqTitle:'Before your first note.',
+ faq:[
+ ['Is this a finished product?','CyMD is at version 0.1.5, in its early 0.x development. The repository does not name a separate alpha or beta channel. Keep backups of important documents.'],
+ ['What changes in the browser?','The web edition can work with .cymd documents, but cannot freely read media beside a plain .md file. Saving uses file-picker support or downloads. New link previews may be limited by CORS. There is no account sync or server-side document storage.'],
+ ['How do updates work?','Installed Windows builds can download and install GitHub releases after confirmation. Portable Windows, macOS and Linux builds open the release downloads for a manual update. Unsaved documents prevent an update restart.'],
+ ['Can I use it on my phone?','The website is responsive. CyMD currently provides desktop packages and a browser edition; there is no native Android or iOS package.'],
+ ['Is CyMD open source?','Yes. CyMD is licensed under GNU AGPL v3.0 only. The code and release downloads are available on GitHub. Third-party components retain their own licenses.']
+ ],
+ downloadsLabel:'07 / START WITH A NOTE', downloadsTitle:'A home for your next idea.',
+ downloadsText:'Choose your desktop package, or try the editor in your browser.',
+ installer:'Installer',portable:'Portable', macDetail:'Universal · Intel + Apple Silicon',linuxDetail:'x64 · Debian/Ubuntu for DEB',windowsDetail:'x64 · Windows',
+ releaseNote:'Current release: v0.1.5. Windows and macOS builds are not distribution-signed; macOS builds are not notarized. Linux AppImage may require FUSE.',
+ release:'All releases & release notes', footer:'Made by Cyberalien. For notes worth keeping.',license:'License', source:'Source code',top:'Back to top',
+}};
+export const fr = {
+ title:'CyMD — Le Markdown, en clair.',
+ description:'Un éditeur Markdown pour les notes, les documents illustrés et la rédaction technique. Rendu Live, fichiers .cymd et documentation locale.',
+ nav:['Découvrir','Outils','Documentation','Téléchargements'],chapters:['Les vues','Écrire','Médias','Fichiers','À votre façon','Documentation','Télécharger'],
+ skip:'Aller au contenu',language:'Langue',menu:'Menu',close:'Fermer l’image',expand:'Agrandir',previous:'Image précédente',next:'Image suivante',
+ intro:'Un petit éditeur. De la place pour vos idées.',summary:'Prenez des notes, rédigez un guide ou rassemblez quelques idées. CyMD réunit Markdown, images et rendu en direct dans un bloc-notes familier.',
+ download:'Télécharger CyMD',try:'Ouvrir l’éditeur web',status:'v0.1.5 · Version initiale (0.x)',platforms:'Windows · macOS · Linux',heroCaption:'CyMD / Vue Live',photoNote:'Vraies captures du logiciel avec des documents d’exemple. Cliquez sur une image pour l’explorer.',
+ strip:['Le Markdown, en toute simplicité.','RENDU LIVE','.MD + .CYMD','FICHIERS LOCAUX','OPEN SOURCE'],
+ modesLabel:'01 / QUATRE FAÇONS DE TRAVAILLER',modesTitle:'Vos mots. Votre vue.',modesIntro:'Passez de l’écriture à la syntaxe, puis à la lecture. Le document reste le même.',
+ modes:[
+ {id:'live',name:'Live',title:'Écrivez dans le document mis en forme.',text:'Titres, emphase, listes et images apparaissent pendant la saisie. Les balises Markdown restent masquées, y compris lors de la sélection.',tags:['Texte mis en forme','Tâches à cocher','Images dans le texte'],image:'live',alt:'CyMD en vue Live avec des notes mises en forme, une image et des tâches',doc:'editing/live'},
+ {id:'split',name:'Côte à côte',title:'Les deux côtés du Markdown.',text:'Gardez la source et l’aperçu ensemble, avec un défilement synchronisé. Vérifiez un tableau, ajustez un lien ou découvrez l’effet de la syntaxe.',tags:['Source et aperçu','Défilement synchronisé','Édition des tableaux'],image:'split',alt:'CyMD avec la source Markdown à gauche et le document rendu à droite',doc:'editing/split'},
+ {id:'raw',name:'Brut',title:'Allez droit au texte.',text:'Modifiez directement les balises Markdown, les blocs de code et les lignes des tableaux. Les numéros de ligne vous aident à vous repérer.',tags:['Markdown simple','Numéros de ligne','Édition de la syntaxe'],image:'source',alt:'Vue Brut de CyMD avec le texte Markdown et les numéros de ligne',doc:'editing/raw'},
+ {id:'read',name:'Lecture',title:'Prenez du recul. Relisez.',text:'Parcourez le document sans modifier son texte. Tableaux, citations et code coloré restent lisibles. Un double-clic permet de revenir à l’édition.',tags:['Vue de lecture','Code coloré','Tableaux rendus'],image:'read',alt:'Vue Lecture de CyMD avec des tâches, une citation, un tableau et du code',doc:'editing/read'}
+ ],
+ guide:'Lire le guide',toolsLabel:'02 / LES OUTILS DU QUOTIDIEN',toolsTitle:'Un peu de structure change tout.',
+ toolsIntro:'Pour une note de projet, un carnet d’apprentissage ou votre prochain README : les outils restent proches, le document au premier plan.',
+ tools:[
+ {title:'Sélectionnez. Formatez. Continuez.',text:'Utilisez la barre d’outils ou mettez en forme près de votre sélection. Gras, italique, liens, code et spoilers sont à portée de clic.',image:'tools',alt:'Sélection de texte dans CyMD avec sa barre flottante de mise en forme',detail:'Ctrl+B · Ctrl+I · Ctrl+K'},
+ {title:'Retrouvez le détail utile.',text:'Recherchez et remplacez sans quitter l’éditeur. Respectez la casse, cherchez un mot entier ou utilisez des expressions régulières.',image:'search',alt:'Panneau de recherche et remplacement de CyMD avec une recherche du mot idées',detail:'Ctrl+F'}
+ ],
+ mediaLabel:'03 / PLUS QUE DU TEXTE',mediaTitle:'Donnez du contexte à vos mots.',
+ mediaText:'Collez une capture, glissez un fichier ou ajoutez une image en choisissant sa largeur. Réunissez les instructions, les tâches et leur référence visuelle dans le même document.',
+ mediaList:['Images et vidéos compatibles dans les notes','Tableaux, tâches, citations et code coloré','Aperçus de liens sur bureau, cartes en cache dans .cymd'],
+ mediaFine:'Les nouveaux aperçus de liens et les vidéos en ligne nécessitent Internet. La lecture dépend du codec ; CyMD ne convertit pas les vidéos.',
+ mediaAlt:'Vue Live de CyMD contenant une image intégrée, des tâches et du texte mis en forme',
+ filesLabel:'04 / VOS DOCUMENTS',filesTitle:'Du texte simple. Ou tout dans un fichier.',
+ filesIntro:'Choisissez le format à l’enregistrement. « Enregistrer sous » permet de passer d’un dossier Markdown à un document autonome.',
+ formats:[
+ {extension:'.md',title:'Le fichier Markdown familier.',text:'Gardez le texte modifiable et ses médias dans le même dossier. Les images collées sont enregistrées dans un sous-dossier assets.',items:['Ouvrez-le dans d’autres outils Markdown','Conservez l’encodage et les fins de ligne','Partagez le dossier avec ses images']},
+ {extension:'.cymd',title:'Un fichier, avec les images.',text:'Transportez le Markdown, les médias et les aperçus en cache dans une archive ZIP. Le texte reste accessible avec un outil d’archivage.',items:['Conservez les médias ensemble','Ouvrez-le sur bureau, sur le web ou dans un hôte compatible','Aucun compte requis pour les fichiers locaux']}
+ ],
+ diagram:['Texte Markdown','Images et médias','Un document .cymd'],diagramLabel:'Le texte Markdown et les médias sont regroupés dans un fichier .cymd',
+ comfortLabel:'05 / UN ESPACE FAMILIER',comfortTitle:'Trouvez votre rythme.',
+ comfortText:'Gardez plusieurs notes dans des onglets, choisissez une interface française ou anglaise et utilisez le menu Affichage du bureau pour les thèmes clair, sombre ou système.',
+ comfortList:['Réorganisez les onglets ; détachez-les ou déplacez-les entre fenêtres sur bureau','Collez du texte enrichi en Markdown, ou du texte brut avec Ctrl+Maj+V','Utilisez les raccourcis, les numéros de ligne et la correction orthographique sur bureau'],
+ lightCaption:'Apparence claire · Version navigateur',darkCaption:'Apparence sombre · Version bureau',lightAlt:'CyMD en apparence claire avec une note de démonstration',
+ docsLabel:'06 / L’AIDE VOUS ACCOMPAGNE',docsTitle:'Le manuel voyage avec vous.',
+ docsText:'Guides illustrés, schémas, recherche et référence d’intégration publique. Le même lecteur CyDoc, en anglais et en français, est disponible ici et installé avec le logiciel.',
+ docsNote:'F1 ouvre l’aide ; Maj+F1 ouvre la section de la vue actuelle. Le manuel installé fonctionne sans serveur ni Internet. Le ZIP ci-dessous s’extrait aussi pour une lecture locale.',
+ docsButton:'Ouvrir la documentation',offline:'Télécharger le manuel hors ligne',docsAlt:'Manuel CyDoc avec navigation par chapitres, recherche et instructions illustrées',
+ pluginLabel:'POUR LES CRÉATEURS D’APPLICATIONS',pluginTitle:'Intégrez CyMD dans votre logiciel.',
+ pluginText:'Le plugin intégré ouvre les documents Markdown et .cymd dans un hôte compatible. Son protocole gère l’ouverture, l’état des modifications et l’enregistrement confirmé par l’hôte.',
+ pluginLink:'Découvrir le protocole d’intégration',pluginDownload:'Télécharger le plugin',
+ faqTitle:'Avant votre première note.',
+ faq:[
+ ['Est-ce une version finale ?','CyMD est en version 0.1.5, au début de son développement 0.x. Le dépôt ne définit pas de canal alpha ou bêta distinct. Gardez une sauvegarde des documents importants.'],
+ ['Quelles sont les limites du navigateur ?','La version web utilise les documents .cymd, mais ne peut pas lire librement les médias voisins d’un fichier .md. L’enregistrement utilise le sélecteur de fichiers ou un téléchargement. Les nouveaux aperçus peuvent être limités par CORS. Il n’y a ni synchronisation de comptes ni stockage des documents sur un serveur.'],
+ ['Comment fonctionnent les mises à jour ?','La version Windows installée télécharge et installe les releases GitHub après confirmation. Windows portable, macOS et Linux ouvrent les téléchargements pour une mise à jour manuelle. Les documents non enregistrés empêchent le redémarrage de mise à jour.'],
+ ['Puis-je l’utiliser sur mon téléphone ?','Le site s’adapte aux petits écrans. CyMD propose actuellement des paquets de bureau et une version navigateur ; il n’existe pas de paquet natif Android ou iOS.'],
+ ['CyMD est-il open source ?','Oui. CyMD est sous licence GNU AGPL v3.0 uniquement. Le code et les versions sont disponibles sur GitHub. Les composants tiers conservent leurs licences.']
+ ],
+ downloadsLabel:'07 / TOUT COMMENCE PAR UNE NOTE',downloadsTitle:'Un endroit pour votre prochaine idée.',
+ downloadsText:'Choisissez votre version de bureau ou essayez l’éditeur dans votre navigateur.',
+ installer:'Installeur',portable:'Portable',macDetail:'Universal · Intel et Apple Silicon',linuxDetail:'x64 · DEB pour Debian/Ubuntu',windowsDetail:'x64 · Windows',
+ releaseNote:'Version actuelle : v0.1.5. Les paquets Windows et macOS ne disposent pas de signature de distribution ; macOS n’est pas notarisé. L’AppImage Linux peut nécessiter FUSE.',
+ release:'Toutes les versions et leurs nouveautés',footer:'Créé par Cyberalien. Pour les notes à garder.',license:'Licence',source:'Code source',top:'Retour en haut'
+};
+export const locales = { en:content.en, fr };

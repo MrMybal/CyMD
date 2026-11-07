@@ -4,3 +4,5 @@
 .CyDocBuild/assets/*.png binary
 .CyDocBuild/assets/*.jpg binary
 src/examples/** text eol=lf
+website/** text eol=lf
+website/assets/*.jpg binary

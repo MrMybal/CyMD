@@ -8,6 +8,7 @@ on:
       - '.CyDocBuild/**'
       - '.gitattributes'
       - 'docs/**'
+      - 'website/**'
       - 'src/**'
       - 'locales/**'
       - 'scripts/**'

@@ -2,6 +2,8 @@
 
 # CyMD
 
+**[Découvrir CyMD](https://mrmybal.github.io/CyMD/?lang=fr)** · [Ouvrir l’éditeur web](https://mrmybal.github.io/CyMD/editor.html)
+
 Éditeur et lecteur **Markdown** simple, façon Bloc-notes, avec un rendu **en direct** comme sur Discord :
 images, vidéos, aperçus de liens, cases à cocher, tableaux, code coloré… Fonctionne sous Windows, macOS
 et Linux (Electron), et aussi dans un navigateur (avec quelques limites).
@@ -227,7 +229,7 @@ récupérés dans une session réseau séparée, sans cookies.
 
 ### Version navigateur
 
-**[Ouvrir CyMD en ligne](https://MrMybal.github.io/CyMD/)** — sans installation.
+**[Ouvrir CyMD en ligne](https://mrmybal.github.io/CyMD/editor.html)** — sans installation.
 
 Les documents s'ouvrent et s'enregistrent sur votre appareil ; ils ne sont pas stockés
 sur GitHub. Pensez à enregistrer vos modifications avant de fermer l'onglet.
