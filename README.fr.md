@@ -1,16 +1,16 @@
 <table width="100%">
   <tr>
-    <td width="30%" align="left" valign="top">
+    <td width="300" align="left" valign="top">
       <a href="https://mrmybal.github.io/CyMD/?lang=fr">Présentation</a><br>
       <a href="https://mrmybal.github.io/CyMD/Documentation/Documentation.html#/fr/overview">Manuel</a><br>
       <a href="https://github.com/MrMybal/CyMD">Dépôt</a><br><br>
       <sub>README</sub><br>
       <a href="README.md">English</a> · <a href="README.fr.md">Français</a>
     </td>
-    <td width="40%" align="center" valign="middle">
+    <td width="400" align="center" valign="middle">
       <img src="public/logo.png" alt="CyMD" width="128">
     </td>
-    <td width="30%" align="right" valign="top">
+    <td width="300" align="right" valign="top">
       <p><sub>Licence de l’application</sub><br><a href="LICENSE"><strong>AGPL-3.0-only</strong></a></p>
       <p><sub>Version</sub><br><a href="release-notes.md#changements"><strong>0.1.6</strong></a><br><strong>EN DÉVELOPPEMENT</strong></p>
       <p><a href="https://github.com/MrMybal/CyMD/releases/tag/v0.1.6"><strong>Télécharger</strong></a><br><sub>Windows · macOS · Linux</sub></p>
